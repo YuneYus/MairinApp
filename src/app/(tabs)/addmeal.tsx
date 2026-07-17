@@ -8,6 +8,8 @@ import { useState } from "react";
 //to make haptic sound when is added
 import * as Haptics from "expo-haptics";
 
+
+//trying github
 export default function AddMealScreen() {
   
   const [name, setName] = useState("")
