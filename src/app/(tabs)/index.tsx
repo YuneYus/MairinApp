@@ -1,0 +1,99 @@
+import { globalStyles } from "@/styles/global";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+
+import { speakText } from '../../services/voiceService';
+
+import { useEffect, useState } from "react";
+
+import Flashcard from "../../components/showquestions";
+
+import { getDailyFlashcard } from "../../services/flashcardService";
+
+
+ 
+export default function Homescreen() {
+console.log("HOME SCREEN LOADED");
+
+ const [question, setQuestion] = useState<any>(null);
+
+
+  useEffect(() => {
+
+    // Gets the question of the day
+    const dailyQuestion = getDailyFlashcard();
+
+    setQuestion(dailyQuestion);
+
+  }, []);
+
+
+
+return(
+
+  
+   <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <TouchableOpacity
+        style={{ backgroundColor: '#007AFF', borderRadius: 8}}
+        onPress={() =>
+          speakText(
+            "Hola Ashley, aqui esta la prueba de voz para la aplicacion"
+          )
+        }>
+          <Text style= {{color:"white", fontFamily:globalStyles.title.fontFamily}}>🔉Hola Ashley, aqui esta la prueba de voz para la aplicacion. Hola Ashley, aqui esta la prueba de voz para la aplicacion. Hola Ashley, aqui esta la prueba de voz para la aplicacion</Text>
+      </TouchableOpacity>
+
+       <View >
+{
+question &&
+
+<Flashcard data={question}
+
+/>
+
+}
+
+    </View>
+
+    </View>
+    
+)
+
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent:"center",
+    backgroundColor: "#cff7ff",
+    padding: 10,
+    //paddingTop: 10,
+    //paddingLeft:20
+    //paddingHorizontal: 10
+  },
+  text: {
+    fontSize: 23,
+    fontWeight: "bold",
+    fontFamily: "LeagueSpartan_700Bold",
+  },
+   title: {
+    color: "blue",
+    fontWeight:"bold",
+    fontFamily: "LeagueSpartan_400Regular",
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  
+  
+});
