@@ -76,6 +76,21 @@ export default function TabLayout() {
           ),
         }}
       />
+
+       <Tabs.Screen
+        name="ayuda"
+        options={{
+          title: "Ayuda",
+
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons
+              name="warning-outline"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

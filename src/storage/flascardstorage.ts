@@ -3,7 +3,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const KEY="completedFlashcard";
 
-
 export async function saveCompletion(){
 
 const today =
