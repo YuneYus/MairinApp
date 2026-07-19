@@ -3,19 +3,19 @@ import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 
 import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 import DoctorItem from "@/components/doctoritem";
 
 import {
-    DoctorProfile,
-    getDoctors,
+  DoctorProfile,
+  getDoctors,
 } from "../../storage/doctorStorage";
 
 
@@ -49,14 +49,15 @@ export default function DoctorsScreen() {
 
 
   // Search doctors by name
-  const filteredDoctors = doctors.filter((doctor) =>
+const filteredDoctors = doctors.filter((doctor) => {
+  const search = searchText.toLowerCase();
 
-    doctor.name
-      .toLowerCase()
-      .includes(searchText.toLowerCase())
-
+  return (
+    doctor.name.toLowerCase().includes(search) ||
+    doctor.professionalism.toLowerCase().includes(search) ||
+    doctor.phonenumber.toLowerCase().includes(search)
   );
-
+});
 
   return (
 
@@ -124,10 +125,6 @@ export default function DoctorsScreen() {
 
               phonenumber={
                 doctor.phonenumber
-              }
-
-              details={
-                doctor.details
               }
 
             />

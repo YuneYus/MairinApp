@@ -1,9 +1,12 @@
+
+import { router } from "expo-router";
+
 import {
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
-
 
 type DoctorItemProps = {
 
@@ -15,27 +18,32 @@ type DoctorItemProps = {
 
   phonenumber: string;
 
-  details: string;
-
 };
 
 
 export default function DoctorItem({
 
+  id,
   name,
 
   professionalism,
 
   phonenumber,
 
-  details,
-
 }: DoctorItemProps) {
 
 
   return (
 
-    <View style={styles.card}>
+  <TouchableOpacity
+    style={styles.card}
+    onPress={() =>
+  router.push({
+    pathname: "/doctor/adddoctors",
+    params: { id },
+  })
+}
+  >
 
       <View style={styles.info}>
 
@@ -52,19 +60,11 @@ export default function DoctorItem({
         <Text style={styles.phone}>
           {phonenumber}
         </Text>
-
-
-        {details ? (
-
-          <Text style={styles.details}>
-            {details}
-          </Text>
-
-        ) : null}
+        
 
       </View>
 
-    </View>
+    </TouchableOpacity>
 
   );
 

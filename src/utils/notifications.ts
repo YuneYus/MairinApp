@@ -10,30 +10,33 @@ Notifications.setNotificationHandler({
   }),
 });
 
+import { getTodaysQuote } from "@/services/quoteService";
+
 export const requestPermissions = async (): Promise<boolean> => {
   const { status } = await Notifications.requestPermissionsAsync();
   return status === 'granted';
 };
 
-export const scheduleMealReminders = async () => {
+export const scheduleQuoteReminders = async () => {
+  const todaysQuote = getTodaysQuote();
   await Notifications.cancelAllScheduledNotificationsAsync();
 
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: 'MacroZone',
-      body: "Don't forget to log your lunch!",
+      title: 'Motivacion del dia',
+      body: todaysQuote.quote,
     },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.DAILY,
-      hour: 11,
-      minute: 48,
+      hour: 9,
+      minute: 0,
     },
   });
 
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: 'MacroZone',
-      body: 'Time to log your dinner!',
+      title: 'Ya casi te viene',
+      body: "Preparate con tus toallas sanitarias",
     },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.DAILY,
@@ -43,6 +46,6 @@ export const scheduleMealReminders = async () => {
   });
 };
 
-export const cancelMealReminders = async () => {
+export const cancelQuoteReminders = async () => {
   await Notifications.cancelAllScheduledNotificationsAsync();
 };

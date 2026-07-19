@@ -1,5 +1,5 @@
 import { globalStyles } from "@/styles/global";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 
 import { speakText } from '../../services/voiceService';
@@ -10,10 +10,14 @@ import Flashcard from "../../components/showquestions";
 
 import { getDailyFlashcard } from "../../services/flashcardService";
 
+import QuoteCard from "@/components/quotecards";
+import { getTodaysQuote } from "@/services/quoteService";
 
  
 export default function Homescreen() {
 console.log("HOME SCREEN LOADED");
+
+const todaysQuote = getTodaysQuote();
 
  const [question, setQuestion] = useState<any>(null);
 
@@ -32,13 +36,16 @@ console.log("HOME SCREEN LOADED");
 return(
 
   
-   <View
+   <ScrollView
       style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        marginTop: 50,
+       flex: 1,
+    padding: 20,
       }}
     >
+
+      <QuoteCard quote={todaysQuote.quote} />
+
       <TouchableOpacity
         style={{ backgroundColor: '#007AFF', borderRadius: 8}}
         onPress={() =>
@@ -61,7 +68,7 @@ question &&
 
     </View>
 
-    </View>
+    </ScrollView>
     
 )
 

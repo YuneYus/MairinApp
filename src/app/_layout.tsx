@@ -4,6 +4,13 @@ import {
   useFonts,
 } from "@expo-google-fonts/league-spartan";
 
+import { useEffect } from "react";
+
+import {
+  requestPermissions,
+  scheduleQuoteReminders,
+} from "@/utils/notifications";
+
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
@@ -11,6 +18,21 @@ export default function RootLayout() {
     LeagueSpartan_400Regular,
     LeagueSpartan_700Bold,
   });
+
+  useEffect(() => {
+  const setupNotifications = async () => {
+    const granted = await requestPermissions();
+
+    console.log("Permission:", granted);
+
+    if (granted) {
+      await scheduleQuoteReminders();
+      console.log("Notifications scheduled!");
+    }
+  };
+
+  setupNotifications();
+}, []);
 
   if (!fontsLoaded) {
     return null;

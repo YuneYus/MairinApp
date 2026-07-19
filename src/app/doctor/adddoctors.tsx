@@ -1,6 +1,6 @@
 import { globalStyles } from "@/styles/global";
-import { router } from "expo-router";
-import { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 
 import {
   Alert,
@@ -14,17 +14,45 @@ import {
 
 import * as Haptics from "expo-haptics";
 
-import { addDoctor } from "../../storage/doctorStorage";
 
+import {
+  addDoctor,
+  deleteDoctor,
+  getDoctorById,
+  updateDoctor,
+} from "../../storage/doctorStorage";
 
 export default function AddDoctors() {
+
+  const { id } = useLocalSearchParams<{ id?: string }>();
+
+const editing = !!id;
 
   const [name, setName] = useState("");
   const [professionalism, setProfessionalism] = useState("");
   const [phonenumber, setPhoneNumber] = useState("");
   const [details, setDetails] = useState("");
 
+useEffect(() => {
 
+  if (!editing) return;
+
+  const loadDoctor = async () => {
+
+    const doctor = await getDoctorById(id as string);
+
+    if (!doctor) return;
+
+    setName(doctor.name);
+    setProfessionalism(doctor.professionalism);
+    setPhoneNumber(doctor.phonenumber);
+    setDetails(doctor.details);
+
+  };
+
+  loadDoctor();
+
+}, [id]);
   const handleAddDoctors = async () => {
 
     // Check that required information exists
@@ -38,19 +66,38 @@ export default function AddDoctors() {
       return;
     }
 
+if (editing) {
 
-    // Save the doctor
-    await addDoctor({
+  const doctor = await getDoctorById(id as string);
 
-      name: name,
+  if (!doctor) {
+    Alert.alert("Error", "No se encontró el doctor.");
+    return;
+  }
 
-      professionalism: professionalism,
+  await updateDoctor({
 
-      phonenumber: phonenumber,
+    ...doctor,
 
-      details: details,
+    name,
+    professionalism,
+    phonenumber,
+    details,
 
-    });
+  });
+
+} else {
+
+  await addDoctor({
+
+    name,
+    professionalism,
+    phonenumber,
+    details,
+
+  });
+
+}
 
 
     // Haptic feedback
@@ -151,15 +198,46 @@ export default function AddDoctors() {
 
       <View style={styles.buttonsRow}>
 
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={() => router.back()}
-        >
-          <Text style={styles.buttonText}>
-            Cancelar
-          </Text>
-        </TouchableOpacity>
+       <TouchableOpacity
+  style={styles.actionButton}
+  onPress={async () => {
 
+    if (editing) {
+
+      Alert.alert(
+        "Eliminar Doctor",
+        "¿Deseas eliminar este doctor?",
+        [
+          {
+            text: "Cancelar",
+            style: "cancel",
+          },
+          {
+            text: "Eliminar",
+            style: "destructive",
+            onPress: async () => {
+
+              await deleteDoctor(id as string);
+
+              router.back();
+
+            },
+          },
+        ]
+      );
+
+    } else {
+
+      router.back();
+
+    }
+
+  }}
+>
+  <Text style={styles.buttonText}>
+    {editing ? "Eliminar" : "Cancelar"}
+  </Text>
+</TouchableOpacity>
 
         <TouchableOpacity
           style={styles.actionButton}

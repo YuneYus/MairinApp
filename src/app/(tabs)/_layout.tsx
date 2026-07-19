@@ -18,7 +18,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: "Home",
 
@@ -35,7 +35,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="calendar"
         options={{
-          title: "Calendar",
+          title: "Calendario",
 
           tabBarIcon: ({ color, size }) => (
             <Ionicons
@@ -48,9 +48,9 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="addmeal"
+        name="apóyanos"
         options={{
-          title: "Add Meal",
+          title: "Apóyanos",
 
           tabBarIcon: ({ color, size }) => (
             <Ionicons
@@ -61,22 +61,6 @@ export default function TabLayout() {
           ),
         }}
       />
-
-      <Tabs.Screen
-        name="meal"
-        options={{
-          title: "All Meals",
-
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="list"
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
-
        <Tabs.Screen
         name="ayuda"
         options={{
@@ -91,6 +75,23 @@ export default function TabLayout() {
           ),
         }}
       />
+
+      <Tabs.Screen
+        name="perfil"
+        options={{
+          title: "Perfil",
+
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons
+              name="list"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      
     </Tabs>
   );
 }
