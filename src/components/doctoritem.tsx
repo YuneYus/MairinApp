@@ -39,7 +39,7 @@ export default function DoctorItem({
     style={styles.card}
     onPress={() =>
   router.push({
-    pathname: "/doctor/adddoctors",
+    pathname: "/ayuda/adddoctors",
     params: { id },
   })
 }

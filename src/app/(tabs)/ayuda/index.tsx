@@ -2,12 +2,12 @@ import EmergencyCard from "@/components/emergencycard";
 import { globalStyles } from "@/styles/global";
 import { router } from "expo-router";
 import {
-  Linking,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    Linking,
+    Pressable,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
 export default function HelpScreen() {
@@ -31,7 +31,7 @@ export default function HelpScreen() {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => router.push("/doctor")}
+        onPress={() => router.push("/ayuda/doctor")}
       >
         <Text style={styles.buttonText}>
           Mis Listas de Doctores

@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-nati
 
 import { speakText } from '../../services/voiceService';
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Flashcard from "../../components/showquestions";
 
@@ -13,7 +13,80 @@ import { getDailyFlashcard } from "../../services/flashcardService";
 import QuoteCard from "@/components/quotecards";
 import { getTodaysQuote } from "@/services/quoteService";
 
- 
+import ButtonInfo from "@/components/buttonesInfo";
+import { getHealthStage, HealthStage } from "@/storage/healthStageStorage";
+import { useFocusEffect } from "expo-router";
+
+const ALL_ITEMS: {
+  key: HealthStage | "ejercicio" | "educacion";
+  title: string;
+  subtitle: string;
+  icon: keyof typeof import("@expo/vector-icons").Ionicons.glyphMap;
+}[] = [
+  {
+    key: "menstruacion",
+    title: "Menstruación",
+    subtitle: "Aprender más: irregularidades y síntomas",
+    icon: "call",
+  },
+  { key: "ejercicio", title: "Ejercicios y cuido", subtitle: "Aprender más", icon: "call" },
+  { key: "educacion", title: "Educación Sexual", subtitle: "Aprender más", icon: "call" },
+  { key: "embarazo", title: "Embarazo", subtitle: "Aprender más", icon: "call" },
+  { key: "menopausia", title: "Menopausia", subtitle: "Aprender más", icon: "call" },
+];
+
+
+function InfoCenter() {
+  const [stage, setStage] = useState<HealthStage>("menstruacion");
+
+  // Re-read every time the Inicio tab comes into focus,
+  // so switching stage in Ajustes updates this immediately
+  useFocusEffect(
+    useCallback(() => {
+      const load = async () => {
+        const value = await getHealthStage();
+        setStage(value);
+      };
+
+      load();
+    }, [])
+  );
+
+  const bigItem = ALL_ITEMS.find((item) => item.key === stage)!;
+  const smallItems = ALL_ITEMS.filter((item) => item.key !== stage);
+
+  return (
+    <View style={{ marginTop: 30 }}>
+      <Text style={styles.sectionTitle}>Centro De Información</Text>
+
+      <ButtonInfo
+        title={bigItem.title}
+        subtitle={bigItem.subtitle}
+        icon={bigItem.icon}
+        size="big"
+        onPress={() => {
+          // TODO: navigate to the relevant info screen
+        }}
+      />
+
+      <View style={styles.grid}>
+        {smallItems.map((item) => (
+          <ButtonInfo
+            key={item.key}
+            title={item.title}
+            subtitle={item.subtitle}
+            icon={item.icon}
+            size="small"
+            onPress={() => {
+              // TODO: navigate to the relevant info screen
+            }}
+          />
+        ))}
+      </View>
+    </View>
+  );
+}
+
 export default function Homescreen() {
 console.log("HOME SCREEN LOADED");
 
@@ -60,13 +133,12 @@ return(
 {
 question &&
 
-<Flashcard data={question}
-
-/>
-
+<Flashcard data={question}/>
 }
 
     </View>
+
+    <InfoCenter/>
 
     </ScrollView>
     
@@ -100,6 +172,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 12,
+    justifyContent: "space-between",
+
+  },
+    sectionTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#B0195B",
+    marginBottom: 14,
   },
   
   

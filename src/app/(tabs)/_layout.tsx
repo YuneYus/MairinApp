@@ -7,27 +7,20 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-
         tabBarStyle: {
           backgroundColor: colors.background,
           borderTopColor: colors.surface,
         },
-
         tabBarActiveTintColor: "green",
         tabBarInactiveTintColor: "blue",
       }}
     >
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
-          title: "Home",
-
+          title: "Inicio",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="home"
-              size={size}
-              color={color}
-            />
+            <Ionicons name="home" size={size} color={color} />
           ),
         }}
       />
@@ -36,42 +29,28 @@ export default function TabLayout() {
         name="calendar"
         options={{
           title: "Calendario",
-
           tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="calendar"
-              size={size}
-              color={color}
-            />
+            <Ionicons name="calendar" size={size} color={color} />
           ),
         }}
       />
 
       <Tabs.Screen
-        name="apóyanos"
-        options={{
-          title: "Apóyanos",
-
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="add-circle"
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
-       <Tabs.Screen
         name="ayuda"
         options={{
           title: "Ayuda",
-
           tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="warning-outline"
-              size={size}
-              color={color}
-            />
+            <Ionicons name="warning-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="Apoyanos"
+        options={{
+          title: "Apóyanos",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="add-circle" size={size} color={color} />
           ),
         }}
       />
@@ -80,18 +59,11 @@ export default function TabLayout() {
         name="perfil"
         options={{
           title: "Perfil",
-
           tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="list"
-              size={size}
-              color={color}
-            />
+            <Ionicons name="list" size={size} color={color} />
           ),
         }}
       />
-
-      
     </Tabs>
   );
 }

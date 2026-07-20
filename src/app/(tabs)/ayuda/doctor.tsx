@@ -1,7 +1,7 @@
+import AppHeader from "@/components/appHeader";
 import { globalStyles } from "@/styles/global";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-
 import {
   ScrollView,
   StyleSheet,
@@ -16,7 +16,7 @@ import DoctorItem from "@/components/doctoritem";
 import {
   DoctorProfile,
   getDoctors,
-} from "../../storage/doctorStorage";
+} from "../../../storage/doctorStorage";
 
 
 export default function DoctorsScreen() {
@@ -61,16 +61,14 @@ const filteredDoctors = doctors.filter((doctor) => {
 
   return (
 
+    
     <ScrollView
-      style={globalStyles.container}
       contentContainerStyle={styles.content}
     >
 
       {/* TITLE */}
 
-      <Text style={globalStyles.title}>
-        Mis Listas De Doctores
-      </Text>
+      <AppHeader title="Mis Listas De Doctores"/>
 
 
       {/* SEARCH BAR */}
@@ -88,7 +86,7 @@ const filteredDoctors = doctors.filter((doctor) => {
 
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => router.push("/doctor/adddoctors")}
+        onPress={() => router.push("/ayuda/adddoctors")}
       >
 
         <Text style={styles.addButtonText}>
@@ -146,11 +144,12 @@ const styles = StyleSheet.create({
 
   content: {
     padding: 20,
+    backgroundColor:"white",
   },
 
 
   searchInput: {
-    backgroundColor: "#FDE8EF",
+    backgroundColor: "pink",
 
     borderRadius: 15,
 
@@ -191,5 +190,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
 
   },
+    container: { flex: 1, backgroundColor: "white" },
+
 
 });

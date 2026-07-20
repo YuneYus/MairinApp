@@ -1,0 +1,185 @@
+// app/(tabs)/perfil/personal.tsx
+
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import { useState } from "react";
+import {
+    Alert,
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
+
+export default function PersonalScreen() {
+  const [name, setName] = useState("Lily Hernandez");
+  const [phone, setPhone] = useState("+505 5678 9000");
+  const [email, setEmail] = useState("johndoe@example.com");
+  const [birthDate, setBirthDate] = useState("");
+
+  const handleUpdate = () => {
+    // TODO: persist to storage / backend
+    Alert.alert("Éxito", "Perfil actualizado correctamente");
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <Ionicons name="chevron-back" size={24} color="#B0195B" />
+        </TouchableOpacity>
+
+        <Text style={styles.headerTitle}>Perfil</Text>
+
+        <View style={styles.avatarWrapper}>
+          <Image
+            source={{ uri: "https://placehold.co/200x200/png" }}
+            style={styles.avatar}
+          />
+
+          <TouchableOpacity style={styles.editBadge}>
+            <Ionicons name="pencil" size={12} color="white" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <ScrollView
+        style={styles.form}
+        contentContainerStyle={{ paddingBottom: 40 }}
+      >
+        <Text style={styles.label}>Nombre</Text>
+        <TextInput
+          style={styles.input}
+          value={name}
+          onChangeText={setName}
+        />
+
+        <Text style={styles.label}>Número De Telefono</Text>
+        <TextInput
+          style={styles.input}
+          value={phone}
+          onChangeText={setPhone}
+          keyboardType="phone-pad"
+        />
+
+        <Text style={styles.label}>Email</Text>
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+
+        <Text style={styles.label}>Fecha De Nacimiento</Text>
+        <TextInput
+          style={styles.input}
+          value={birthDate}
+          onChangeText={setBirthDate}
+          placeholder="DD / MM / YYYY"
+          placeholderTextColor="#B0195B"
+        />
+
+        <TouchableOpacity style={styles.button} onPress={handleUpdate}>
+          <Text style={styles.buttonText}>Update Profile</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+
+  header: {
+    backgroundColor: "#F6C6D6",
+    borderBottomLeftRadius: 60,
+    borderBottomRightRadius: 60,
+    alignItems: "center",
+    paddingTop: 60,
+    paddingBottom: 30,
+  },
+
+  backButton: {
+    position: "absolute",
+    top: 60,
+    left: 20,
+  },
+
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#222",
+    marginBottom: 16,
+  },
+
+  avatarWrapper: {
+    position: "relative",
+  },
+
+  avatar: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: "#ddd",
+  },
+
+  editBadge: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: "#B0195B",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: "white",
+  },
+
+  form: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: 24,
+  },
+
+  label: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#222",
+    marginBottom: 6,
+    marginTop: 16,
+  },
+
+  input: {
+    backgroundColor: "#FDE8EF",
+    color: "#B0195B",
+    padding: 14,
+    borderRadius: 12,
+    fontSize: 15,
+  },
+
+  button: {
+    backgroundColor: "#F6C6D6",
+    padding: 16,
+    borderRadius: 30,
+    alignItems: "center",
+    marginTop: 36,
+  },
+
+  buttonText: {
+    color: "#B0195B",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});

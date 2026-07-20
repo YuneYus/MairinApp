@@ -1,3 +1,4 @@
+import AppHeader from "@/components/appHeader";
 import { globalStyles } from "@/styles/global";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -20,7 +21,7 @@ import {
   deleteDoctor,
   getDoctorById,
   updateDoctor,
-} from "../../storage/doctorStorage";
+} from "../../../storage/doctorStorage";
 
 export default function AddDoctors() {
 
@@ -122,9 +123,10 @@ if (editing) {
   return (
 
     <ScrollView
-      style={globalStyles.container}
       contentContainerStyle={styles.content}
     >
+
+            <AppHeader title="Agregar Mi Doctor"/>
 
       <Text style={globalStyles.title}>
         Agregar Mi Doctor
@@ -260,6 +262,7 @@ const styles = StyleSheet.create({
 
   content: {
     padding: 20,
+    backgroundColor: "white",
   },
 
 
@@ -272,7 +275,7 @@ const styles = StyleSheet.create({
 
 
   input: {
-    backgroundColor: "#FDE8EF",
+    backgroundColor: "#F6C6D6",
     color: "#B0195B",
     padding: 16,
     borderRadius: 15,
@@ -313,5 +316,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+
+   container: { flex: 1, backgroundColor: "white" },
+
 
 });
