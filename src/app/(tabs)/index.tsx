@@ -14,8 +14,15 @@ import QuoteCard from "@/components/quotecards";
 import { getTodaysQuote } from "@/services/quoteService";
 
 import ButtonInfo from "@/components/buttonesInfo";
+import CicloInfoCard from "@/components/cicloInfo";
 import { getHealthStage, HealthStage } from "@/storage/healthStageStorage";
 import { useFocusEffect } from "expo-router";
+
+import MoodTracker from "@/components/moodTracker";
+
+
+// app/(tabs)/index.tsx
+import { PregnancySizeCard } from "@/components/PregnancySizeCard";
 
 const ALL_ITEMS: {
   key: HealthStage | "ejercicio" | "educacion";
@@ -56,9 +63,12 @@ function InfoCenter() {
   const smallItems = ALL_ITEMS.filter((item) => item.key !== stage);
 
   return (
+    
     <View style={{ marginTop: 30 }}>
-      <Text style={styles.sectionTitle}>Centro De Información</Text>
+      <MoodTracker/>
+      <PregnancySizeCard />
 
+      <Text style={styles.sectionTitle}>Centro De Información</Text>
       <ButtonInfo
         title={bigItem.title}
         subtitle={bigItem.subtitle}
@@ -129,6 +139,8 @@ return(
           <Text style= {{color:"white", fontFamily:globalStyles.title.fontFamily}}>🔉Hola Ashley, aqui esta la prueba de voz para la aplicacion. Hola Ashley, aqui esta la prueba de voz para la aplicacion. Hola Ashley, aqui esta la prueba de voz para la aplicacion</Text>
       </TouchableOpacity>
 
+<CicloInfoCard />
+
        <View >
 {
 question &&
@@ -137,7 +149,8 @@ question &&
 }
 
     </View>
-
+         
+  
     <InfoCenter/>
 
     </ScrollView>

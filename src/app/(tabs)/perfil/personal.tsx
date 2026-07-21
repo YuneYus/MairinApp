@@ -1,17 +1,19 @@
 // app/(tabs)/perfil/personal.tsx
 
+import { getProfilePhoto, setProfilePhoto } from "@/storage/profileStorage";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { useState } from "react";
+import * as ImagePicker from "expo-image-picker";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import {
-    Alert,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function PersonalScreen() {
@@ -19,9 +21,47 @@ export default function PersonalScreen() {
   const [phone, setPhone] = useState("+505 5678 9000");
   const [email, setEmail] = useState("johndoe@example.com");
   const [birthDate, setBirthDate] = useState("");
+  const [photoUri, setPhotoUri] = useState<string | null>(null);
+
+  useFocusEffect(
+    useCallback(() => {
+      const loadPhoto = async () => {
+        const uri = await getProfilePhoto();
+        setPhotoUri(uri);
+      };
+      loadPhoto();
+    }, [])
+  );
+
+  const handlePickPhoto = async () => {
+    console.log("Edit photo button pressed");
+
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    console.log("Permission result:", permission);
+
+    if (!permission.granted) {
+      Alert.alert(
+        "Permiso necesario",
+        "Necesitamos acceso a tus fotos para cambiar tu imagen de perfil."
+      );
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.7,
+    });
+
+    if (result.canceled) return;
+
+    const uri = result.assets[0].uri;
+    setPhotoUri(uri);
+    await setProfilePhoto(uri);
+  };
 
   const handleUpdate = () => {
-    // TODO: persist to storage / backend
     Alert.alert("Éxito", "Perfil actualizado correctamente");
   };
 
@@ -38,12 +78,15 @@ export default function PersonalScreen() {
         <Text style={styles.headerTitle}>Perfil</Text>
 
         <View style={styles.avatarWrapper}>
-          <Image
-            source={{ uri: "https://placehold.co/200x200/png" }}
-            style={styles.avatar}
-          />
+          {photoUri ? (
+            <Image source={{ uri: photoUri }} style={styles.avatar} />
+          ) : (
+            <View style={[styles.avatar, styles.avatarPlaceholder]}>
+              <Ionicons name="person" size={40} color="#B0195B" />
+            </View>
+          )}
 
-          <TouchableOpacity style={styles.editBadge}>
+          <TouchableOpacity style={styles.editBadge} onPress={handlePickPhoto}>
             <Ionicons name="pencil" size={12} color="white" />
           </TouchableOpacity>
         </View>
@@ -131,6 +174,11 @@ const styles = StyleSheet.create({
     height: 90,
     borderRadius: 45,
     backgroundColor: "#ddd",
+  },
+
+  avatarPlaceholder: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   editBadge: {

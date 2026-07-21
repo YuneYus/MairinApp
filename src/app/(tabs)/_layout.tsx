@@ -64,6 +64,14 @@ export default function TabLayout() {
           ),
         }}
       />
+<Tabs.Screen
+  name="leer-mas-ciclo"
+  options={{ href: null }}
+/>
+      <Tabs.Screen
+  name="tamano-bebe"
+  options={{ href: null }}
+/>
     </Tabs>
   );
 }

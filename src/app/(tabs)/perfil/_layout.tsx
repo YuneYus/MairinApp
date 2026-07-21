@@ -6,6 +6,8 @@ export default function PerfilLayout() {
       screenOptions={{
         headerShown: false,
       }}
+
     />
+    
   );
 }

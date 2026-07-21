@@ -1,78 +1,92 @@
+// storage/calendarStorage.ts
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
 /*
-This describes what information is stored
-for ONE specific day.
+ Information shared by all stages:
+ - menstruation
+ - pregnancy
+ - menopause
 */
-export type DayEntry = {
-  date: string;          // Example: "2026-07-15"
+export type CalendarEntry = {
 
-  period: boolean;       // true if on period
+    date: string;       // "2026-07-20"
 
-  exercise: boolean;     // true if exercised
+    exercise: boolean;  // Did exercise
 
-  mood: string;          // 😊 😐 😔 etc.
+    note: string;       // General daily note
 
-  note: string;          // User's note
 };
 
 
-//This is the name used inside AsyncStorage.
 const CALENDAR_KEY = "calendar_entries";
 
+
+
 /*
-Returns ALL saved calendar entries.
-
-If nothing exists yet,
-return an empty array.
+ Get all calendar entries
 */
-export const getEntries = async (): Promise<DayEntry[]> => {
-  const data = await AsyncStorage.getItem(CALENDAR_KEY);
+export const getEntries = async (): Promise<CalendarEntry[]> => {
 
-  return data ? JSON.parse(data) : [];
-  
+    const data = await AsyncStorage.getItem(CALENDAR_KEY);
+
+    return data ? JSON.parse(data) : [];
+
 };
 
+
+
 /*
-Saves one day.
+ Save one calendar day
 
-If the date already exists,
-replace it.
+ If date exists:
+ update it
 
-If it doesn't,
-add it.
+ If not:
+ create it
 */
 export const saveEntry = async (
-  entry: DayEntry,
+    entry: CalendarEntry
 ): Promise<void> => {
-  const entries = await getEntries();
 
-  // Remove old entry for this date
-  const filtered = entries.filter(
-    (item) => item.date !== entry.date,
-  );
 
-  // Add updated entry
-  filtered.push(entry);
+    const entries = await getEntries();
 
-  await AsyncStorage.setItem(
-    CALENDAR_KEY,
-    JSON.stringify(filtered),
-  );
+
+    const filtered = entries.filter(
+        (item)=> item.date !== entry.date
+    );
+
+
+    filtered.push(entry);
+
+
+    await AsyncStorage.setItem(
+        CALENDAR_KEY,
+        JSON.stringify(filtered)
+    );
+
 };
 
+
+
 /*
-Returns the information
-for ONE selected day.
+ Get one specific day
 */
 export const getEntry = async (
-  date: string,
-): Promise<DayEntry | null> => {
-  const entries = await getEntries();
+    date:string
+): Promise<CalendarEntry | null> => {
 
-  const entry = entries.find(
-    (item) => item.date === date,
-  );
 
-  return entry ?? null;
+    const entries = await getEntries();
+
+
+    const entry = entries.find(
+        item=>item.date === date
+    );
+
+
+    return entry ?? null;
+
 };

@@ -26,6 +26,7 @@ export default function ApoyanosScreen() {
         <Text style={styles.buttonText}>¡Quiero Donar!</Text>
       </TouchableOpacity>
 
+      
       <TouchableOpacity
         style={styles.button}
         onPress={() => router.push("/(tabs)/Apoyanos/patrocinar" as any)}

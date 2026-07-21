@@ -4,12 +4,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
-    Alert,
-    StyleSheet,
-    Switch,
-    Text,
-    TouchableOpacity,
-    View,
+  Alert,
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function SettingsScreen() {
@@ -45,13 +45,14 @@ export default function SettingsScreen() {
         <Text style={styles.headerTitle}>Ajustes</Text>
       </View>
 
+
       <View style={styles.list}>
         <TouchableOpacity
           style={styles.row}
-          onPress={() => router.push("/(tabs)/perfil/health-stage" as any)}
+          onPress={() => router.push("/(tabs)/perfil/audio" as any)}
         >
-          <Ionicons name="heart-outline" size={20} color="#B0195B" />
-          <Text style={styles.rowLabel}>Cambiar Mi Etapa De Salud</Text>
+          <Ionicons name="globe-outline" size={20} color="#B0195B" />
+          <Text style={styles.rowLabel}>Cambiar Idioma De Audio</Text>
           <Ionicons name="chevron-forward" size={18} color="#C9B7D6" />
         </TouchableOpacity>
 

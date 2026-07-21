@@ -2,7 +2,8 @@
 
 import { colors } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import {
   Alert,
   Image,
@@ -12,6 +13,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
+import { getProfilePhoto } from "@/storage/profileStorage";
 
 const MENU_ITEMS = [
   {
@@ -35,13 +38,25 @@ const MENU_ITEMS = [
     route: "/(tabs)/perfil/support",
   },
   {
-    label: "Cambiar Idioma De Audio",
-    icon: "globe-outline",
-    route: "/(tabs)/perfil/audio",
+    label: "Cambiar Mi Etapa De Salud",
+    icon: "heart-outline",
+    route: "/(tabs)/perfil/health-stage",
   },
 ] as const;
 
 export default function PerfilScreen() {
+  const [photoUri, setPhotoUri] = useState<string | null>(null);
+
+  useFocusEffect(
+    useCallback(() => {
+      const loadPhoto = async () => {
+        const uri = await getProfilePhoto();
+        setPhotoUri(uri);
+      };
+      loadPhoto();
+    }, [])
+  );
+
   const handleLogout = () => {
     Alert.alert("Cerrar Sesión", "¿Deseas cerrar sesión?", [
       { text: "Cancelar", style: "cancel" },
@@ -61,12 +76,22 @@ export default function PerfilScreen() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Mi Perfil</Text>
 
-        <Image
-          source={{
-            uri: "https://placehold.co/200x200/png",
-          }}
-          style={styles.avatar}
-        />
+        {photoUri ? (
+          <Image source={{ uri: photoUri }} style={styles.avatar} />
+        ) : (
+          <View
+            style={[
+              styles.avatar,
+              {
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#FBDCE7",
+              },
+            ]}
+          >
+            <Ionicons name="person" size={40} color="#B0195B" />
+          </View>
+        )}
 
         <Text style={styles.name}>Lily Hernandez</Text>
       </View>
@@ -91,11 +116,7 @@ export default function PerfilScreen() {
 
             <Text style={styles.rowLabel}>{item.label}</Text>
 
-            <Ionicons
-              name="chevron-forward"
-              size={20}
-              color="#C9B7D6"
-            />
+            <Ionicons name="chevron-forward" size={20} color="#C9B7D6" />
           </TouchableOpacity>
         ))}
 

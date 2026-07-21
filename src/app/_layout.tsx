@@ -6,12 +6,27 @@ import {
 
 import { useEffect } from "react";
 
+
+import { Stack } from "expo-router";
+
 import {
   requestPermissions,
+  schedulePeriodReminder,
   scheduleQuoteReminders,
 } from "@/utils/notifications";
 
-import { Stack } from "expo-router";
+useEffect(() => {
+  const setupNotifications = async () => {
+    const granted = await requestPermissions();
+
+    if (granted) {
+      await scheduleQuoteReminders();
+      await schedulePeriodReminder(); // 👈 add this
+    }
+  };
+
+  setupNotifications();
+}, []);
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
