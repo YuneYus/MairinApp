@@ -16,13 +16,17 @@ import { getTodaysQuote } from "@/services/quoteService";
 import ButtonInfo from "@/components/buttonesInfo";
 import CicloInfoCard from "@/components/cicloInfo";
 import { getHealthStage, HealthStage } from "@/storage/healthStageStorage";
-import { useFocusEffect } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 
 import MoodTracker from "@/components/moodTracker";
 
 
 // app/(tabs)/index.tsx
+import { PregnancyJourneyCard } from "@/components/PregnancyJourneyCard";
 import { PregnancySizeCard } from "@/components/PregnancySizeCard";
+
+import ChatSummaryCard from "@/components/chatSummaryCard";
+
 
 const ALL_ITEMS: {
   key: HealthStage | "ejercicio" | "educacion";
@@ -62,10 +66,22 @@ function InfoCenter() {
   const bigItem = ALL_ITEMS.find((item) => item.key === stage)!;
   const smallItems = ALL_ITEMS.filter((item) => item.key !== stage);
 
+  // Routes each info-center category to its screen. Only "embarazo" has a
+  // destination wired up so far — the others keep the original TODO.
+  const handleItemPress = (key: (typeof ALL_ITEMS)[number]["key"]) => {
+    if (key === "embarazo") {
+      router.push("/viaje-embarazo");
+      return;
+    }
+    // TODO: navigate to the relevant info screen for the other categories
+  };
+
   return (
     
     <View style={{ marginTop: 30 }}>
       <MoodTracker/>
+      <ChatSummaryCard />
+      <PregnancyJourneyCard />
       <PregnancySizeCard />
 
       <Text style={styles.sectionTitle}>Centro De Información</Text>
@@ -74,10 +90,15 @@ function InfoCenter() {
         subtitle={bigItem.subtitle}
         icon={bigItem.icon}
         size="big"
-        onPress={() => {
-          // TODO: navigate to the relevant info screen
-        }}
+        onPress={() => handleItemPress(bigItem.key)}
       />
+
+      <Text style={{fontFamily: "Montserrat_400Regular"}}>This is the font: Montserrat_400Regular - hi there ashley</Text>
+              <Text style={{fontFamily: "Montserrat_700Bold"}}>This is the font: Montserrat_700Bold - hi there ashley</Text>
+              <Text style={{fontFamily: "OpenSans_400Regular"}}>This is the font: OpenSans_400Regular- hi there ashley</Text>
+              <Text style={{fontFamily: "OpenSans_700Bold"}}>This is the font: OpenSans_700Bold- hi there ashley</Text>
+              <Text style={{fontFamily: "LeagueSpartan_400Regular"}}>This is the font: LeagueSpartan_400Regular- hi there ashley</Text>
+              <Text style={{fontFamily: "LeagueSpartan_700Bold"}}>This is the font: LeagueSpartan_700Bold- hi there ashley</Text>
 
       <View style={styles.grid}>
         {smallItems.map((item) => (
@@ -87,9 +108,7 @@ function InfoCenter() {
             subtitle={item.subtitle}
             icon={item.icon}
             size="small"
-            onPress={() => {
-              // TODO: navigate to the relevant info screen
-            }}
+            onPress={() => handleItemPress(item.key)}
           />
         ))}
       </View>

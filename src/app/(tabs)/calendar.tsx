@@ -1,13 +1,3 @@
-/*
-// at the top of calendar.tsx, add this import:
-import { clearCycleResetDate } from "@/storage/cycleTrackingStorage";
-import { useEffect } from "react"; // if not already imported
-
-// inside the CalendarScreen component, add this temporarily to reset the history or estado:
-useEffect(() => {
-  clearCycleResetDate();
-}, []);
-*/
 // app/(tabs)/calendar.tsx
 
 import { globalStyles } from "@/styles/global";
@@ -42,11 +32,17 @@ import {
   Appointment,
   getPregnancyEntries,
   getPregnancyEntry,
+  ReminderOffset,
   savePregnancyEntry,
 } from "../../storage/pregnancyStorage";
 
 import { schedulePeriodReminder } from "@/utils/notifications";
-
+import {
+  cancelReminder,
+  REMINDER_OPTIONS,
+  scheduleReminder,
+} from "@/utils/reminderScheduler";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 LocaleConfig.locales["es"] = {
   monthNames: [
@@ -77,8 +73,18 @@ const MENOPAUSE_SYMPTOMS = [
   "Dolores de cabeza", "Mareos", "Dolor articular (rodillas, muñecas, hombros, etc.)",
 ];
 
-const emptyAppointment: Appointment = { name: "", time: "", description: "" };
-const emptySupplement: Supplement = { name: "", time: "", description: "" };
+const emptyAppointment: Appointment = {
+  name: "",
+  time: new Date().toISOString(),
+  description: "",
+  reminderOffset: "1hour",
+};
+const emptySupplement: Supplement = {
+  name: "",
+  time: new Date().toISOString(),
+  description: "",
+  reminderOffset: "1hour",
+};
 
 type SearchResult = {
   date: string;
@@ -94,14 +100,14 @@ export default function CalendarScreen() {
   const [markedDates, setMarkedDates] = useState<any>({});
 
   const [period, setPeriod] = useState(false);
-  const [exercise, setExercise] = useState(false); // menstruación
+  const [exercise, setExercise] = useState(false);
   const [mood, setMood] = useState("");
 
   const [babyMovement, setBabyMovement] = useState(false);
   const [doctorAppointment, setDoctorAppointment] = useState(false);
   const [appointments, setAppointments] = useState<Appointment[]>([emptyAppointment]);
 
-  const [menopauseExercise, setMenopauseExercise] = useState(false); // renamed from bleeding
+  const [menopauseExercise, setMenopauseExercise] = useState(false);
   const [vitamins, setVitamins] = useState(false);
   const [supplements, setSupplements] = useState<Supplement[]>([emptySupplement]);
 
@@ -159,7 +165,7 @@ export default function CalendarScreen() {
       return;
     }
 
-    if (stage === "menopausia") {
+   if (stage === "menopausia") {
       const data = await getMenopauseEntry(date);
       if (data) {
         setMenopauseExercise(data.exercise ?? false);
@@ -257,7 +263,7 @@ export default function CalendarScreen() {
   const updateAppointment = (
     index: number,
     field: keyof Appointment,
-    value: string
+    value: any
   ) => {
     setAppointments((prev) =>
       prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
@@ -271,7 +277,7 @@ export default function CalendarScreen() {
   const updateSupplement = (
     index: number,
     field: keyof Supplement,
-    value: string
+    value: any
   ) => {
     setSupplements((prev) =>
       prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
@@ -287,26 +293,66 @@ export default function CalendarScreen() {
 
     if (healthStage === "menstruacion") {
       await saveMenstruationEntry({ date: selectedDate, period, exercise, mood, notes });
-      await schedulePeriodReminder(); // 👈 recompute prediction after every save
+      await schedulePeriodReminder();
     }
 
     if (healthStage === "embarazo") {
+      const cleanedAppointments = appointments.filter(
+        (a) => a.name || a.description
+      );
+
+      for (const appt of cleanedAppointments) {
+        await cancelReminder(appt.notificationId);
+      }
+
+      const appointmentsWithReminders = await Promise.all(
+        cleanedAppointments.map(async (appt) => {
+          const notificationId = await scheduleReminder(
+            "Recordatorio de cita médica",
+            `Tienes una cita con ${appt.name || "tu doctor(a)"} pronto.`,
+            appt.time,
+            appt.reminderOffset
+          );
+          return { ...appt, notificationId };
+        })
+      );
+
       await savePregnancyEntry({
         date: selectedDate,
         babyMovement,
         doctorAppointment,
-        appointments: appointments.filter((a) => a.name || a.time || a.description),
+        appointments: appointmentsWithReminders,
         symptoms: allSymptoms,
         notes,
       });
     }
 
     if (healthStage === "menopausia") {
+      const cleanedSupplements = supplements.filter(
+        (s) => s.name || s.description
+      );
+
+      for (const sup of cleanedSupplements) {
+        await cancelReminder(sup.notificationId);
+      }
+
+      const supplementsWithReminders = await Promise.all(
+        cleanedSupplements.map(async (sup) => {
+          const notificationId = await scheduleReminder(
+            "Recordatorio de suplemento",
+            `Es hora de tomar tu suplemento: ${sup.name || ""}.`,
+            sup.time,
+            sup.reminderOffset
+          );
+          return { ...sup, notificationId };
+        })
+      );
+
       await saveMenopauseEntry({
         date: selectedDate,
         exercise: menopauseExercise,
         vitamins,
-        supplements: supplements.filter((s) => s.name || s.time || s.description),
+        supplements: supplementsWithReminders,
         symptoms: allSymptoms,
         notes,
       });
@@ -316,7 +362,6 @@ export default function CalendarScreen() {
     Alert.alert("Guardado", "Tu día ha sido guardado.");
   };
 
-  // --- SEARCH ---
   const runSearch = useCallback(
     async (query: string) => {
       setSearchQuery(query);
@@ -488,40 +533,25 @@ export default function CalendarScreen() {
         <>
           <View style={styles.card}>
             <View style={styles.row}>
-              <Text style={styles.sectionTitle}>🟣Movimientos del bebé (pataditas)</Text>
+              <Text style={styles.sectionTitle}>🟣 Movimientos del bebé (pataditas)</Text>
               <Switch value={babyMovement} onValueChange={setBabyMovement} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
             </View>
           </View>
 
           <View style={styles.card}>
             <View style={styles.row}>
-              <Text style={styles.sectionTitle}>🟢Cita médica</Text>
+              <Text style={styles.sectionTitle}>🟢 Cita médica</Text>
               <Switch value={doctorAppointment} onValueChange={setDoctorAppointment} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
             </View>
 
             {doctorAppointment && (
               <>
                 {appointments.map((appt, index) => (
-                  <View key={index} style={styles.subCard}>
-                    <TextInput
-                      value={appt.name}
-                      onChangeText={(text) => updateAppointment(index, "name", text)}
-                      placeholder="Nombre del doctor(a)"
-                      style={styles.fieldInput}
-                    />
-                    <TextInput
-                      value={appt.time}
-                      onChangeText={(text) => updateAppointment(index, "time", text)}
-                      placeholder="Hora de la cita"
-                      style={styles.fieldInput}
-                    />
-                    <TextInput
-                      value={appt.description}
-                      onChangeText={(text) => updateAppointment(index, "description", text)}
-                      placeholder="Descripción"
-                      style={styles.fieldInput}
-                    />
-                  </View>
+                  <AppointmentEditor
+                    key={index}
+                    item={appt}
+                    onUpdate={(field, value) => updateAppointment(index, field, value)}
+                  />
                 ))}
 
                 <TouchableOpacity style={styles.addButton} onPress={addAppointment}>
@@ -532,7 +562,7 @@ export default function CalendarScreen() {
           </View>
 
           <SymptomsCard
-            title="🟡Síntomas"
+            title="🟡 Síntomas"
             symptomsList={PREGNANCY_SYMPTOMS}
             selected={symptoms}
             onToggle={toggleSymptom}
@@ -556,33 +586,18 @@ export default function CalendarScreen() {
 
           <View style={styles.card}>
             <View style={styles.row}>
-              <Text style={styles.sectionTitle}>🔵Debo beber Vitaminas/suplementos</Text>
+              <Text style={styles.sectionTitle}>🔵 Debo beber Vitaminas/suplementos</Text>
               <Switch value={vitamins} onValueChange={setVitamins} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
             </View>
 
             {vitamins && (
               <>
                 {supplements.map((sup, index) => (
-                  <View key={index} style={styles.subCard}>
-                    <TextInput
-                      value={sup.name}
-                      onChangeText={(text) => updateSupplement(index, "name", text)}
-                      placeholder="Nombre del suplemento"
-                      style={styles.fieldInput}
-                    />
-                    <TextInput
-                      value={sup.time}
-                      onChangeText={(text) => updateSupplement(index, "time", text)}
-                      placeholder="Hora debe tomar"
-                      style={styles.fieldInput}
-                    />
-                    <TextInput
-                      value={sup.description}
-                      onChangeText={(text) => updateSupplement(index, "description", text)}
-                      placeholder="Descripción"
-                      style={styles.fieldInput}
-                    />
-                  </View>
+                  <AppointmentEditor
+                    key={index}
+                    item={sup}
+                    onUpdate={(field, value) => updateSupplement(index, field, value)}
+                  />
                 ))}
 
                 <TouchableOpacity style={styles.addButton} onPress={addSupplement}>
@@ -593,7 +608,7 @@ export default function CalendarScreen() {
           </View>
 
           <SymptomsCard
-            title="🟡Síntomas"
+            title="🟡 Síntomas"
             symptomsList={MENOPAUSE_SYMPTOMS}
             selected={symptoms}
             onToggle={toggleSymptom}
@@ -615,6 +630,98 @@ export default function CalendarScreen() {
         <Text style={styles.saveButtonText}>Guardar</Text>
       </TouchableOpacity>
     </ScrollView>
+  );
+}
+
+function AppointmentEditor({
+  item,
+  onUpdate,
+}: {
+  item: {
+    name: string;
+    time: string;
+    description: string;
+    reminderOffset: ReminderOffset;
+  };
+  onUpdate: (
+    field: "name" | "time" | "description" | "reminderOffset",
+    value: any
+  ) => void;
+}) {
+  const [showPicker, setShowPicker] = useState(false);
+  const [showReminderDropdown, setShowReminderDropdown] = useState(false);
+
+  const dateObj = new Date(item.time);
+
+  const formattedDateTime = dateObj.toLocaleString("es-ES", {
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const reminderLabel =
+    REMINDER_OPTIONS.find((r) => r.key === item.reminderOffset)?.label ??
+    "Sin recordatorio";
+
+  return (
+    <View style={styles.subCard}>
+      <TextInput
+        style={styles.fieldInput}
+        value={item.name}
+        onChangeText={(text) => onUpdate("name", text)}
+        placeholder="Nombre"
+      />
+
+      <TouchableOpacity style={styles.fieldInput} onPress={() => setShowPicker(true)}>
+        <Text style={{ color: "#B0195B" }}>{formattedDateTime}</Text>
+      </TouchableOpacity>
+
+      {showPicker && (
+        <DateTimePicker
+          value={dateObj}
+          mode="datetime"
+          display="default"
+          onChange={(event, selectedDate) => {
+            setShowPicker(false);
+            if (selectedDate) {
+              onUpdate("time", selectedDate.toISOString());
+            }
+          }}
+        />
+      )}
+
+      <TouchableOpacity
+        style={styles.dropdownField}
+        onPress={() => setShowReminderDropdown((p) => !p)}
+      >
+        <Text style={styles.dropdownValue}>{reminderLabel}</Text>
+      </TouchableOpacity>
+
+      {showReminderDropdown && (
+        <View style={styles.dropdownList}>
+          {REMINDER_OPTIONS.map((option) => (
+            <TouchableOpacity
+              key={option.key}
+              style={styles.dropdownOption}
+              onPress={() => {
+                onUpdate("reminderOffset", option.key);
+                setShowReminderDropdown(false);
+              }}
+            >
+              <Text style={styles.dropdownOptionText}>{option.label}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+
+      <TextInput
+        style={styles.fieldInput}
+        value={item.description}
+        onChangeText={(text) => onUpdate("description", text)}
+        placeholder="Descripción"
+      />
+    </View>
   );
 }
 
@@ -736,4 +843,20 @@ const styles = StyleSheet.create({
   notesInput: { borderWidth: 1.5, borderColor: "#F6AFC5", borderRadius: 15, padding: 12, minHeight: 120, marginTop: 10, textAlignVertical: "top", fontSize: 16 },
   saveButton: { backgroundColor: "#F6AFC5", paddingVertical: 16, borderRadius: 30, alignItems: "center", marginTop: 30, marginBottom: 30 },
   saveButtonText: { fontSize: 20, fontWeight: "bold", color: "#000" },
+  dropdownField: {
+    backgroundColor: "#FDE8EF",
+    padding: 12,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  dropdownValue: { fontSize: 14, color: "#B0195B" },
+  dropdownList: {
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: "#F0DCE4",
+    borderRadius: 10,
+    marginTop: 4,
+  },
+  dropdownOption: { padding: 12, borderBottomWidth: 1, borderBottomColor: "#F6E4EC" },
+  dropdownOptionText: { fontSize: 13, color: "#222" },
 });

@@ -2,10 +2,22 @@
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export type Appointment = {
+export type ReminderOffset =
+  | "5min"
+  | "10min"
+  | "1hour"
+  | "2hours"
+  | "1day"
+  | "2days"
+  | "1week"
+  | "none";
+  
+  export type Appointment = {
   name: string;
-  time: string;
+  time: string; // full ISO datetime string, e.g. "2026-07-25T14:30:00"
   description: string;
+  reminderOffset: ReminderOffset;
+  notificationId?: string; // to allow cancelling/rescheduling
 };
 
 export type PregnancyEntry = {

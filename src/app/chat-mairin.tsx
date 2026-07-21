@@ -1,4 +1,3 @@
-
 // app/chat-mairin.tsx
 
 import { Ionicons } from "@expo/vector-icons";
@@ -15,9 +14,10 @@ import {
   View,
 } from "react-native";
 
-// ⚠️ Replace this with your actual backend endpoint that proxies to Claude.
-// NEVER put your Anthropic API key directly in this file.
-const BACKEND_CHAT_URL = "https://mairin-chat-backend.vercel.app";
+import { saveChatSummary } from "@/storage/chatSummaryStorage";
+
+const BACKEND_CHAT_URL = "https://mairin-chat-backend.vercel.app/api/chat";
+const BACKEND_SUMMARY_URL = "https://mairin-chat-backend.vercel.app/api/summary";
 
 type Message = {
   id: string;
@@ -37,6 +37,7 @@ export default function ChatMairinScreen() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [ending, setEnding] = useState(false);
 
   const handleSend = async () => {
     const text = input.trim();
@@ -48,39 +49,6 @@ export default function ChatMairinScreen() {
       text,
     };
 
-    try {
-  const response = await fetch(BACKEND_CHAT_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      message: text,
-      mood: mood ?? null,
-      history: messages.map((m) => ({ role: m.role, content: m.text })),
-    }),
-  });
-
-  const data = await response.json();
-
-  const assistantMessage: Message = {
-    id: `${Date.now()}-assistant`,
-    role: "assistant",
-    text: data.reply ?? "Lo siento, no pude procesar eso.",
-  };
-
-  setMessages((prev) => [...prev, assistantMessage]);
-} catch (error) {
-  console.log("Chat error:", error);
-  setMessages((prev) => [
-    ...prev,
-    {
-      id: `${Date.now()}-error`,
-      role: "assistant",
-      text: "Hubo un problema conectando. Intenta de nuevo en un momento.",
-    },
-  ]);
-} finally {
-  setLoading(false);
-}
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
@@ -120,6 +88,36 @@ export default function ChatMairinScreen() {
     }
   };
 
+  const handleEndConversation = async () => {
+    if (messages.length <= 1) {
+      router.back();
+      return;
+    }
+
+    setEnding(true);
+
+    try {
+      const response = await fetch(BACKEND_SUMMARY_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          history: messages.map((m) => ({ role: m.role, content: m.text })),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.summary) {
+        await saveChatSummary(data.summary);
+      }
+    } catch (error) {
+      console.log("Error generating summary:", error);
+    } finally {
+      setEnding(false);
+      router.back();
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -129,7 +127,16 @@ export default function ChatMairinScreen() {
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
           <Ionicons name="chevron-back" size={24} color="#B0195B" />
         </TouchableOpacity>
+
         <Text style={styles.headerTitle}>Hablar con MAIRIN</Text>
+
+        <TouchableOpacity
+          style={styles.endButton}
+          onPress={handleEndConversation}
+          disabled={ending}
+        >
+          <Text style={styles.endButtonText}>{ending ? "..." : "Terminar"}</Text>
+        </TouchableOpacity>
       </View>
 
       <FlatList
@@ -187,9 +194,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
   },
   backButton: { marginRight: 14 },
   headerTitle: { fontSize: 18, fontWeight: "bold", color: "#B0195B" },
+
+  endButton: {
+    backgroundColor: "#B0195B",
+    borderRadius: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  endButtonText: { color: "white", fontSize: 13, fontWeight: "bold" },
 
   messagesList: { padding: 16, paddingBottom: 20 },
 

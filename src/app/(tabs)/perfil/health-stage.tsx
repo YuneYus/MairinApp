@@ -5,6 +5,7 @@ import {
   HealthStage,
   setHealthStage,
 } from "@/storage/healthStageStorage";
+import { clearPregnancyWeek } from "@/storage/pregnancyWeekStorage";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
@@ -30,7 +31,16 @@ export default function HealthStageScreen() {
   );
 
   const handleGuardar = async () => {
+    const previousStage = await getHealthStage();
     await setHealthStage(selected);
+
+    // Only newly switching INTO "embarazo" clears the saved week, so the
+    // home screen asks again — re-saving while already on "embarazo"
+    // won't wipe out a week you already entered.
+    if (selected === "embarazo" && previousStage !== "embarazo") {
+      await clearPregnancyWeek();
+    }
+
     router.back();
   };
 

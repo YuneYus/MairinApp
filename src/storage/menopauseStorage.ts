@@ -1,12 +1,14 @@
 // storage/menopauseStorage.ts
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { ReminderOffset } from "./pregnancyStorage";
 
 export type Supplement = {
   name: string;
-  time: string;
+  time: string; // full ISO datetime string
   description: string;
+  reminderOffset: ReminderOffset;
+  notificationId?: string;
 };
 
 export type MenopauseEntry = {

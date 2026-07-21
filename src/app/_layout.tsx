@@ -1,11 +1,22 @@
+// app/_layout.tsx
+
 import {
   LeagueSpartan_400Regular,
   LeagueSpartan_700Bold,
   useFonts,
 } from "@expo-google-fonts/league-spartan";
 
-import { useEffect } from "react";
+import {
+  Montserrat_400Regular,
+  Montserrat_700Bold,
+} from "@expo-google-fonts/montserrat";
 
+import {
+  OpenSans_400Regular,
+  OpenSans_700Bold,
+} from "@expo-google-fonts/open-sans";
+
+import { useEffect } from "react";
 
 import { Stack } from "expo-router";
 
@@ -15,39 +26,31 @@ import {
   scheduleQuoteReminders,
 } from "@/utils/notifications";
 
-useEffect(() => {
-  const setupNotifications = async () => {
-    const granted = await requestPermissions();
-
-    if (granted) {
-      await scheduleQuoteReminders();
-      await schedulePeriodReminder(); // 👈 add this
-    }
-  };
-
-  setupNotifications();
-}, []);
-
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     LeagueSpartan_400Regular,
     LeagueSpartan_700Bold,
+    Montserrat_400Regular,
+    Montserrat_700Bold,
+    OpenSans_400Regular,
+    OpenSans_700Bold,
   });
 
   useEffect(() => {
-  const setupNotifications = async () => {
-    const granted = await requestPermissions();
+    const setupNotifications = async () => {
+      const granted = await requestPermissions();
 
-    console.log("Permission:", granted);
+      console.log("Permission:", granted);
 
-    if (granted) {
-      await scheduleQuoteReminders();
-      console.log("Notifications scheduled!");
-    }
-  };
+      if (granted) {
+        await scheduleQuoteReminders();
+        await schedulePeriodReminder();
+        console.log("Notifications scheduled!");
+      }
+    };
 
-  setupNotifications();
-}, []);
+    setupNotifications();
+  }, []);
 
   if (!fontsLoaded) {
     return null;
