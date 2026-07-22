@@ -26,7 +26,11 @@ import { PregnancyJourneyCard } from "@/components/PregnancyJourneyCard";
 import { PregnancySizeCard } from "@/components/PregnancySizeCard";
 
 import ChatSummaryCard from "@/components/chatSummaryCard";
+import ExerciseStreakCard from "@/components/ExerciseStreakCard";
 
+import SponsorshipAd from "@/components/sponsorshipAd";
+
+import WelcomeBanner from "@/components/welcomeBanner";
 
 const ALL_ITEMS: {
   key: HealthStage | "ejercicio" | "educacion";
@@ -79,6 +83,8 @@ function InfoCenter() {
   return (
     
     <View style={{ marginTop: 30 }}>
+
+      {stage === "menopausia" && <ExerciseStreakCard/>}
       <MoodTracker/>
       <ChatSummaryCard />
       <PregnancyJourneyCard />
@@ -92,13 +98,6 @@ function InfoCenter() {
         size="big"
         onPress={() => handleItemPress(bigItem.key)}
       />
-
-      <Text style={{fontFamily: "Montserrat_400Regular"}}>This is the font: Montserrat_400Regular - hi there ashley</Text>
-              <Text style={{fontFamily: "Montserrat_700Bold"}}>This is the font: Montserrat_700Bold - hi there ashley</Text>
-              <Text style={{fontFamily: "OpenSans_400Regular"}}>This is the font: OpenSans_400Regular- hi there ashley</Text>
-              <Text style={{fontFamily: "OpenSans_700Bold"}}>This is the font: OpenSans_700Bold- hi there ashley</Text>
-              <Text style={{fontFamily: "LeagueSpartan_400Regular"}}>This is the font: LeagueSpartan_400Regular- hi there ashley</Text>
-              <Text style={{fontFamily: "LeagueSpartan_700Bold"}}>This is the font: LeagueSpartan_700Bold- hi there ashley</Text>
 
       <View style={styles.grid}>
         {smallItems.map((item) => (
@@ -136,7 +135,6 @@ const todaysQuote = getTodaysQuote();
 
 
 return(
-
   
    <ScrollView
       style={{
@@ -145,6 +143,8 @@ return(
     padding: 20,
       }}
     >
+<SponsorshipAd/>
+<WelcomeBanner/>
 
       <QuoteCard quote={todaysQuote.quote} />
 

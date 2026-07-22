@@ -1,9 +1,16 @@
 // app/chat-mairin.tsx
 
 import { Ionicons } from "@expo/vector-icons";
+import {
+  AudioModule,
+  RecordingPresets,
+  setAudioModeAsync,
+  useAudioRecorder,
+} from "expo-audio";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   KeyboardAvoidingView,
   Platform,
@@ -18,6 +25,7 @@ import { saveChatSummary } from "@/storage/chatSummaryStorage";
 
 const BACKEND_CHAT_URL = "https://mairin-chat-backend.vercel.app/api/chat";
 const BACKEND_SUMMARY_URL = "https://mairin-chat-backend.vercel.app/api/summary";
+const BACKEND_TRANSCRIBE_URL = "https://mairin-chat-backend.vercel.app/api/transcribe";
 
 type Message = {
   id: string;
@@ -38,6 +46,10 @@ export default function ChatMairinScreen() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [ending, setEnding] = useState(false);
+
+  const audioRecorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isTranscribing, setIsTranscribing] = useState(false);
 
   const handleSend = async () => {
     const text = input.trim();
@@ -118,10 +130,95 @@ export default function ChatMairinScreen() {
     }
   };
 
+  const startRecording = async () => {
+    try {
+      console.log("1. Requesting permission...");
+      const permission = await AudioModule.requestRecordingPermissionsAsync();
+      console.log("2. Permission result:", permission);
+
+      if (!permission.granted) {
+        console.log("Permission not granted, stopping");
+        return;
+      }
+
+      console.log("3. Setting audio mode...");
+      await setAudioModeAsync({
+        allowsRecording: true,
+        playsInSilentMode: true,
+      });
+
+      console.log("4. Preparing to record...");
+      await audioRecorder.prepareToRecordAsync();
+
+      console.log("5. Starting record...");
+      audioRecorder.record();
+
+      console.log("6. Recording started, setting state");
+      setIsRecording(true);
+    } catch (error) {
+      console.log("ERROR in startRecording:", error);
+    }
+  };
+
+  const stopRecordingAndTranscribe = async () => {
+    console.log("Stopping recording...");
+    setIsRecording(false);
+    setIsTranscribing(true);
+
+    try {
+      await audioRecorder.stop();
+      const uri = audioRecorder.uri;
+      console.log("Recording URI:", uri);
+
+      if (!uri) {
+        console.log("No URI — recording may have failed");
+        return;
+      }
+
+      // Fetch the local file and convert it into a Blob
+      const fileResponse = await fetch(uri);
+      const blob = await fileResponse.blob();
+
+      const formData = new FormData();
+      formData.append("audio", blob, "recording.m4a");
+
+      console.log("Uploading to:", BACKEND_TRANSCRIBE_URL);
+
+      const response = await fetch(BACKEND_TRANSCRIBE_URL, {
+        method: "POST",
+        body: formData,
+      });
+
+      console.log("Response status:", response.status);
+
+      const data = await response.json();
+      console.log("Transcription result:", data);
+
+      if (data.text) {
+        setInput((prev) => (prev ? `${prev} ${data.text}` : data.text));
+      } else {
+        console.log("No text in response:", data);
+      }
+    } catch (error) {
+      console.log("Error transcribing audio:", error);
+    } finally {
+      setIsTranscribing(false);
+    }
+  };
+
+  const handleMicPress = () => {
+    console.log("Mic button pressed, isRecording:", isRecording);
+    if (isRecording) {
+      stopRecordingAndTranscribe();
+    } else {
+      startRecording();
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
@@ -161,19 +258,39 @@ export default function ChatMairinScreen() {
         )}
       />
 
+      {isTranscribing && (
+        <View style={styles.transcribingRow}>
+          <ActivityIndicator size="small" color="#B0195B" />
+          <Text style={styles.transcribingText}>Transcribiendo...</Text>
+        </View>
+      )}
+
       <View style={styles.inputRow}>
+        <TouchableOpacity
+          style={[styles.micButton, isRecording && styles.micButtonActive]}
+          onPress={handleMicPress}
+        >
+          <Ionicons
+            name={isRecording ? "stop" : "mic"}
+            size={18}
+            color={isRecording ? "white" : "#B0195B"}
+          />
+        </TouchableOpacity>
+
         <TextInput
           style={styles.input}
           value={input}
           onChangeText={setInput}
-          placeholder="Escribe un mensaje..."
+          placeholder={isRecording ? "Escuchando..." : "Escribe un mensaje..."}
           placeholderTextColor="#999"
           multiline
+          editable={!isRecording}
         />
+
         <TouchableOpacity
           style={styles.sendButton}
           onPress={handleSend}
-          disabled={loading}
+          disabled={loading || isRecording}
         >
           <Ionicons name="send" size={18} color="white" />
         </TouchableOpacity>
@@ -226,6 +343,15 @@ const styles = StyleSheet.create({
   userBubbleText: { color: "white", fontSize: 14 },
   assistantBubbleText: { color: "#222", fontSize: 14 },
 
+  transcribingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+  },
+  transcribingText: { fontSize: 13, color: "#B0195B" },
+
   inputRow: {
     flexDirection: "row",
     alignItems: "flex-end",
@@ -233,6 +359,17 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#F0DCE4",
     gap: 10,
+  },
+  micButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#FBDCE7",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  micButtonActive: {
+    backgroundColor: "#E91E63",
   },
   input: {
     flex: 1,

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "macrozone",
-    "slug": "macrozone",
+    "name": "mairin",
+    "slug": "mairin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -40,7 +40,8 @@
       "expo-image",
       "expo-status-bar",
       "expo-sharing",
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      "expo-audio"
     ],
     "experiments": {
       "typedRoutes": true,

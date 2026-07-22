@@ -8,12 +8,12 @@ import { trimesterOf, WEEK_DATA } from "@/data/embarazoSemanas";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 // NOTE: I mapped your three icon pairs to the trimesters by "energy level"
@@ -31,20 +31,20 @@ const TRIMESTERS: {
   {
     n: 1,
     label: "Trimestre 1",
-    activeIcon: require("@/app/assets/images/RelaxPink.png"),
-    inactiveIcon: require("@/app/assets/images/RelaxWhite.png"),
+    activeIcon: require("@/app/assets/images/transRelaxPink.png"),
+    inactiveIcon: require("@/app/assets/images/transRelaxWhite.png"),
   },
   {
     n: 2,
     label: "Trimestre 2",
-    activeIcon: require("@/app/assets/images/WinkPink.png"),
-    inactiveIcon: require("@/app/assets/images/WinkWhite.png"),
+    activeIcon: require("@/app/assets/images/transWinkPink.png"),
+    inactiveIcon: require("@/app/assets/images/transWinkWhite.png"),
   },
   {
     n: 3,
     label: "Trimestre 3",
-    activeIcon: require("@/app/assets/images/ExcitedPink.png"),
-    inactiveIcon: require("@/app/assets/images/ExcitedWhite.png"),
+    activeIcon: require("@/app/assets/images/transExcitedPink.png"),
+    inactiveIcon: require("@/app/assets/images/transExcitedWhite.png"),
   },
 ];
 
@@ -193,21 +193,13 @@ const styles = StyleSheet.create({
 
   trimesterRow: { flexDirection: "row", justifyContent: "space-around", marginVertical: 20 },
   trimesterItem: { alignItems: "center", gap: 8 },
-  trimesterCircle: {
-    width: 66,
-    height: 66,
-    borderRadius: 33,
-    backgroundColor: "white",
-    borderWidth: 2,
-    borderColor: PINK_MID,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+trimesterCircle: {    width: 66,    height: 66,    borderRadius: 33,    backgroundColor: "white",    borderWidth: 2,    borderColor: PINK_MID,    alignItems: "center",    justifyContent: "center",  },
+
   trimesterCircleActive: {
     backgroundColor: PINK_STRONG,
     borderColor: PINK_DEEP,
   },
-  trimesterIcon: { width: 34, height: 34 },
+  trimesterIcon: { width: 50, height: 50 },
   trimesterLabel: { fontSize: 13, fontWeight: "700", color: TEXT_BODY },
   trimesterLabelActive: { color: MAROON },
 

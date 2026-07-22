@@ -1,6 +1,5 @@
 // app/(tabs)/perfil/personal.tsx
 
-import { getProfilePhoto, setProfilePhoto } from "@/storage/profileStorage";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { router, useFocusEffect } from "expo-router";
@@ -16,28 +15,39 @@ import {
   View,
 } from "react-native";
 
+import { getProfilePhoto, setProfilePhoto } from "@/storage/profileStorage";
+import {
+  getProfileInfo,
+  saveProfileInfo,
+} from "@/storage/profilenameStorage";
+
 export default function PersonalScreen() {
-  const [name, setName] = useState("Lily Hernandez");
-  const [phone, setPhone] = useState("+505 5678 9000");
-  const [email, setEmail] = useState("johndoe@example.com");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [photoUri, setPhotoUri] = useState<string | null>(null);
 
   useFocusEffect(
     useCallback(() => {
-      const loadPhoto = async () => {
+      const load = async () => {
         const uri = await getProfilePhoto();
         setPhotoUri(uri);
+
+        const info = await getProfileInfo();
+        setFirstName(info.firstName);
+        setLastName(info.lastName);
+        setPhone(info.phone);
+        setEmail(info.email);
+        setBirthDate(info.birthDate);
       };
-      loadPhoto();
+      load();
     }, [])
   );
 
   const handlePickPhoto = async () => {
-    console.log("Edit photo button pressed");
-
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    console.log("Permission result:", permission);
 
     if (!permission.granted) {
       Alert.alert(
@@ -61,7 +71,8 @@ export default function PersonalScreen() {
     await setProfilePhoto(uri);
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
+    await saveProfileInfo({ firstName, lastName, phone, email, birthDate });
     Alert.alert("Éxito", "Perfil actualizado correctamente");
   };
 
@@ -99,8 +110,19 @@ export default function PersonalScreen() {
         <Text style={styles.label}>Nombre</Text>
         <TextInput
           style={styles.input}
-          value={name}
-          onChangeText={setName}
+          value={firstName}
+          onChangeText={setFirstName}
+          placeholder="Ejemplo: Lily"
+          placeholderTextColor="#C9A9BB"
+        />
+
+        <Text style={styles.label}>Apellido</Text>
+        <TextInput
+          style={styles.input}
+          value={lastName}
+          onChangeText={setLastName}
+          placeholder="Ejemplo: Hernandez"
+          placeholderTextColor="#C9A9BB"
         />
 
         <Text style={styles.label}>Número De Telefono</Text>
@@ -138,10 +160,7 @@ export default function PersonalScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
+  container: { flex: 1, backgroundColor: "white" },
 
   header: {
     backgroundColor: "#F6C6D6",
@@ -152,34 +171,15 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
 
-  backButton: {
-    position: "absolute",
-    top: 60,
-    left: 20,
-  },
+  backButton: { position: "absolute", top: 60, left: 20 },
 
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#222",
-    marginBottom: 16,
-  },
+  headerTitle: { fontSize: 20, fontWeight: "bold", color: "#222", marginBottom: 16 },
 
-  avatarWrapper: {
-    position: "relative",
-  },
+  avatarWrapper: { position: "relative" },
 
-  avatar: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    backgroundColor: "#ddd",
-  },
+  avatar: { width: 90, height: 90, borderRadius: 45, backgroundColor: "#ddd" },
 
-  avatarPlaceholder: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  avatarPlaceholder: { alignItems: "center", justifyContent: "center" },
 
   editBadge: {
     position: "absolute",
@@ -195,19 +195,9 @@ const styles = StyleSheet.create({
     borderColor: "white",
   },
 
-  form: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 24,
-  },
+  form: { flex: 1, paddingHorizontal: 24, paddingTop: 24 },
 
-  label: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#222",
-    marginBottom: 6,
-    marginTop: 16,
-  },
+  label: { fontSize: 14, fontWeight: "600", color: "#222", marginBottom: 6, marginTop: 16 },
 
   input: {
     backgroundColor: "#FDE8EF",
@@ -225,9 +215,5 @@ const styles = StyleSheet.create({
     marginTop: 36,
   },
 
-  buttonText: {
-    color: "#B0195B",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
+  buttonText: { color: "#B0195B", fontSize: 16, fontWeight: "bold" },
 });

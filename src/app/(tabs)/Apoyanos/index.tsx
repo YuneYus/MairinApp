@@ -37,11 +37,9 @@ export default function ApoyanosScreen() {
         <Text style={styles.buttonText}>¡Quiero Ser Patrocinador!</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
+     <TouchableOpacity
         style={styles.button}
-        onPress={() => {
-          // TODO: build "otras formas de apoyar" screen
-        }}
+        onPress={() => router.push("/(tabs)/Apoyanos/otramanera" as any)}
       >
         <View style={styles.iconCircle}>
           <Ionicons name="people-outline" size={22} color="#B0195B" />
@@ -50,6 +48,7 @@ export default function ApoyanosScreen() {
           ¡Quiero Apoyar De Otras Formas!
         </Text>
       </TouchableOpacity>
+      
     </View>
   );
 }
