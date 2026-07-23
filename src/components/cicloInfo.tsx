@@ -1,15 +1,15 @@
 // components/cicloInfo.tsx
 
 import {
-    getCycleResetDate,
-    setCycleResetDate,
+  getCycleResetDate,
+  setCycleResetDate,
 } from "@/storage/cycleTrackingStorage";
 import { getHealthStage } from "@/storage/healthStageStorage";
 import { getMenstruationEntries } from "@/storage/menstruationStorage";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type CycleStatus = {
   regular: boolean;
@@ -183,15 +183,23 @@ export default function CicloInfoCard() {
 
         <View style={styles.rowContent}>
           <View style={styles.faceCircle}>
-            <Text style={styles.faceEmoji}>{status.regular ? "😊" : "😟"}</Text>
-          </View>
+            <Image
+                  source={
+                    status.regular
+                      ? require("@/app/assets/images/HappyWhite.png")
+                      : require("@/app/assets/images/SadWhite.png")
+                  }
+                  style={styles.faceImage}
+                  resizeMode="contain"
+                />
+              </View>
 
-          <View style={styles.messageBox}>
-            <Text style={styles.messageTitle}>
-              {status.regular
-                ? "Tu menstruación está regular"
-                : "Tu menstruación está irregular"}
-            </Text>
+              <View style={styles.messageBox}>
+                <Text style={styles.messageTitle}>
+                  {status.regular
+                    ? "Tu menstruación está regular"
+                    : "Tu menstruación está irregular"}
+                </Text>
 
             <Text style={styles.messageBody}>
               {status.regular
@@ -261,7 +269,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  faceEmoji: { fontSize: 40 },
+  faceImage: { width: 100, height: 100 },
   messageBox: {
     flex: 1,
     backgroundColor: "white",

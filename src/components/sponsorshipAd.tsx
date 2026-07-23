@@ -32,7 +32,7 @@ export default function SponsorshipAd() {
 
         <TouchableOpacity
           style={styles.joinButton}
-          onPress={() => router.push("/(tabs)/Apoyanos/patrocinar" as any)}
+          onPress={() => router.push("/(tabs)/Apoyanos" as any)}
         >
           <Text style={styles.joinButtonText}>¡Únete!</Text>
           <Ionicons name="chevron-forward" size={16} color="#B0195B" />

@@ -14,6 +14,9 @@ import {
 } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
+import { Ionicons } from "@expo/vector-icons";
+
+
 import { useFocusEffect } from "expo-router";
 
 import { getHealthStage, HealthStage } from "@/storage/healthStageStorage";
@@ -450,16 +453,18 @@ export default function CalendarScreen() {
 
   return (
     <ScrollView style={globalStyles.container}>
-      <Text style={globalStyles.title}>Calendario</Text>
+      <Text style={globalStyles.LSBold}>Calendario</Text>
 
       <View style={styles.searchBar}>
         <TextInput
           value={searchQuery}
           onChangeText={runSearch}
           placeholder={searchPlaceholder}
-          placeholderTextColor="#B0195B"
+            placeholderTextColor="#999"
           style={styles.searchInput}
         />
+                  <Ionicons name="search" size={20} color="#999" />
+
       </View>
 
       {searchResults.length > 0 && (
@@ -586,7 +591,7 @@ export default function CalendarScreen() {
 
           <View style={styles.card}>
             <View style={styles.row}>
-              <Text style={styles.sectionTitle}>🔵 Debo beber Vitaminas/suplementos</Text>
+              <Text style={styles.sectionTitle}>🔵 Debo beber medicamentos/suplementos</Text>
               <Switch value={vitamins} onValueChange={setVitamins} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
             </View>
 
@@ -784,15 +789,14 @@ function SymptomsCard({
 
 const styles = StyleSheet.create({
   searchBar: {
-    marginTop: 16,
-  },
-  searchInput: {
-    backgroundColor: "#FDE8EF",
-    color: "#B0195B",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#EFEDF3",
     borderRadius: 14,
-    padding: 14,
-    fontSize: 15,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
   },
+  searchInput: { flex: 1, fontSize: 15, color: "#222" },
   searchResultsBox: {
     backgroundColor: "white",
     borderRadius: 14,

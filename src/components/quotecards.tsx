@@ -1,8 +1,8 @@
 
 
+import { globalStyles } from "@/styles/global";
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text } from "react-native";
-
 type QuoteCardProps = {
   quote: string;
 };
@@ -21,12 +21,8 @@ export default function QuoteCard({
   end={{ x: 1, y: 1 }}
   style={styles.card}
 >
-      <Text style={styles.title}>
-        Un recordatorio amable
-      </Text>
-
-      <Text style={styles.quote}>
-        "{quote}"
+      <Text style={[styles.quote, globalStyles.LSBold]}>
+        🩷 "{quote}"
       </Text>
     </LinearGradient>
   );
@@ -49,17 +45,9 @@ const styles = StyleSheet.create({
   elevation: 6,
 },
 
-  title: {
-  fontSize: 21,
-  fontWeight: "bold",
-  color: "#9E2A62",
-  marginBottom: 12,
-},
-
 quote: {
   fontSize: 18,
-  lineHeight: 28,
-  color: "#5E3551",
-  fontStyle: "italic",
+  color: "#000",
+  textAlign: "center",
 },
 });

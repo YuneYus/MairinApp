@@ -14,6 +14,8 @@ import {
   View,
 } from "react-native";
 
+import { getAccountType } from "@/storage/accountTypeStorage";
+import { getProfileInfo } from "@/storage/profilenameStorage";
 import { getProfilePhoto } from "@/storage/profileStorage";
 
 const MENU_ITEMS = [
@@ -46,14 +48,23 @@ const MENU_ITEMS = [
 
 export default function PerfilScreen() {
   const [photoUri, setPhotoUri] = useState<string | null>(null);
+  const [fullName, setFullName] = useState("");
+  const [isGuest, setIsGuest] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
-      const loadPhoto = async () => {
+      const load = async () => {
         const uri = await getProfilePhoto();
         setPhotoUri(uri);
+
+        const info = await getProfileInfo();
+        const name = `${info.firstName} ${info.lastName}`.trim();
+        setFullName(name || "Usuaria");
+
+        const accountType = await getAccountType();
+        setIsGuest(accountType === "guest");
       };
-      loadPhoto();
+      load();
     }, [])
   );
 
@@ -64,7 +75,6 @@ export default function PerfilScreen() {
         text: "Cerrar Sesión",
         style: "destructive",
         onPress: () => {
-          // TODO: hook up your actual sign-out logic here
           router.replace("/(auth)/login");
         },
       },
@@ -93,8 +103,20 @@ export default function PerfilScreen() {
           </View>
         )}
 
-        <Text style={styles.name}>Lily Hernandez</Text>
+        <Text style={styles.name}>{fullName}</Text>
       </View>
+
+      {isGuest && (
+        <TouchableOpacity
+          style={styles.upgradeBanner}
+          onPress={() => router.push("/(auth)/crear-cuenta-desde-invitado" as any)}
+        >
+          <Text style={styles.upgradeBannerText}>
+            Estás usando Mairin como invitado. Toca aquí para crear tu cuenta y
+            no perder tu información.
+          </Text>
+        </TouchableOpacity>
+      )}
 
       <ScrollView
         style={styles.list}
@@ -170,6 +192,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#222",
     marginTop: 14,
+  },
+
+  upgradeBanner: {
+    backgroundColor: "#FBDCE7",
+    marginHorizontal: 24,
+    marginTop: 16,
+    padding: 14,
+    borderRadius: 14,
+  },
+  upgradeBannerText: {
+    color: "#7A1240",
+    fontSize: 13,
+    fontWeight: "600",
+    textAlign: "center",
   },
 
   list: {

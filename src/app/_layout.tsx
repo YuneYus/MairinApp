@@ -1,20 +1,10 @@
 // app/_layout.tsx
 
 import {
-  LeagueSpartan_400Regular,
-  LeagueSpartan_700Bold,
-  useFonts,
+  useFonts
 } from "@expo-google-fonts/league-spartan";
 
-import {
-  Montserrat_400Regular,
-  Montserrat_700Bold,
-} from "@expo-google-fonts/montserrat";
 
-import {
-  OpenSans_400Regular,
-  OpenSans_700Bold,
-} from "@expo-google-fonts/open-sans";
 
 import { useEffect } from "react";
 
@@ -28,12 +18,7 @@ import {
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
-    LeagueSpartan_400Regular,
-    LeagueSpartan_700Bold,
-    Montserrat_400Regular,
-    Montserrat_700Bold,
-    OpenSans_400Regular,
-    OpenSans_700Bold,
+
   });
 
   useEffect(() => {

@@ -88,11 +88,14 @@ export default function Flashcard({ data }: Props) {
 
       {result && (
         <View style={styles.result}>
-          <Text style={styles.resultText}>
-            {result === "correct" ? "¡Correcto!" : "Incorrecto"}
+          <Text
+            style={[
+              styles.explanation,
+              result === "correct" ? styles.correctText : styles.incorrectText,
+            ]}
+          >
+            {data.explanation}
           </Text>
-
-          <Text style={styles.explanation}>{data.explanation}</Text>
         </View>
       )}
     </View>
@@ -107,8 +110,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     elevation: 5,
-  borderWidth: 1, // Thin border
-  borderColor: "black", // Border color
+    borderWidth: 1,
+    borderColor: "black",
   },
 
   title: {
@@ -179,16 +182,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  resultText: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#222",
+  explanation: {
+    textAlign: "center",
+    fontSize: 15,
+    fontWeight: "600",
+    lineHeight: 20,
   },
 
-  explanation: {
-    marginTop: 12,
-    textAlign: "center",
-    color: "#555",
-    fontSize: 14,
+  correctText: {
+    color: "#2e7d32",
+  },
+
+  incorrectText: {
+    color: "#c62828",
   },
 });

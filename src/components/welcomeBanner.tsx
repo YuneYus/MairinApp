@@ -10,6 +10,8 @@ import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
+import { globalStyles } from "@/styles/global";
+
 const STAGE_MESSAGES: Record<HealthStage, string> = {
   menstruacion: "conozcas más sobre tu ciclo menstrual",
   embarazo: "conozcas más sobre tu viaje de embarazo",
@@ -37,8 +39,8 @@ export default function WelcomeBanner() {
 
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.title}>¡Bienvenida {displayName}!</Text>
-      <Text style={styles.subtitle}>
+      <Text style={[globalStyles.LSBold, {color: "#A4195B", padding: 10, fontSize: 28}]}>¡Bienvenida {displayName}!</Text>
+      <Text style={{fontFamily: globalStyles.LSRegular.fontFamily, lineHeight: 20}}>
         Estas en la pantalla de inicio te invitamos a que {STAGE_MESSAGES[stage]}
       </Text>
     </View>

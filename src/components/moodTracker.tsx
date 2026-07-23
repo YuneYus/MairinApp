@@ -1,12 +1,10 @@
-
-
 // components/moodTracker.tsx
 
 import { getTodaysMood, saveTodaysMood } from "@/storage/moodStorage";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
-import { useCallback, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const MOODS = [
   { emoji: "😊", label: "muy_feliz", message: "¡Asombroso! Estás contenta. Sigue así" },
@@ -16,6 +14,94 @@ const MOODS = [
   { emoji: "😭", label: "muy_triste", message: null },
   { emoji: "😠", label: "enojada", message: null },
 ];
+
+function AnimatedEmoji({
+  emoji,
+  selected,
+  onPress,
+}: {
+  emoji: string;
+  selected: boolean;
+  onPress: () => void;
+}) {
+  const scale = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    if (selected) {
+      scale.setValue(1);
+      return;
+    }
+
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(scale, {
+          toValue: 1.15,
+          duration: 550,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scale, {
+          toValue: 1,
+          duration: 550,
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    loop.start();
+
+    return () => loop.stop();
+  }, [selected, scale]);
+
+  return (
+    <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+      <Animated.View
+        style={[
+          styles.emojiCircle,
+          selected && styles.emojiCircleSelected,
+          { transform: [{ scale }] },
+        ]}
+      >
+        <Text style={styles.emojiText}>{emoji}</Text>
+      </Animated.View>
+    </TouchableOpacity>
+  );
+}
+
+function PulsingTalkLink({ onPress }: { onPress: () => void }) {
+  const scale = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(scale, {
+          toValue: 1.05,
+          duration: 650,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scale, {
+          toValue: 1,
+          duration: 650,
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    loop.start();
+
+    return () => loop.stop();
+  }, [scale]);
+
+  return (
+    <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+      <Animated.View style={[styles.talkRow, { transform: [{ scale }] }]}>
+        <Text style={styles.talkText}>
+          ¿Quieres hablar de cómo te sientes? (con MAIRIN)
+        </Text>
+        <Ionicons name="chevron-forward" size={20} color="#222" />
+      </Animated.View>
+    </TouchableOpacity>
+  );
+}
 
 export default function MoodTracker() {
   const [selected, setSelected] = useState<string | null>(null);
@@ -47,16 +133,12 @@ export default function MoodTracker() {
 
         <View style={styles.emojiRow}>
           {MOODS.map((mood) => (
-            <TouchableOpacity
+            <AnimatedEmoji
               key={mood.emoji}
+              emoji={mood.emoji}
+              selected={selected === mood.emoji}
               onPress={() => handleSelect(mood.emoji)}
-              style={[
-                styles.emojiCircle,
-                selected === mood.emoji && styles.emojiCircleSelected,
-              ]}
-            >
-              <Text style={styles.emojiText}>{mood.emoji}</Text>
-            </TouchableOpacity>
+            />
           ))}
         </View>
 
@@ -65,20 +147,14 @@ export default function MoodTracker() {
         )}
 
         {selected && !isVeryHappy && (
-          <TouchableOpacity
-            style={styles.talkRow}
+          <PulsingTalkLink
             onPress={() =>
               router.push({
                 pathname: "/chat-mairin",
                 params: { mood: selected },
               } as any)
             }
-          >
-            <Text style={styles.talkText}>
-              ¿Quieres hablar de cómo te sientes? (con MAIRIN)
-            </Text>
-            <Ionicons name="chevron-forward" size={20} color="#222" />
-          </TouchableOpacity>
+          />
         )}
       </View>
     </View>

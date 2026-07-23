@@ -149,13 +149,12 @@ return(
       <QuoteCard quote={todaysQuote.quote} />
 
       <TouchableOpacity
-        style={{ backgroundColor: '#007AFF', borderRadius: 8}}
         onPress={() =>
           speakText(
             "Hola Ashley, aqui esta la prueba de voz para la aplicacion"
           )
         }>
-          <Text style= {{color:"white", fontFamily:globalStyles.title.fontFamily}}>🔉Hola Ashley, aqui esta la prueba de voz para la aplicacion. Hola Ashley, aqui esta la prueba de voz para la aplicacion. Hola Ashley, aqui esta la prueba de voz para la aplicacion</Text>
+          <Text style= {{color:"black", fontFamily:globalStyles.LSRegular.fontFamily}}>🔉Hola Ashley, aqui esta la prueba de voz para la aplicacion.</Text>
       </TouchableOpacity>
 
 <CicloInfoCard />
