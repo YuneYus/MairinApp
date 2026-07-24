@@ -21,7 +21,7 @@ export default function QuoteCard({
   end={{ x: 1, y: 1 }}
   style={styles.card}
 >
-      <Text style={[styles.quote, globalStyles.LSBold]}>
+      <Text style={[styles.quote, globalStyles.label]}>
         🩷 "{quote}"
       </Text>
     </LinearGradient>

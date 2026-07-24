@@ -11,6 +11,8 @@ import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
+import { colors, globalStyles } from "@/styles/global";
+
 const STAGES: { key: HealthStage; label: string }[] = [
   { key: "menstruacion", label: "Menstruación" },
   { key: "embarazo", label: "Embarazo" },
@@ -45,22 +47,22 @@ export default function HealthStageScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="chevron-back" size={24} color="#B0195B" />
+          <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Cambiar Mi Etapa De Salud</Text>
+        <Text style={globalStyles.pinkHeaderTitle}>Cambiar Mi Etapa De Salud</Text>
       </View>
 
       <View style={styles.list}>
         {STAGES.map((stage) => (
           <View key={stage.key} style={styles.row}>
-            <Text style={styles.rowLabel}>{stage.label}</Text>
+            <Text style={globalStyles.label}>{stage.label}</Text>
             <Switch
               value={selected === stage.key}
               onValueChange={() => setSelected(stage.key)}
-              trackColor={{ false: "#F6D9E4", true: "#B0195B" }}
+              trackColor={{ false: colors.surface, true: colors.text }}
               thumbColor="white"
             />
           </View>
@@ -68,17 +70,15 @@ export default function HealthStageScreen() {
       </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleGuardar}>
-        <Text style={styles.saveButtonText}>Guardar</Text>
+        <Text style={globalStyles.actionButtonText}>Guardar</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white" },
   header: {
-    backgroundColor: "#F6C6D6",
+    backgroundColor: colors.surface,
     borderBottomLeftRadius: 60,
     borderBottomRightRadius: 60,
     alignItems: "center",
@@ -87,17 +87,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
   backButton: { position: "absolute", top: 60, left: 20 },
-  headerTitle: { fontSize: 18, fontWeight: "bold", color: "#B0195B", textAlign: "center" },
   list: { paddingHorizontal: 24, paddingTop: 24 },
-  row: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: 16 },
-  rowLabel: { fontSize: 16, color: "#222" },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 16,
+  },
   saveButton: {
-    backgroundColor: "#B0195B",
+    backgroundColor: colors.text,
     padding: 16,
     borderRadius: 30,
     alignItems: "center",
     marginHorizontal: 24,
     marginTop: 30,
   },
-  saveButtonText: { color: "white", fontSize: 16, fontWeight: "bold" },
 });

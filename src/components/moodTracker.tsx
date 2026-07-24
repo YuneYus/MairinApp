@@ -1,11 +1,11 @@
 // components/moodTracker.tsx
 
 import { getTodaysMood, saveTodaysMood } from "@/storage/moodStorage";
+import { colors, globalStyles } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
 const MOODS = [
   { emoji: "😊", label: "muy_feliz", message: "¡Asombroso! Estás contenta. Sigue así" },
   { emoji: "🙂", label: "bien", message: null },
@@ -97,7 +97,7 @@ function PulsingTalkLink({ onPress }: { onPress: () => void }) {
         <Text style={styles.talkText}>
           ¿Quieres hablar de cómo te sientes? (con MAIRIN)
         </Text>
-        <Ionicons name="chevron-forward" size={20} color="#222" />
+        <Ionicons name="chevron-forward" size={20} color={colors.textSecondary} />
       </Animated.View>
     </TouchableOpacity>
   );
@@ -126,10 +126,12 @@ export default function MoodTracker() {
 
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.title}>Tu Estado De Ánimo</Text>
+      <Text style={[globalStyles.titleBig, styles.titleLeft]}>
+        Tu Estado De Ánimo
+      </Text>
 
       <View style={styles.card}>
-        <Text style={styles.question}>¿Cómo te sientes hoy?</Text>
+        <Text style={globalStyles.cardHighlight}>¿Cómo te sientes hoy?</Text>
 
         <View style={styles.emojiRow}>
           {MOODS.map((mood) => (
@@ -143,7 +145,9 @@ export default function MoodTracker() {
         </View>
 
         {selected && isVeryHappy && (
-          <Text style={styles.positiveMessage}>{selectedMood?.message}</Text>
+          <Text style={[globalStyles.textNormal, styles.positiveMessage]}>
+            {selectedMood?.message}
+          </Text>
         )}
 
         {selected && !isVeryHappy && (
@@ -163,21 +167,23 @@ export default function MoodTracker() {
 
 const styles = StyleSheet.create({
   wrapper: { marginTop: 30 },
-  title: { fontSize: 22, fontWeight: "bold", color: "#B0195B", marginBottom: 14 },
+
+  titleLeft: {
+    textAlign: "left",
+    fontSize: 22,
+    marginBottom: 14,
+  },
+
   card: {
-    backgroundColor: "#F6C6D6",
+    backgroundColor: colors.surface,
     borderRadius: 24,
     padding: 16,
   },
-  question: {
-    fontSize: 17,
-    fontWeight: "bold",
-    color: "#B0195B",
-    marginBottom: 16,
-  },
+
   emojiRow: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: 16,
   },
   emojiCircle: {
     width: 50,
@@ -187,15 +193,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   emojiCircleSelected: {
-    backgroundColor: "#F6AFC5",
+    backgroundColor: colors.background,
   },
   emojiText: { fontSize: 26 },
+
   positiveMessage: {
     marginTop: 20,
-    fontSize: 15,
-    color: "#222",
     textAlign: "center",
   },
+
   talkRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -204,9 +210,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   talkText: {
+    fontFamily: "LeagueSpartan_700Bold",
     fontSize: 14,
-    fontWeight: "600",
-    color: "#222",
+    color: colors.textSecondary,
     textDecorationLine: "underline",
     textAlign: "center",
   },

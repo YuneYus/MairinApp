@@ -36,8 +36,8 @@ function TabIcon({
         adjustsFontSizeToFit
         style={{
           color,
-          fontSize: 9,
-          fontWeight: "600",
+          fontFamily: "LeagueSpartan_700Bold",
+          fontSize: 12,
           marginTop: 4,
         }}
       >

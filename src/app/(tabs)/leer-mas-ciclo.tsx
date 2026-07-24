@@ -1,10 +1,10 @@
-
-
 // app/(tabs)/leer-mas-ciclo.tsx
 
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+import { colors, globalStyles } from "@/styles/global";
 
 const IRREGULAR_SIGNS = [
   "Tu período llega antes de 21 días o después de 35 días",
@@ -70,36 +70,36 @@ const DOCTOR_SIGNS = [
 
 export default function LeerMasCicloScreen() {
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView style={{ flex: 1, backgroundColor: colors.background }} contentContainerStyle={styles.content}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="chevron-back" size={24} color="#B0195B" />
+          <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Leer Mas De Tu Ciclo</Text>
+        <Text style={globalStyles.pinkHeaderTitle}>Leer Mas De Tu Ciclo</Text>
       </View>
 
       {/* ¿Cuándo se considera irregular? */}
       <View style={styles.sectionCard}>
-        <Text style={styles.sectionCardTitle}>¿Cuándo se considera irregular?</Text>
+        <Text style={globalStyles.label}>¿Cuándo se considera irregular?</Text>
       </View>
 
       {IRREGULAR_SIGNS.map((sign, index) => (
         <View key={index} style={styles.signRow}>
           <View style={styles.arrowCircle}>
-            <Ionicons name="arrow-forward" size={16} color="#B0195B" />
+            <Ionicons name="arrow-forward" size={16} color={colors.text} />
           </View>
-          <Text style={styles.signText}>{sign}</Text>
+          <Text style={[globalStyles.textNormal, styles.signText]}>{sign}</Text>
         </View>
       ))}
 
       {/* Posible causas */}
       <View style={styles.sectionCard}>
-        <Text style={styles.sectionCardTitle}>Posible causas</Text>
+        <Text style={globalStyles.label}>Posible causas</Text>
       </View>
 
       <View style={styles.paragraphCard}>
-        <Text style={styles.paragraphText}>
+        <Text style={[globalStyles.textNormal, styles.paragraphText]}>
           Un ciclo irregular puede deberse a cambios hormonales, de estilo de
           vida, medicamentos, o factores estructurales del útero. Aquí un
           resumen para orientarte.
@@ -110,15 +110,15 @@ export default function LeerMasCicloScreen() {
         <View key={index} style={styles.itemRow}>
           <View style={styles.dot} />
           <View style={styles.itemTextBlock}>
-            <Text style={styles.itemTitle}>{cause.title}</Text>
-            <Text style={styles.itemBody}>{cause.body}</Text>
+            <Text style={[globalStyles.textNormal, styles.itemTitle]}>{cause.title}</Text>
+            <Text style={[globalStyles.textNormal, styles.itemBody]}>{cause.body}</Text>
           </View>
         </View>
       ))}
 
       <View style={styles.noteCard}>
         <View style={styles.dot} />
-        <Text style={styles.noteText}>
+        <Text style={[globalStyles.textNormal, styles.noteText]}>
           Recuerda: Es normal que tu ciclo cambie algunas veces. Si notas
           cambios frecuentes o importantes, es recomendable consultar con un
           profesional de la salud.
@@ -127,11 +127,11 @@ export default function LeerMasCicloScreen() {
 
       {/* Cuándo ver a un médico */}
       <View style={[styles.sectionCard, { marginTop: 30 }]}>
-        <Text style={styles.sectionCardTitle}>Cuando ver a un médico si...</Text>
+        <Text style={globalStyles.label}>Cuando ver a un médico si...</Text>
       </View>
 
       <View style={styles.paragraphCard}>
-        <Text style={styles.paragraphText}>
+        <Text style={[globalStyles.textNormal, styles.paragraphText]}>
           Un ciclo irregular puede deberse a cambios hormonales, de estilo de
           vida, medicamentos, o factores estructurales del útero. Aquí un
           resumen para orientarte.
@@ -142,15 +142,15 @@ export default function LeerMasCicloScreen() {
         <View key={index} style={styles.itemRow}>
           <View style={styles.dotLight} />
           <View style={styles.itemTextBlock}>
-            <Text style={styles.itemTitle}>{sign.title}</Text>
-            <Text style={styles.itemBody}>{sign.body}</Text>
+            <Text style={[globalStyles.textNormal, styles.itemTitle]}>{sign.title}</Text>
+            <Text style={[globalStyles.textNormal, styles.itemBody]}>{sign.body}</Text>
           </View>
         </View>
       ))}
 
       <View style={styles.noteCard}>
         <View style={styles.dotLight} />
-        <Text style={styles.noteText}>
+        <Text style={[globalStyles.textNormal, styles.noteText]}>
           No puedo saber con certeza que tienes sin verte. Cada sintoma puede
           venir de cosas distintas, y solo un medico puede revisarte y
           decirte que es.
@@ -161,11 +161,10 @@ export default function LeerMasCicloScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white" },
   content: { paddingBottom: 40 },
 
   header: {
-    backgroundColor: "#F6C6D6",
+    backgroundColor: colors.surface,
     borderBottomLeftRadius: 60,
     borderBottomRightRadius: 60,
     alignItems: "center",
@@ -173,18 +172,16 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   backButton: { position: "absolute", top: 60, left: 20 },
-  headerTitle: { fontSize: 20, fontWeight: "bold", color: "#B0195B" },
 
   sectionCard: {
     marginHorizontal: 20,
     marginTop: 24,
     borderWidth: 1,
-    borderColor: "#B0195B",
+    borderColor: colors.text,
     borderRadius: 16,
     paddingVertical: 14,
     alignItems: "center",
   },
-  sectionCardTitle: { fontSize: 16, fontWeight: "bold", color: "#222" },
 
   signRow: {
     flexDirection: "row",
@@ -202,17 +199,17 @@ const styles = StyleSheet.create({
     height: 34,
     borderRadius: 17,
     borderWidth: 1.5,
-    borderColor: "#B0195B",
+    borderColor: colors.text,
     alignItems: "center",
     justifyContent: "center",
   },
-  signText: { flex: 1, fontSize: 14, color: "#222" },
+  signText: { flex: 1, minWidth: 0 },
 
   paragraphCard: {
     marginHorizontal: 20,
     marginTop: 14,
   },
-  paragraphText: { fontSize: 14, color: "#444", lineHeight: 20 },
+  paragraphText: { color: "#444", lineHeight: 22 },
 
   itemRow: {
     flexDirection: "row",
@@ -229,19 +226,19 @@ const styles = StyleSheet.create({
     width: 34,
     height: 34,
     borderRadius: 17,
-    backgroundColor: "#F6AFC5",
+    backgroundColor: colors.surface,
     marginTop: 2,
   },
   dotLight: {
     width: 34,
     height: 34,
     borderRadius: 17,
-    backgroundColor: "#FBDCE7",
+    backgroundColor: colors.inputBackground,
     marginTop: 2,
   },
-  itemTextBlock: { flex: 1 },
-  itemTitle: { fontSize: 15, fontWeight: "bold", color: "#222", marginBottom: 4 },
-  itemBody: { fontSize: 13, color: "#555", lineHeight: 18 },
+  itemTextBlock: { flex: 1, minWidth: 0 },
+  itemTitle: { marginBottom: 4 },
+  itemBody: { color: "#555", lineHeight: 21 },
 
   noteCard: {
     flexDirection: "row",
@@ -254,5 +251,5 @@ const styles = StyleSheet.create({
     padding: 14,
     alignItems: "flex-start",
   },
-  noteText: { flex: 1, fontSize: 13, color: "#555", lineHeight: 18 },
+  noteText: { flex: 1, minWidth: 0, color: "#555", lineHeight: 21 },
 });

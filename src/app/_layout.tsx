@@ -1,14 +1,16 @@
 // app/_layout.tsx
 
 import {
-  useFonts
+  LeagueSpartan_400Regular,
+  LeagueSpartan_700Bold,
+  useFonts,
 } from "@expo-google-fonts/league-spartan";
-
-
 
 import { useEffect } from "react";
 
 import { Stack } from "expo-router";
+
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 import {
   requestPermissions,
@@ -18,7 +20,8 @@ import {
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
-
+    LeagueSpartan_400Regular,
+    LeagueSpartan_700Bold,
   });
 
   useEffect(() => {
@@ -41,10 +44,12 @@ export default function RootLayout() {
     return null;
   }
 
-  return (
+ return (
+  <LanguageProvider>
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(auth)" />
       <Stack.Screen name="(tabs)" />
     </Stack>
-  );
+  </LanguageProvider>
+);
 }

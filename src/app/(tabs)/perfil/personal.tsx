@@ -20,6 +20,7 @@ import {
   getProfileInfo,
   saveProfileInfo,
 } from "@/storage/profilenameStorage";
+import { colors, globalStyles } from "@/styles/global";
 
 export default function PersonalScreen() {
   const [firstName, setFirstName] = useState("");
@@ -77,23 +78,20 @@ export default function PersonalScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => router.back()}
-        >
-          <Ionicons name="chevron-back" size={24} color="#B0195B" />
+        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+          <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Perfil</Text>
+        <Text style={globalStyles.pinkHeaderTitle}>Perfil</Text>
 
         <View style={styles.avatarWrapper}>
           {photoUri ? (
             <Image source={{ uri: photoUri }} style={styles.avatar} />
           ) : (
             <View style={[styles.avatar, styles.avatarPlaceholder]}>
-              <Ionicons name="person" size={40} color="#B0195B" />
+              <Ionicons name="person" size={40} color={colors.text} />
             </View>
           )}
 
@@ -103,56 +101,53 @@ export default function PersonalScreen() {
         </View>
       </View>
 
-      <ScrollView
-        style={styles.form}
-        contentContainerStyle={{ paddingBottom: 40 }}
-      >
-        <Text style={styles.label}>Nombre</Text>
+      <ScrollView style={globalStyles.content} contentContainerStyle={{ paddingBottom: 40 }}>
+        <Text style={globalStyles.label}>Nombre</Text>
         <TextInput
-          style={styles.input}
+          style={globalStyles.formInput}
           value={firstName}
           onChangeText={setFirstName}
           placeholder="Ejemplo: Lily"
-          placeholderTextColor="#C9A9BB"
+          placeholderTextColor={colors.text}
         />
 
-        <Text style={styles.label}>Apellido</Text>
+        <Text style={globalStyles.label}>Apellido</Text>
         <TextInput
-          style={styles.input}
+          style={globalStyles.formInput}
           value={lastName}
           onChangeText={setLastName}
           placeholder="Ejemplo: Hernandez"
-          placeholderTextColor="#C9A9BB"
+          placeholderTextColor={colors.text}
         />
 
-        <Text style={styles.label}>Número De Telefono</Text>
+        <Text style={globalStyles.label}>Número De Telefono</Text>
         <TextInput
-          style={styles.input}
+          style={globalStyles.formInput}
           value={phone}
           onChangeText={setPhone}
           keyboardType="phone-pad"
         />
 
-        <Text style={styles.label}>Email</Text>
+        <Text style={globalStyles.label}>Email</Text>
         <TextInput
-          style={styles.input}
+          style={globalStyles.formInput}
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
         />
 
-        <Text style={styles.label}>Fecha De Nacimiento</Text>
+        <Text style={globalStyles.label}>Fecha De Nacimiento</Text>
         <TextInput
-          style={styles.input}
+          style={globalStyles.formInput}
           value={birthDate}
           onChangeText={setBirthDate}
           placeholder="DD / MM / YYYY"
-          placeholderTextColor="#B0195B"
+          placeholderTextColor={colors.text}
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleUpdate}>
-          <Text style={styles.buttonText}>Update Profile</Text>
+        <TouchableOpacity style={globalStyles.actionButton} onPress={handleUpdate}>
+          <Text style={globalStyles.actionButtonText}>Update Profile</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -160,10 +155,8 @@ export default function PersonalScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white" },
-
   header: {
-    backgroundColor: "#F6C6D6",
+    backgroundColor: colors.surface,
     borderBottomLeftRadius: 60,
     borderBottomRightRadius: 60,
     alignItems: "center",
@@ -173,9 +166,7 @@ const styles = StyleSheet.create({
 
   backButton: { position: "absolute", top: 60, left: 20 },
 
-  headerTitle: { fontSize: 20, fontWeight: "bold", color: "#222", marginBottom: 16 },
-
-  avatarWrapper: { position: "relative" },
+  avatarWrapper: { position: "relative", marginTop: 16 },
 
   avatar: { width: 90, height: 90, borderRadius: 45, backgroundColor: "#ddd" },
 
@@ -188,32 +179,10 @@ const styles = StyleSheet.create({
     width: 26,
     height: 26,
     borderRadius: 13,
-    backgroundColor: "#B0195B",
+    backgroundColor: colors.text,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
     borderColor: "white",
   },
-
-  form: { flex: 1, paddingHorizontal: 24, paddingTop: 24 },
-
-  label: { fontSize: 14, fontWeight: "600", color: "#222", marginBottom: 6, marginTop: 16 },
-
-  input: {
-    backgroundColor: "#FDE8EF",
-    color: "#B0195B",
-    padding: 14,
-    borderRadius: 12,
-    fontSize: 15,
-  },
-
-  button: {
-    backgroundColor: "#F6C6D6",
-    padding: 16,
-    borderRadius: 30,
-    alignItems: "center",
-    marginTop: 36,
-  },
-
-  buttonText: { color: "#B0195B", fontSize: 16, fontWeight: "bold" },
 });

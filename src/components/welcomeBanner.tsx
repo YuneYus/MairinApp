@@ -1,14 +1,10 @@
-
-
-
-
 // components/welcomeBanner.tsx
 
 import { getHealthStage, HealthStage } from "@/storage/healthStageStorage";
 import { getProfileInfo } from "@/storage/profilenameStorage";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { globalStyles } from "@/styles/global";
 
@@ -38,26 +34,11 @@ export default function WelcomeBanner() {
   const displayName = firstName || "Usuaria";
 
   return (
-    <View style={styles.wrapper}>
-      <Text style={[globalStyles.LSBold, {color: "#A4195B", padding: 10, fontSize: 28}]}>¡Bienvenida {displayName}!</Text>
-      <Text style={{fontFamily: globalStyles.LSRegular.fontFamily, lineHeight: 20}}>
+    <View style={globalStyles.pinkHeader}>
+      <Text style={globalStyles.pinkHeaderTitle}>¡Bienvenida {displayName}!</Text>
+      <Text style={[globalStyles.textNormal, { marginTop: 10, textAlign: "center" }]}>
         Estas en la pantalla de inicio te invitamos a que {STAGE_MESSAGES[stage]}
       </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  wrapper: { marginBottom: 10 },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#8A1F4D",
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 15,
-    color: "#222",
-    lineHeight: 20,
-  },
-});

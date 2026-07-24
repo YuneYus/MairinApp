@@ -1,6 +1,7 @@
 // app/(tabs)/calendar.tsx
 
-import { globalStyles } from "@/styles/global";
+import PinkHeader from "@/components/PinkHeader";
+import { colors, globalStyles } from "@/styles/global";
 import { useCallback, useState } from "react";
 import {
   Alert,
@@ -15,7 +16,6 @@ import {
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
 import { Ionicons } from "@expo/vector-icons";
-
 
 import { useFocusEffect } from "expo-router";
 
@@ -452,188 +452,191 @@ export default function CalendarScreen() {
       : "Buscar en suplementos o notas...";
 
   return (
-    <ScrollView style={globalStyles.container}>
-      <Text style={globalStyles.LSBold}>Calendario</Text>
+    <ScrollView style={{ flex: 1, backgroundColor: colors.background }}>
+      <PinkHeader title="Calendario" showBack={false} />
 
-      <View style={styles.searchBar}>
-        <TextInput
-          value={searchQuery}
-          onChangeText={runSearch}
-          placeholder={searchPlaceholder}
+      <View style={globalStyles.content}>
+        <View style={globalStyles.searchBar}>
+          <TextInput
+            value={searchQuery}
+            onChangeText={runSearch}
+            placeholder={searchPlaceholder}
             placeholderTextColor="#999"
-          style={styles.searchInput}
-        />
-                  <Ionicons name="search" size={20} color="#999" />
-
-      </View>
-
-      {searchResults.length > 0 && (
-        <View style={styles.searchResultsBox}>
-          {searchResults.map((result, index) => (
-            <TouchableOpacity
-              key={`${result.date}-${index}`}
-              style={styles.searchResultRow}
-              onPress={() => handleSelectResult(result.date)}
-            >
-              <Text style={styles.searchResultDate}>
-                {new Date(`${result.date}T00:00:00`).toLocaleDateString("es-ES", {
-                  day: "numeric",
-                  month: "short",
-                })}
-              </Text>
-              <Text style={styles.searchResultSnippet} numberOfLines={1}>
-                {result.snippet}
-              </Text>
-            </TouchableOpacity>
-          ))}
+            style={globalStyles.searchInput}
+          />
+          <Ionicons name="search" size={20} color="#999" />
         </View>
-      )}
 
-      {searchQuery.trim().length > 0 && searchResults.length === 0 && (
-        <Text style={styles.noResultsText}>Sin resultados</Text>
-      )}
-
-      <Calendar
-        markingType="multi-dot"
-        onDayPress={(day) => setSelectedDate(day.dateString)}
-        markedDates={markedDates}
-      />
-
-      <Text style={globalStyles.sectionTitle}>{formattedDate}</Text>
-
-      {healthStage === "menstruacion" && (
-        <>
-          <View style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.sectionTitle}>🔴 Hoy tengo la regla (menstruación)</Text>
-              <Switch value={period} onValueChange={setPeriod} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
-            </View>
+        {searchResults.length > 0 && (
+          <View style={styles.searchResultsBox}>
+            {searchResults.map((result, index) => (
+              <TouchableOpacity
+                key={`${result.date}-${index}`}
+                style={styles.searchResultRow}
+                onPress={() => handleSelectResult(result.date)}
+              >
+                <Text style={[styles.searchResultDate]}>
+                  {new Date(`${result.date}T00:00:00`).toLocaleDateString("es-ES", {
+                    day: "numeric",
+                    month: "short",
+                  })}
+                </Text>
+                <Text style={[styles.searchResultSnippet]} numberOfLines={1}>
+                  {result.snippet}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
+        )}
 
-          <View style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.sectionTitle}>🟢 Hoy hice ejercicio</Text>
-              <Switch value={exercise} onValueChange={setExercise} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
-            </View>
-          </View>
+        {searchQuery.trim().length > 0 && searchResults.length === 0 && (
+          <Text style={styles.noResultsText}>Sin resultados</Text>
+        )}
 
-          <View style={styles.card}>
-            <Text style={styles.sectionTitle}>😊 Mi estado de ánimo</Text>
-            <View style={styles.emojiRow}>
-              {["😊", "🙂", "😐", "😔", "😡"].map((emoji) => (
-                <TouchableOpacity
-                  key={emoji}
-                  onPress={() => setMood(emoji)}
-                  style={[styles.moodButton, mood === emoji && styles.moodButtonSelected]}
-                >
-                  <Text style={styles.moodEmoji}>{emoji}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
-        </>
-      )}
+        <Calendar
+          markingType="multi-dot"
+          onDayPress={(day) => setSelectedDate(day.dateString)}
+          markedDates={markedDates}
+        />
 
-      {healthStage === "embarazo" && (
-        <>
-          <View style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.sectionTitle}>🟣 Movimientos del bebé (pataditas)</Text>
-              <Switch value={babyMovement} onValueChange={setBabyMovement} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
-            </View>
-          </View>
+        <Text style={[globalStyles.label, { textAlign: "center" , paddingTop: 10}]}>
+          {formattedDate}
+        </Text>
 
-          <View style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.sectionTitle}>🟢 Cita médica</Text>
-              <Switch value={doctorAppointment} onValueChange={setDoctorAppointment} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
+        {healthStage === "menstruacion" && (
+          <>
+            <View style={styles.card}>
+              <View style={styles.row}>
+                <Text style={[styles.switchLabel]} numberOfLines={2}>🔴 Hoy tengo la regla (menstruación)</Text>
+                <Switch value={period} onValueChange={setPeriod} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
+              </View>
             </View>
 
-            {doctorAppointment && (
-              <>
-                {appointments.map((appt, index) => (
-                  <AppointmentEditor
-                    key={index}
-                    item={appt}
-                    onUpdate={(field, value) => updateAppointment(index, field, value)}
-                  />
+            <View style={styles.card}>
+              <View style={styles.row}>
+                <Text style={globalStyles.label}>🟢 Hoy hice ejercicio</Text>
+                <Switch value={exercise} onValueChange={setExercise} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
+              </View>
+            </View>
+
+            <View style={styles.card}>
+              <Text style={globalStyles.label}>😊 Mi estado de ánimo</Text>
+              <View style={styles.emojiRow}>
+                {["😊", "🙂", "😐", "😔", "😡"].map((emoji) => (
+                  <TouchableOpacity
+                    key={emoji}
+                    onPress={() => setMood(emoji)}
+                    style={[styles.moodButton, mood === emoji && styles.moodButtonSelected]}
+                  >
+                    <Text style={styles.moodEmoji}>{emoji}</Text>
+                  </TouchableOpacity>
                 ))}
-
-                <TouchableOpacity style={styles.addButton} onPress={addAppointment}>
-                  <Text style={styles.addButtonText}>+</Text>
-                </TouchableOpacity>
-              </>
-            )}
-          </View>
-
-          <SymptomsCard
-            title="🟡 Síntomas"
-            symptomsList={PREGNANCY_SYMPTOMS}
-            selected={symptoms}
-            onToggle={toggleSymptom}
-            customSymptoms={customSymptoms}
-            otherSymptom={otherSymptom}
-            onOtherChange={setOtherSymptom}
-            onAddOther={addCustomSymptom}
-            onRemoveCustom={removeCustomSymptom}
-          />
-        </>
-      )}
-
-      {healthStage === "menopausia" && (
-        <>
-          <View style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.sectionTitle}>🟢 Ejercicio</Text>
-              <Switch value={menopauseExercise} onValueChange={setMenopauseExercise} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
+              </View>
             </View>
-          </View>
+          </>
+        )}
 
-          <View style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.sectionTitle}>🔵 Debo beber medicamentos/suplementos</Text>
-              <Switch value={vitamins} onValueChange={setVitamins} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
+        {healthStage === "embarazo" && (
+          <>
+            <View style={styles.card}>
+              <View style={styles.row}>
+                <Text style={[styles.switchLabel]} numberOfLines={2}>🟣 Movimientos del bebé (pataditas)</Text>
+                <Switch value={babyMovement} onValueChange={setBabyMovement} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
+              </View>
             </View>
 
-            {vitamins && (
-              <>
-                {supplements.map((sup, index) => (
-                  <AppointmentEditor
-                    key={index}
-                    item={sup}
-                    onUpdate={(field, value) => updateSupplement(index, field, value)}
-                  />
-                ))}
+            <View style={styles.card}>
+              <View style={styles.row}>
+                <Text style={globalStyles.label}>🟢 Cita médica</Text>
+                <Switch value={doctorAppointment} onValueChange={setDoctorAppointment} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
+              </View>
 
-                <TouchableOpacity style={styles.addButton} onPress={addSupplement}>
-                  <Text style={styles.addButtonText}>+</Text>
-                </TouchableOpacity>
-              </>
-            )}
-          </View>
+              {doctorAppointment && (
+                <>
+                  {appointments.map((appt, index) => (
+                    <AppointmentEditor
+                      key={index}
+                      item={appt}
+                      onUpdate={(field, value) => updateAppointment(index, field, value)}
+                    />
+                  ))}
 
-          <SymptomsCard
-            title="🟡 Síntomas"
-            symptomsList={MENOPAUSE_SYMPTOMS}
-            selected={symptoms}
-            onToggle={toggleSymptom}
-            customSymptoms={customSymptoms}
-            otherSymptom={otherSymptom}
-            onOtherChange={setOtherSymptom}
-            onAddOther={addCustomSymptom}
-            onRemoveCustom={removeCustomSymptom}
-          />
-        </>
-      )}
+                  <TouchableOpacity style={styles.addButton} onPress={addAppointment}>
+                    <Text style={styles.addButtonText}>+</Text>
+                  </TouchableOpacity>
+                </>
+              )}
+            </View>
 
-      <View style={styles.card}>
-        <Text style={styles.sectionTitle}>📝 Notas</Text>
-        <TextInput value={notes} onChangeText={setNotes} placeholder="Quiero escribir..." multiline style={styles.notesInput} />
+            <SymptomsCard
+              title="🟡 Síntomas"
+              symptomsList={PREGNANCY_SYMPTOMS}
+              selected={symptoms}
+              onToggle={toggleSymptom}
+              customSymptoms={customSymptoms}
+              otherSymptom={otherSymptom}
+              onOtherChange={setOtherSymptom}
+              onAddOther={addCustomSymptom}
+              onRemoveCustom={removeCustomSymptom}
+            />
+          </>
+        )}
+
+        {healthStage === "menopausia" && (
+          <>
+            <View style={styles.card}>
+              <View style={styles.row}>
+                <Text style={globalStyles.label}>🟢 Ejercicio</Text>
+                <Switch value={menopauseExercise} onValueChange={setMenopauseExercise} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
+              </View>
+            </View>
+
+            <View style={styles.card}>
+              <View style={styles.row}>
+                <Text style={[styles.switchLabel]} numberOfLines={2}>🔵 Debo beber medicamentos/suplementos</Text>
+                <Switch value={vitamins} onValueChange={setVitamins} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
+              </View>
+
+              {vitamins && (
+                <>
+                  {supplements.map((sup, index) => (
+                    <AppointmentEditor
+                      key={index}
+                      item={sup}
+                      onUpdate={(field, value) => updateSupplement(index, field, value)}
+                    />
+                  ))}
+
+                  <TouchableOpacity style={styles.addButton} onPress={addSupplement}>
+                    <Text style={styles.addButtonText}>+</Text>
+                  </TouchableOpacity>
+                </>
+              )}
+            </View>
+
+            <SymptomsCard
+              title="🟡 Síntomas"
+              symptomsList={MENOPAUSE_SYMPTOMS}
+              selected={symptoms}
+              onToggle={toggleSymptom}
+              customSymptoms={customSymptoms}
+              otherSymptom={otherSymptom}
+              onOtherChange={setOtherSymptom}
+              onAddOther={addCustomSymptom}
+              onRemoveCustom={removeCustomSymptom}
+            />
+          </>
+        )}
+
+        <View style={styles.card}>
+          <Text style={globalStyles.label}>📝 Notas</Text>
+          <TextInput value={notes} onChangeText={setNotes} placeholder="Quiero escribir..." multiline style={[styles.notesInput, globalStyles.textNormal]} />
+        </View>
+
+        <TouchableOpacity style={globalStyles.actionButton} onPress={handleSave}>
+          <Text style={globalStyles.actionButtonText}>Guardar</Text>
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>Guardar</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -679,7 +682,7 @@ function AppointmentEditor({
       />
 
       <TouchableOpacity style={styles.fieldInput} onPress={() => setShowPicker(true)}>
-        <Text style={{ color: "#B0195B" }}>{formattedDateTime}</Text>
+        <Text style={{ color: colors.text }}>{formattedDateTime}</Text>
       </TouchableOpacity>
 
       {showPicker && (
@@ -753,11 +756,11 @@ function SymptomsCard({
 }) {
   return (
     <View style={styles.card}>
-      <Text style={styles.sectionTitle}>{title}</Text>
+      <Text style={globalStyles.label}>{title}</Text>
 
       {symptomsList.map((symptom) => (
         <TouchableOpacity key={symptom} onPress={() => onToggle(symptom)} style={styles.checkboxRow}>
-          <Text style={styles.checkboxText}>{selected.includes(symptom) ? "☑" : "☐"} {symptom}</Text>
+          <Text style={globalStyles.textNormal}>{selected.includes(symptom) ? "☑" : "☐"} {symptom}</Text>
         </TouchableOpacity>
       ))}
 
@@ -767,7 +770,7 @@ function SymptomsCard({
           onPress={() => onRemoveCustom(symptom)}
           style={styles.checkboxRow}
         >
-          <Text style={styles.checkboxText}>☑ {symptom}</Text>
+          <Text style={globalStyles.textNormal}>☑ {symptom}</Text>
         </TouchableOpacity>
       ))}
 
@@ -776,7 +779,7 @@ function SymptomsCard({
           value={otherSymptom}
           onChangeText={onOtherChange}
           placeholder="Otro síntoma..."
-          style={[styles.fieldInput, { flex: 1, marginTop: 12 }]}
+          style={[styles.fieldInput, globalStyles.textNormal, { flex: 1, marginTop: 12 }]}
         />
 
         <TouchableOpacity style={styles.addButton} onPress={onAddOther}>
@@ -788,15 +791,6 @@ function SymptomsCard({
 }
 
 const styles = StyleSheet.create({
-  searchBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#EFEDF3",
-    borderRadius: 14,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  searchInput: { flex: 1, fontSize: 15, color: "#222" },
   searchResultsBox: {
     backgroundColor: "white",
     borderRadius: 14,
@@ -816,7 +810,7 @@ const styles = StyleSheet.create({
   searchResultDate: {
     fontSize: 13,
     fontWeight: "bold",
-    color: "#B0195B",
+    color: colors.text,
     width: 60,
   },
   searchResultSnippet: {
@@ -833,27 +827,23 @@ const styles = StyleSheet.create({
   card: { backgroundColor: "#FFFFFF", borderRadius: 18, padding: 18, marginTop: 18, shadowColor: "#000", shadowOpacity: 0.05, shadowRadius: 8, shadowOffset: { width: 0, height: 2 }, elevation: 2 },
   subCard: { borderTopWidth: 1, borderTopColor: "#F0DCE4", marginTop: 14, paddingTop: 14 },
   row: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  sectionTitle: { fontSize: 16, fontWeight: "600", color: "#222", flex: 1, marginRight: 10 },
   emojiRow: { flexDirection: "row", justifyContent: "space-between", marginTop: 15 },
   moodButton: { width: 55, height: 55, borderRadius: 28, justifyContent: "center", alignItems: "center", backgroundColor: "#F5F5F5", borderWidth: 1, borderColor: "#DDD" },
-  moodButtonSelected: { backgroundColor: "#F8BBD0", borderColor: "#B0195B", borderWidth: 2 },
+  moodButtonSelected: { backgroundColor: "#F8BBD0", borderColor: colors.text, borderWidth: 2 },
   moodEmoji: { fontSize: 28 },
-  fieldInput: { backgroundColor: "#FDE8EF", color: "#B0195B", borderRadius: 10, padding: 12, fontSize: 14, marginTop: 10 },
+  fieldInput: { backgroundColor: "#FDE8EF", color: colors.text, borderRadius: 10, padding: 12, fontSize: 14, marginTop: 10 },
   checkboxRow: { marginTop: 12 },
-  checkboxText: { fontSize: 15, color: "#222" },
   otherRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   addButton: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#F6AFC5", alignItems: "center", justifyContent: "center", marginTop: 14, alignSelf: "center" },
-  addButtonText: { fontSize: 20, fontWeight: "bold", color: "#B0195B" },
+  addButtonText: { fontSize: 20, fontWeight: "bold", color: colors.text },
   notesInput: { borderWidth: 1.5, borderColor: "#F6AFC5", borderRadius: 15, padding: 12, minHeight: 120, marginTop: 10, textAlignVertical: "top", fontSize: 16 },
-  saveButton: { backgroundColor: "#F6AFC5", paddingVertical: 16, borderRadius: 30, alignItems: "center", marginTop: 30, marginBottom: 30 },
-  saveButtonText: { fontSize: 20, fontWeight: "bold", color: "#000" },
   dropdownField: {
     backgroundColor: "#FDE8EF",
     padding: 12,
     borderRadius: 10,
     marginTop: 10,
   },
-  dropdownValue: { fontSize: 14, color: "#B0195B" },
+  dropdownValue: { fontSize: 14, color: colors.text },
   dropdownList: {
     backgroundColor: "white",
     borderWidth: 1,
@@ -863,4 +853,13 @@ const styles = StyleSheet.create({
   },
   dropdownOption: { padding: 12, borderBottomWidth: 1, borderBottomColor: "#F6E4EC" },
   dropdownOptionText: { fontSize: 13, color: "#222" },
+
+
+  switchLabel: {
+  flex: 1,
+  flexShrink: 1,
+  marginRight: 12,
+  fontSize: 18,
+  fontFamily: globalStyles.label.fontFamily,
+},
 });

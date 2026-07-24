@@ -1,5 +1,6 @@
 // app/(tabs)/perfil/settings.tsx
 
+import { colors, globalStyles } from "@/styles/global"; // adjust path if needed
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -34,26 +35,38 @@ export default function SettingsScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <View style={globalStyles.pinkHeader}>
         <TouchableOpacity
-          style={styles.backButton}
+          style={globalStyles.backButton}
           onPress={() => router.back()}
         >
-          <Ionicons name="chevron-back" size={24} color="#B0195B" />
+          <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Ajustes</Text>
+        <Text style={globalStyles.pinkHeaderTitle}>Ajustes</Text>
       </View>
 
+      <View style={globalStyles.content}>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => router.push("/(tabs)/perfil/textTranslate" as any)}
+        >
+          <Ionicons name="globe-outline" size={20} color={colors.text} />
+          <Text style={[globalStyles.textNormal, styles.rowLabel]}>
+            Cambiar Idioma De Texto
+          </Text>
+          <Ionicons name="chevron-forward" size={18} color={colors.surface} />
+        </TouchableOpacity>
 
-      <View style={styles.list}>
         <TouchableOpacity
           style={styles.row}
           onPress={() => router.push("/(tabs)/perfil/audio" as any)}
         >
-          <Ionicons name="globe-outline" size={20} color="#B0195B" />
-          <Text style={styles.rowLabel}>Cambiar Idioma De Audio</Text>
-          <Ionicons name="chevron-forward" size={18} color="#C9B7D6" />
+          <Ionicons name="globe-outline" size={20} color={colors.text} />
+          <Text style={[globalStyles.textNormal, styles.rowLabel]}>
+            Audio
+          </Text>
+          <Ionicons name="chevron-forward" size={18} color={colors.surface} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -62,25 +75,31 @@ export default function SettingsScreen() {
             router.push("/(tabs)/perfil/change-password" as any)
           }
         >
-          <Ionicons name="key-outline" size={20} color="#B0195B" />
-          <Text style={styles.rowLabel}>Cambiar Contraseña</Text>
-          <Ionicons name="chevron-forward" size={18} color="#C9B7D6" />
+          <Ionicons name="key-outline" size={20} color={colors.text} />
+          <Text style={[globalStyles.textNormal, styles.rowLabel]}>
+            Cambiar Contraseña
+          </Text>
+          <Ionicons name="chevron-forward" size={18} color={colors.surface} />
         </TouchableOpacity>
 
         <View style={styles.row}>
-          <Ionicons name="bulb-outline" size={20} color="#B0195B" />
-          <Text style={styles.rowLabel}>Permitir Notificaciones</Text>
+          <Ionicons name="bulb-outline" size={20} color={colors.text} />
+          <Text style={[globalStyles.textNormal, styles.rowLabel]}>
+            Permitir Notificaciones
+          </Text>
           <Switch
             value={notifications}
             onValueChange={setNotifications}
-            trackColor={{ false: "#F6D9E4", true: "#B0195B" }}
+            trackColor={{ false: colors.inputBackground, true: colors.text }}
             thumbColor="white"
           />
         </View>
 
         <TouchableOpacity style={styles.row} onPress={handleDeleteAccount}>
-          <Ionicons name="person-outline" size={20} color="#B0195B" />
-          <Text style={styles.rowLabel}>Eliminar Cuenta</Text>
+          <Ionicons name="person-outline" size={20} color={colors.text} />
+          <Text style={[globalStyles.textNormal, styles.rowLabel]}>
+            Eliminar Cuenta
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -90,33 +109,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-  },
-
-  header: {
-    backgroundColor: "#F6C6D6",
-    borderBottomLeftRadius: 60,
-    borderBottomRightRadius: 60,
-    alignItems: "center",
-    paddingTop: 60,
-    paddingBottom: 30,
-  },
-
-  backButton: {
-    position: "absolute",
-    top: 60,
-    left: 20,
-  },
-
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#222",
-  },
-
-  list: {
-    paddingHorizontal: 24,
-    paddingTop: 24,
+    backgroundColor: colors.background,
   },
 
   row: {
@@ -128,7 +121,5 @@ const styles = StyleSheet.create({
 
   rowLabel: {
     flex: 1,
-    fontSize: 15,
-    color: "#222",
   },
 });

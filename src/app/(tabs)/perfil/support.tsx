@@ -1,5 +1,3 @@
-
-
 // app/(tabs)/perfil/support.tsx
 
 import { Ionicons } from "@expo/vector-icons";
@@ -7,14 +5,16 @@ import * as DocumentPicker from "expo-document-picker";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
+
+import { colors, globalStyles } from "@/styles/global";
 
 const FAQ_ITEMS = [
   {
@@ -94,10 +94,10 @@ export default function SupportScreen() {
   const [tab, setTab] = useState<Tab>("faq");
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="chevron-back" size={24} color="#B0195B" />
+          <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
 
         <View style={styles.tabRow}>
@@ -105,9 +105,7 @@ export default function SupportScreen() {
             style={[styles.tabButton, tab === "faq" && styles.tabButtonActive]}
             onPress={() => setTab("faq")}
           >
-            <Text
-              style={[styles.tabText, tab === "faq" && styles.tabTextActive]}
-            >
+            <Text style={[styles.tabText, tab === "faq" && styles.tabTextActive]}>
               Preguntas Frequentes
             </Text>
           </TouchableOpacity>
@@ -116,9 +114,7 @@ export default function SupportScreen() {
             style={[styles.tabButton, tab === "contact" && styles.tabButtonActive]}
             onPress={() => setTab("contact")}
           >
-            <Text
-              style={[styles.tabText, tab === "contact" && styles.tabTextActive]}
-            >
+            <Text style={[styles.tabText, tab === "contact" && styles.tabTextActive]}>
               Contáctanos
             </Text>
           </TouchableOpacity>
@@ -139,7 +135,7 @@ function FaqTab() {
   );
 
   return (
-    <ScrollView style={styles.content} contentContainerStyle={{ paddingBottom: 40 }}>
+    <ScrollView style={globalStyles.content} contentContainerStyle={{ paddingBottom: 40 }}>
       <View style={styles.searchBar}>
         <TextInput
           value={query}
@@ -159,17 +155,21 @@ function FaqTab() {
               style={styles.faqQuestionRow}
               onPress={() => setOpenIndex(isOpen ? null : index)}
             >
-              <Text style={styles.faqQuestionText}>{item.question}</Text>
+              <Text style={[globalStyles.textNormal, styles.faqQuestionText]}>
+                {item.question}
+              </Text>
               <Ionicons
                 name={isOpen ? "chevron-up" : "chevron-down"}
                 size={20}
-                color="#B0195B"
+                color={colors.text}
               />
             </TouchableOpacity>
 
             {isOpen && (
               <View style={styles.faqAnswerBox}>
-                <Text style={styles.faqAnswerText}>{item.answer}</Text>
+                <Text style={[globalStyles.textNormal, styles.faqAnswerText]}>
+                  {item.answer}
+                </Text>
               </View>
             )}
           </View>
@@ -177,7 +177,9 @@ function FaqTab() {
       })}
 
       {filtered.length === 0 && (
-        <Text style={styles.noResultsText}>No se encontraron resultados.</Text>
+        <Text style={[globalStyles.textNormal, styles.noResultsText]}>
+          No se encontraron resultados.
+        </Text>
       )}
     </ScrollView>
   );
@@ -236,60 +238,60 @@ function ContactTab() {
   };
 
   return (
-    <ScrollView style={styles.content} contentContainerStyle={{ paddingBottom: 40 }}>
-      <Text style={styles.contactTitle}>
+    <ScrollView style={globalStyles.content} contentContainerStyle={{ paddingBottom: 40 }}>
+      <Text style={[globalStyles.textNormal, styles.contactTitle]}>
         ¿No encontraste tu respuesta en las "preguntas frecuentes"?
       </Text>
-      <Text style={styles.contactSubtitle}>Escríbenos y te respondemos a la brevedad.</Text>
+      <Text style={[globalStyles.textNormal, styles.contactSubtitle]}>
+        Escríbenos y te respondemos a la brevedad.
+      </Text>
 
       <TouchableOpacity style={styles.contactMethodRow}>
         <View style={styles.contactIconCircle}>
-          <Ionicons name="mail-outline" size={18} color="#B0195B" />
+          <Ionicons name="mail-outline" size={18} color={colors.text} />
         </View>
-        <Text style={styles.contactMethodText}>Soporte@mairin.com</Text>
+        <Text style={globalStyles.textNormal}>Soporte@mairin.com</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.contactMethodRow}>
         <View style={styles.contactIconCircle}>
-          <Ionicons name="chatbubble-outline" size={18} color="#B0195B" />
+          <Ionicons name="chatbubble-outline" size={18} color={colors.text} />
         </View>
-        <Text style={styles.contactMethodText}>WhatsApp disponible</Text>
+        <Text style={globalStyles.textNormal}>WhatsApp disponible</Text>
       </TouchableOpacity>
 
       <Text style={styles.orSendLabel}>O ENVÍANOS UN MENSAJE</Text>
 
-      <Text style={styles.label}>Nombre</Text>
+      <Text style={globalStyles.label}>Nombre</Text>
       <TextInput
-        style={styles.input}
+        style={globalStyles.formInput}
         value={name}
         onChangeText={setName}
         placeholder="Tu nombre"
-        placeholderTextColor="#C9A9BB"
       />
 
-      <Text style={styles.label}>Correo electrónico</Text>
+      <Text style={globalStyles.label}>Correo electrónico</Text>
       <TextInput
-        style={styles.input}
+        style={globalStyles.formInput}
         value={email}
         onChangeText={setEmail}
         placeholder="nombre@correo.com"
-        placeholderTextColor="#C9A9BB"
         keyboardType="email-address"
         autoCapitalize="none"
       />
 
-      <Text style={styles.label}>Tipo de consulta</Text>
+      <Text style={globalStyles.label}>Tipo de consulta</Text>
       <TouchableOpacity
         style={styles.dropdownField}
         onPress={() => setShowTypeDropdown((prev) => !prev)}
       >
-        <Text style={consultType ? styles.dropdownValue : styles.dropdownPlaceholder}>
+        <Text style={globalStyles.textNormal}>
           {consultType || "selecciona el número"}
         </Text>
         <Ionicons
           name={showTypeDropdown ? "chevron-up" : "chevron-down"}
           size={18}
-          color="#B0195B"
+          color={colors.text}
         />
       </TouchableOpacity>
 
@@ -307,57 +309,60 @@ function ContactTab() {
                 setShowTypeDropdown(false);
               }}
             >
-              <Text style={styles.dropdownOptionText}>{type}</Text>
+              <Text style={globalStyles.textNormal}>{type}</Text>
             </TouchableOpacity>
           ))}
         </View>
       )}
 
-      <Text style={styles.label}>Mensaje</Text>
+      <Text style={globalStyles.label}>Mensaje</Text>
       <TextInput
         style={styles.textarea}
         value={message}
         onChangeText={setMessage}
         placeholder="Cuéntanos qué necesitas, incluye el mayor detalle posible..."
-        placeholderTextColor="#C9A9BB"
         multiline
         textAlignVertical="top"
       />
 
-      <Text style={styles.label}>Adjuntar imagen o PDF (opcional)</Text>
+      <Text style={globalStyles.label}>Adjuntar imagen o PDF (opcional)</Text>
 
       <TouchableOpacity style={styles.uploadButton} onPress={handlePickFile}>
-        <Ionicons name="attach" size={18} color="#B0195B" />
-        <Text style={styles.uploadButtonText}>
+        <Ionicons name="attach" size={18} color={colors.text} />
+        <Text style={globalStyles.textNormal}>
           {attachment ? attachment.name : "Haz clic para subir"}
         </Text>
       </TouchableOpacity>
 
-      <Text style={styles.uploadHint}>JPG, PNG o PDF. Máximo 10 MB por archivo</Text>
+      <Text style={[globalStyles.textNormal, styles.uploadHint]}>
+        JPG, PNG o PDF. Máximo 10 MB por archivo
+      </Text>
 
       {attachment && (
         <TouchableOpacity
           style={styles.removeAttachment}
           onPress={() => setAttachment(null)}
         >
-          <Ionicons name="close-circle" size={16} color="#B0195B" />
-          <Text style={styles.removeAttachmentText}>Quitar archivo</Text>
+          <Ionicons name="close-circle" size={16} color={colors.text} />
+          <Text style={[globalStyles.textNormal, { color: colors.text }]}>
+            Quitar archivo
+          </Text>
         </TouchableOpacity>
       )}
 
       <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
-        <Ionicons name="send" size={16} color="white" />
-        <Text style={styles.sendButtonText}>Enviar Mensaje</Text>
+        <Ionicons name="send" size={16} color={colors.text} />
+        <Text style={[globalStyles.textNormal, { color: colors.text }]}>
+          Enviar Mensaje
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white" },
-
   header: {
-    backgroundColor: "#F6C6D6",
+    backgroundColor: colors.surface,
     borderBottomLeftRadius: 60,
     borderBottomRightRadius: 60,
     paddingTop: 60,
@@ -371,25 +376,32 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 14,
     borderRadius: 20,
-    backgroundColor: "#F6AFC5",
+    backgroundColor: colors.inputBackground,
     alignItems: "center",
   },
-  tabButtonActive: { backgroundColor: "#B0195B" },
-  tabText: { fontSize: 14, fontWeight: "bold", color: "#7A1240" },
+  tabButtonActive: { backgroundColor: colors.text },
+  tabText: {
+    fontFamily: "LeagueSpartan_700Bold",
+    fontSize: 16,
+    color: colors.text,
+  },
   tabTextActive: { color: "white" },
-
-  content: { flex: 1, paddingHorizontal: 20, paddingTop: 20 },
 
   searchBar: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#EFEDF3",
+    backgroundColor: colors.inputBackground,
     borderRadius: 14,
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginBottom: 20,
   },
-  searchInput: { flex: 1, fontSize: 15, color: "#222" },
+  searchInput: {
+    flex: 1,
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 16,
+    color: colors.textSecondary,
+  },
 
   faqItem: {
     borderWidth: 1,
@@ -402,16 +414,32 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "#FBDCE7",
+    backgroundColor: colors.surface,
     padding: 16,
   },
-  faqQuestionText: { flex: 1, fontSize: 14, fontWeight: "600", color: "#222", marginRight: 10 },
-  faqAnswerBox: { padding: 16, backgroundColor: "white" },
-  faqAnswerText: { fontSize: 13, color: "#444", lineHeight: 19 },
-  noResultsText: { textAlign: "center", color: "#999", marginTop: 20 },
+  faqQuestionText: {
+    flex: 1,
+    minWidth: 0,
+    marginRight: 10,
+  },
+  faqAnswerBox: { padding: 16, backgroundColor: colors.background },
+  faqAnswerText: {
+    color: "#444",
+    lineHeight: 22,
+  },
+  noResultsText: {
+    textAlign: "center",
+    color: "#999",
+    marginTop: 20,
+  },
 
-  contactTitle: { fontSize: 15, fontWeight: "bold", color: "#222", marginBottom: 6 },
-  contactSubtitle: { fontSize: 13, color: "#666", marginBottom: 20 },
+  contactTitle: {
+    marginBottom: 6,
+  },
+  contactSubtitle: {
+    color: "#666",
+    marginBottom: 20,
+  },
 
   contactMethodRow: {
     flexDirection: "row",
@@ -427,34 +455,26 @@ const styles = StyleSheet.create({
     width: 34,
     height: 34,
     borderRadius: 17,
-    backgroundColor: "#FBDCE7",
+    backgroundColor: colors.surface,
     alignItems: "center",
     justifyContent: "center",
   },
-  contactMethodText: { fontSize: 14, fontWeight: "600", color: "#222" },
 
   orSendLabel: {
-    fontSize: 13,
-    fontWeight: "bold",
-    color: "#B0195B",
+    fontFamily: "LeagueSpartan_700Bold",
+    fontSize: 16,
+    color: colors.text,
     marginTop: 12,
     marginBottom: 8,
   },
 
-  label: { fontSize: 13, fontWeight: "600", color: "#222", marginTop: 14, marginBottom: 6 },
-  input: {
-    backgroundColor: "#FDE8EF",
-    color: "#222",
-    padding: 14,
-    borderRadius: 12,
-    fontSize: 14,
-  },
   textarea: {
-    backgroundColor: "#FDE8EF",
-    color: "#222",
-    padding: 14,
-    borderRadius: 12,
-    fontSize: 14,
+    backgroundColor: colors.inputBackground,
+    color: colors.text,
+    fontFamily: "LeagueSpartan_400Regular",
+    padding: 16,
+    borderRadius: 15,
+    fontSize: 16,
     minHeight: 100,
   },
 
@@ -462,12 +482,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "#FDE8EF",
+    backgroundColor: colors.inputBackground,
     padding: 14,
     borderRadius: 12,
   },
-  dropdownValue: { fontSize: 14, color: "#222" },
-  dropdownPlaceholder: { fontSize: 14, color: "#C9A9BB" },
   dropdownList: {
     backgroundColor: "white",
     borderWidth: 1,
@@ -477,8 +495,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   dropdownOption: { padding: 14 },
-  dropdownOptionSelected: { backgroundColor: "#F6AFC5" },
-  dropdownOptionText: { fontSize: 14, color: "#222" },
+  dropdownOptionSelected: { backgroundColor: colors.surface },
 
   uploadButton: {
     flexDirection: "row",
@@ -486,14 +503,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     borderWidth: 1,
-    borderColor: "#F0AFC5",
+    borderColor: colors.surface,
     borderStyle: "dashed",
     borderRadius: 12,
     padding: 16,
-    backgroundColor: "#FDF3F7",
+    backgroundColor: colors.inputBackground,
   },
-  uploadButtonText: { fontSize: 14, color: "#B0195B", fontWeight: "600" },
-  uploadHint: { fontSize: 11, color: "#999", marginTop: 6 },
+  uploadHint: {
+    color: "#999",
+    marginTop: 6,
+  },
 
   removeAttachment: {
     flexDirection: "row",
@@ -501,17 +520,15 @@ const styles = StyleSheet.create({
     gap: 6,
     marginTop: 10,
   },
-  removeAttachmentText: { fontSize: 13, color: "#B0195B" },
 
   sendButton: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    backgroundColor: "#F6AFC5",
+    backgroundColor: colors.surface,
     padding: 16,
     borderRadius: 30,
     marginTop: 30,
   },
-  sendButtonText: { fontSize: 15, fontWeight: "bold", color: "#7A1240" },
 });

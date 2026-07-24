@@ -1,16 +1,12 @@
-
-
 // app/(tabs)/tamano-bebe.tsx
 
 import { getFetalWeekData, getTrimester } from "@/constants/fetalSizeData";
-import { Ionicons } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
-import { router } from "expo-router";
 import { useState } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
-const PINK_BG = "#FBEAF0";
-const PINK_DARK = "#993556";
+import PinkHeader from "@/components/PinkHeader";
+import { colors } from "@/styles/global";
 
 const MIN_WEEK = 4;
 const MAX_WEEK = 40;
@@ -21,15 +17,13 @@ export default function TamanoBebeScreen() {
   const trimester = getTrimester(week);
 
   return (
-    <View style={styles.screen}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="chevron-back" size={22} color={PINK_DARK} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Tamaño De Tu Bebé</Text>
-      </View>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
+      <PinkHeader title="Tamaño De Tu Bebé" />
 
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={styles.scrollContent}
+      >
         <View style={styles.card}>
           <Text style={styles.title}>Visualizador de Tamaño Fetal</Text>
           <Text style={styles.subtitle}>
@@ -72,9 +66,9 @@ export default function TamanoBebeScreen() {
             step={1}
             value={week}
             onValueChange={setWeek}
-            minimumTrackTintColor={PINK_DARK}
-            maximumTrackTintColor={PINK_BG}
-            thumbTintColor={PINK_DARK}
+            minimumTrackTintColor={colors.text}
+            maximumTrackTintColor={colors.surface}
+            thumbTintColor={colors.text}
           />
           <View style={styles.sliderLabels}>
             <Text style={styles.sliderLabelText}>4</Text>
@@ -103,51 +97,28 @@ export default function TamanoBebeScreen() {
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: PINK_BG,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingTop: 60,
-    paddingBottom: 16,
-    paddingHorizontal: 16,
-  },
-  backButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: "#FFFFFF",
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 12,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: PINK_DARK,
-  },
   scrollContent: {
-    padding: 16,
-    paddingBottom: 40,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 60,
   },
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.background,
     borderRadius: 20,
     padding: 20,
   },
   title: {
+    fontFamily: "LeagueSpartan_700Bold",
     fontSize: 22,
-    fontWeight: "700",
-    color: PINK_DARK,
+    color: colors.text,
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 14,
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 18,
     color: "#6b6b68",
     marginBottom: 20,
-    lineHeight: 20,
+    lineHeight: 24,
   },
   iconBlock: {
     alignItems: "center",
@@ -157,7 +128,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 75,
-    backgroundColor: PINK_BG,
+    backgroundColor: colors.inputBackground,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 14,
@@ -166,15 +137,15 @@ const styles = StyleSheet.create({
     fontSize: 64,
   },
   badge: {
-    backgroundColor: PINK_BG,
+    backgroundColor: colors.inputBackground,
     paddingHorizontal: 22,
     paddingVertical: 8,
     borderRadius: 999,
   },
   badgeText: {
-    color: PINK_DARK,
-    fontSize: 15,
-    fontWeight: "700",
+    fontFamily: "LeagueSpartan_700Bold",
+    color: colors.text,
+    fontSize: 18,
   },
   statsRow: {
     flexDirection: "row",
@@ -183,21 +154,22 @@ const styles = StyleSheet.create({
   },
   statBox: {
     flex: 1,
-    backgroundColor: PINK_BG,
+    backgroundColor: colors.inputBackground,
     borderRadius: 14,
     padding: 14,
     alignItems: "center",
   },
   statLabel: {
-    fontSize: 11,
-    color: "#72243E",
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 18,
+    color: colors.text,
     letterSpacing: 0.5,
     marginBottom: 6,
   },
   statValue: {
+    fontFamily: "LeagueSpartan_700Bold",
     fontSize: 19,
-    fontWeight: "700",
-    color: "#2C2C2A",
+    color: colors.textSecondary,
   },
   stageRow: {
     flexDirection: "row",
@@ -206,23 +178,24 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   stageLabel: {
-    fontSize: 17,
-    color: "#1a1a1a",
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 18,
+    color: colors.textSecondary,
   },
   stageNum: {
-    fontWeight: "700",
-    color: PINK_DARK,
+    fontFamily: "LeagueSpartan_700Bold",
+    color: colors.text,
   },
   phasePill: {
-    backgroundColor: PINK_DARK,
+    backgroundColor: colors.text,
     paddingHorizontal: 16,
     paddingVertical: 7,
     borderRadius: 999,
   },
   phaseText: {
-    color: "#FFFFFF",
-    fontSize: 12,
-    fontWeight: "700",
+    fontFamily: "LeagueSpartan_700Bold",
+    color: "white",
+    fontSize: 18,
     letterSpacing: 0.4,
   },
   sliderLabels: {
@@ -232,24 +205,26 @@ const styles = StyleSheet.create({
     marginBottom: 22,
   },
   sliderLabelText: {
-    fontSize: 11,
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 18,
     color: "#9b9b96",
   },
   infoBlock: {
     borderLeftWidth: 3,
-    borderLeftColor: PINK_DARK,
+    borderLeftColor: colors.text,
     paddingLeft: 14,
   },
   infoTitle: {
-    fontSize: 17,
-    fontWeight: "700",
-    color: PINK_DARK,
+    fontFamily: "LeagueSpartan_700Bold",
+    fontSize: 18,
+    color: colors.text,
     marginBottom: 6,
   },
   infoText: {
-    fontSize: 15,
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 18,
     color: "#4a4a47",
-    lineHeight: 22,
+    lineHeight: 24,
   },
   divider: {
     borderTopWidth: 0.5,

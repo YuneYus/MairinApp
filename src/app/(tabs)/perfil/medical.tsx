@@ -1,27 +1,27 @@
-
-
-
 // app/(tabs)/perfil/medical.tsx
 
 import {
-    emptyMedicalInfo,
-    getMedicalInfo,
-    MedicalInfo,
-    saveMedicalInfo,
+  emptyMedicalInfo,
+  getMedicalInfo,
+  MedicalInfo,
+  saveMedicalInfo,
 } from "@/storage/medicalInfoStorage";
 import { generateAndSharePdf } from "@/utils/medicalPdf";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import {
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
+
+import PinkHeader from "@/components/PinkHeader";
+import { colors, globalStyles } from "@/styles/global";
 
 const MENSTRUAL_SYMPTOMS = [
   "Cólicos (dolor en el abdomen)",
@@ -125,15 +125,10 @@ export default function MedicalScreen() {
   }[step];
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-          <Ionicons name="chevron-back" size={24} color="#B0195B" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{partTitle}</Text>
-      </View>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
+      <PinkHeader title={partTitle!} onBack={handleBack} />
 
-      <ScrollView style={styles.content} contentContainerStyle={{ paddingBottom: 40 }}>
+      <ScrollView style={globalStyles.content} contentContainerStyle={{ paddingBottom: 40 }}>
         {step === 1 && <Part1 info={info} update={update} />}
         {step === 2 && <Part2 info={info} update={update} />}
         {step === 3 && <Part3 info={info} update={update} />}
@@ -141,23 +136,23 @@ export default function MedicalScreen() {
 
         <View style={styles.buttonRow}>
           <TouchableOpacity
-            style={[styles.actionButton, !dirty && styles.actionButtonDisabled]}
+            style={[globalStyles.actionButton, !dirty && styles.actionButtonDisabled]}
             onPress={handleGuardar}
             disabled={!dirty}
           >
-            <Text style={styles.actionButtonText}>Guardar</Text>
+            <Text style={globalStyles.actionButtonText}>Guardar</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionButton} onPress={handleGenerarPdf}>
-            <Text style={styles.actionButtonText}>Generar{"\n"}PDF</Text>
+          <TouchableOpacity style={globalStyles.actionButton} onPress={handleGenerarPdf}>
+            <Text style={globalStyles.actionButtonText}>Generar{"\n"}PDF</Text>
           </TouchableOpacity>
 
           {step < 4 && (
             <TouchableOpacity
-              style={styles.actionButton}
+              style={globalStyles.actionButton}
               onPress={() => setStep(step + 1)}
             >
-              <Text style={styles.actionButtonText}>Siguiente</Text>
+              <Text style={globalStyles.actionButtonText}>Siguiente</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -233,23 +228,22 @@ function Part2({
     <View>
       <Text style={styles.sectionTitle}>Enfermedades Actuales O Previas</Text>
 
-      <Text style={styles.label}>¿Algunas enfermedades diagnosticadas?</Text>
+      <Text style={globalStyles.label}>¿Algunas enfermedades diagnosticadas?</Text>
       <TextInput
         style={styles.textarea}
         value={info.currentIllnesses}
         onChangeText={(v) => update({ currentIllnesses: v })}
         placeholder="Escribe tus tratamiento...."
-        placeholderTextColor="#C9A9BB"
         multiline
         textAlignVertical="top"
       />
 
-      <Text style={styles.label}>¿Cuántas cirugía previa?</Text>
+      <Text style={globalStyles.label}>¿Cuántas cirugía previa?</Text>
       <TouchableOpacity style={styles.dropdownField} onPress={() => setShowDropdown((p) => !p)}>
         <Text style={info.surgeryCount ? styles.dropdownValue : styles.dropdownPlaceholder}>
           {info.surgeryCount || "selecciona el número"}
         </Text>
-        <Ionicons name={showDropdown ? "chevron-up" : "chevron-down"} size={18} color="#B0195B" />
+        <Ionicons name={showDropdown ? "chevron-up" : "chevron-down"} size={18} color={colors.text} />
       </TouchableOpacity>
 
       {showDropdown && (
@@ -266,22 +260,20 @@ function Part2({
         <View key={index} style={styles.surgeryCard}>
           <Text style={styles.surgeryTitle}>Cirugía {index + 1}</Text>
 
-          <Text style={styles.label}>Razón de la cirugía</Text>
+          <Text style={globalStyles.label}>Razón de la cirugía</Text>
           <TextInput
-            style={styles.input}
+            style={globalStyles.formInput}
             value={surgery.reason}
             onChangeText={(v) => updateSurgery(index, "reason", v)}
             placeholder="Ejemplo: Parto"
-            placeholderTextColor="#C9A9BB"
           />
 
-          <Text style={styles.label}>Fecha de la cirugía</Text>
+          <Text style={globalStyles.label}>Fecha de la cirugía</Text>
           <TextInput
-            style={styles.input}
+            style={globalStyles.formInput}
             value={surgery.date}
             onChangeText={(v) => updateSurgery(index, "date", v)}
             placeholder="DD/MM/AAAA"
-            placeholderTextColor="#C9A9BB"
           />
         </View>
       ))}
@@ -314,12 +306,12 @@ function Part3({
         <Field label="Duración del sangrado" value={info.bleedingDuration} onChangeText={(v) => update({ bleedingDuration: v })} placeholder="ejemplo: 5-7 días" containerStyle={{ flex: 1 }} />
       </View>
 
-      <Text style={styles.label}>Nivel de dolor menstrual</Text>
+      <Text style={globalStyles.label}>Nivel de dolor menstrual</Text>
       <TouchableOpacity style={styles.dropdownField} onPress={() => setShowPainDropdown((p) => !p)}>
         <Text style={info.painLevel ? styles.dropdownValue : styles.dropdownPlaceholder} numberOfLines={1}>
           {info.painLevel || "selecciona el número"}
         </Text>
-        <Ionicons name={showPainDropdown ? "chevron-up" : "chevron-down"} size={18} color="#B0195B" />
+        <Ionicons name={showPainDropdown ? "chevron-up" : "chevron-down"} size={18} color={colors.text} />
       </TouchableOpacity>
 
       {showPainDropdown && (
@@ -388,34 +380,33 @@ function Checklist({
 
   return (
     <View style={{ marginTop: 16 }}>
-      <Text style={styles.label}>{title}</Text>
+      <Text style={globalStyles.label}>{title}</Text>
 
       {options.map((option) => (
         <TouchableOpacity key={option} onPress={() => onToggle(option)} style={styles.checkboxRow}>
           <Ionicons
             name={selected.includes(option) ? "checkbox" : "square-outline"}
             size={18}
-            color="#B0195B"
+            color={colors.text}
           />
-          <Text style={styles.checkboxText}>{option}</Text>
+          <Text style={globalStyles.textNormal}>{option}</Text>
         </TouchableOpacity>
       ))}
 
       {customItems.map((item) => (
         <TouchableOpacity key={item} onPress={() => onToggle(item)} style={styles.checkboxRow}>
-          <Ionicons name="checkbox" size={18} color="#B0195B" />
-          <Text style={styles.checkboxText}>{item}</Text>
+          <Ionicons name="checkbox" size={18} color={colors.text} />
+          <Text style={globalStyles.textNormal}>{item}</Text>
         </TouchableOpacity>
       ))}
 
       <View style={styles.otherRow}>
-        <Text style={styles.checkboxText}>Otros</Text>
+        <Text style={globalStyles.textNormal}>Otros</Text>
         <TextInput
           style={styles.otherInput}
           value={otherText}
           onChangeText={setOtherText}
           placeholder="Escribe otro..."
-          placeholderTextColor="#C9A9BB"
         />
         <TouchableOpacity style={styles.addOtherButton} onPress={handleAddOther}>
           <Ionicons name="add" size={18} color="white" />
@@ -438,24 +429,22 @@ function Part4({
     <View>
       <Text style={styles.sectionTitle}>Medicamentos Y Alergias</Text>
 
-      <Text style={styles.label}>¿Qué medicamentos estas tomando?</Text>
+      <Text style={globalStyles.label}>¿Qué medicamentos estas tomando?</Text>
       <TextInput
         style={styles.textarea}
         value={info.medications}
         onChangeText={(v) => update({ medications: v })}
         placeholder="Escribe tus medicamentos...."
-        placeholderTextColor="#C9A9BB"
         multiline
         textAlignVertical="top"
       />
 
-      <Text style={styles.label}>¿Qué alergias tienes?</Text>
+      <Text style={globalStyles.label}>¿Qué alergias tienes?</Text>
       <TextInput
         style={styles.textarea}
         value={info.allergies}
         onChangeText={(v) => update({ allergies: v })}
         placeholder="Escribe tus alergias...."
-        placeholderTextColor="#C9A9BB"
         multiline
         textAlignVertical="top"
       />
@@ -484,13 +473,12 @@ function Field({
 }) {
   return (
     <View style={containerStyle}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={globalStyles.label}>{label}</Text>
       <TextInput
-        style={styles.input}
+        style={globalStyles.formInput}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor="#C9A9BB"
         keyboardType={keyboardType}
         autoCapitalize={autoCapitalize}
       />
@@ -499,39 +487,23 @@ function Field({
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white" },
-
-  header: {
-    backgroundColor: "#F6C6D6",
-    borderBottomLeftRadius: 60,
-    borderBottomRightRadius: 60,
-    alignItems: "center",
-    paddingTop: 60,
-    paddingBottom: 30,
-    paddingHorizontal: 40,
+  sectionTitle: {
+    fontFamily: "LeagueSpartan_700Bold",
+    fontSize: 18,
+    color: colors.textSecondary,
+    textAlign: "center",
+    marginBottom: 14,
   },
-  backButton: { position: "absolute", top: 60, left: 20 },
-  headerTitle: { fontSize: 18, fontWeight: "bold", color: "#B0195B", textAlign: "center" },
 
-  content: { flex: 1, paddingHorizontal: 20, paddingTop: 20 },
-
-  sectionTitle: { fontSize: 16, fontWeight: "bold", color: "#222", textAlign: "center", marginBottom: 14 },
-
-  label: { fontSize: 13, fontWeight: "600", color: "#222", marginTop: 12, marginBottom: 6 },
-  input: {
-    backgroundColor: "#FDE8EF",
-    color: "#222",
-    padding: 12,
-    borderRadius: 10,
-    fontSize: 14,
-  },
   textarea: {
     borderWidth: 1.5,
-    borderColor: "#F6AFC5",
+    borderColor: colors.surface,
     borderRadius: 12,
     padding: 12,
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 16,
+    color: colors.textSecondary,
     minHeight: 100,
-    fontSize: 14,
   },
 
   row: { flexDirection: "row", gap: 10 },
@@ -540,12 +512,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "#FDE8EF",
+    backgroundColor: colors.inputBackground,
     padding: 12,
     borderRadius: 10,
   },
-  dropdownValue: { fontSize: 14, color: "#222", flex: 1 },
-  dropdownPlaceholder: { fontSize: 14, color: "#C9A9BB", flex: 1 },
+  dropdownValue: {
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 14,
+    color: colors.textSecondary,
+    flex: 1,
+  },
+  dropdownPlaceholder: {
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 14,
+    color: colors.text,
+    flex: 1,
+  },
   dropdownList: {
     backgroundColor: "white",
     borderWidth: 1,
@@ -555,7 +537,11 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   dropdownOption: { padding: 12, borderBottomWidth: 1, borderBottomColor: "#F6E4EC" },
-  dropdownOptionText: { fontSize: 13, color: "#222" },
+  dropdownOptionText: {
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 13,
+    color: colors.textSecondary,
+  },
 
   surgeryCard: {
     borderWidth: 1,
@@ -564,24 +550,29 @@ const styles = StyleSheet.create({
     padding: 14,
     marginTop: 14,
   },
-  surgeryTitle: { fontSize: 14, fontWeight: "bold", color: "#222" },
+  surgeryTitle: {
+    fontFamily: "LeagueSpartan_700Bold",
+    fontSize: 14,
+    color: colors.textSecondary,
+  },
 
   checkboxRow: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: 8 },
-  checkboxText: { fontSize: 13, color: "#222" },
 
   otherRow: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: 10 },
   otherInput: {
     flex: 1,
     borderBottomWidth: 1,
-    borderBottomColor: "#B0195B",
+    borderBottomColor: colors.text,
     paddingVertical: 4,
-    fontSize: 13,
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 14,
+    color: colors.textSecondary,
   },
   addOtherButton: {
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: "#B0195B",
+    backgroundColor: colors.text,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -591,14 +582,5 @@ const styles = StyleSheet.create({
     gap: 10,
     marginTop: 30,
   },
-  actionButton: {
-    flex: 1,
-    backgroundColor: "#B0195B",
-    borderRadius: 30,
-    paddingVertical: 14,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  actionButtonDisabled: { backgroundColor: "#E5B8CB" },
-  actionButtonText: { color: "white", fontSize: 13, fontWeight: "bold", textAlign: "center" },
+  actionButtonDisabled: { backgroundColor: colors.surface },
 });

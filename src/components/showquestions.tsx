@@ -7,6 +7,7 @@ import {
 } from "react-native";
 
 import { speakText } from "@/services/voiceService";
+import { colors, globalStyles } from "@/styles/global"; // adjust path if needed
 import { useState } from "react";
 
 interface FlashcardData {
@@ -32,7 +33,7 @@ export default function Flashcard({ data }: Props) {
 
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>Mitos</Text>
+      <Text style={globalStyles.label}>Mitos</Text>
 
       <View style={styles.iconWrapper}>
         {result === null && (
@@ -65,7 +66,9 @@ export default function Flashcard({ data }: Props) {
         style={styles.voiceButton}
         onPress={() => speakText(data.question)}
       >
-        <Text style={styles.voiceIcon}>🔊 {data.question}</Text>
+        <Text style={[globalStyles.textNormal, styles.voiceText]}>
+          🔊 {data.question}
+        </Text>
       </TouchableOpacity>
 
       <View style={styles.buttons}>
@@ -90,7 +93,7 @@ export default function Flashcard({ data }: Props) {
         <View style={styles.result}>
           <Text
             style={[
-              styles.explanation,
+              globalStyles.textNormal,
               result === "correct" ? styles.correctText : styles.incorrectText,
             ]}
           >
@@ -104,22 +107,14 @@ export default function Flashcard({ data }: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "white",
+    backgroundColor: colors.background,
     width: "100%",
     padding: 20,
     borderRadius: 20,
     alignItems: "center",
     elevation: 5,
     borderWidth: 1,
-    borderColor: "black",
-  },
-
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#222",
-    alignSelf: "flex-start",
-    marginBottom: 16,
+    borderColor: colors.header,
   },
 
   iconWrapper: {
@@ -135,14 +130,13 @@ const styles = StyleSheet.create({
 
   voiceButton: {
     marginBottom: 20,
-    backgroundColor: "#ffe3fd",
+    backgroundColor: colors.inputBackground,
     padding: 12,
     borderRadius: 16,
     width: "100%",
   },
 
-  voiceIcon: {
-    fontSize: 16,
+  voiceText: {
     textAlign: "center",
   },
 
@@ -172,8 +166,8 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
+    fontFamily: "LeagueSpartan_700Bold",
     color: "white",
-    fontWeight: "bold",
     fontSize: 16,
   },
 
@@ -183,9 +177,9 @@ const styles = StyleSheet.create({
   },
 
   explanation: {
+    fontFamily: "LeagueSpartan_600SemiBold",
     textAlign: "center",
     fontSize: 15,
-    fontWeight: "600",
     lineHeight: 20,
   },
 

@@ -11,6 +11,8 @@ import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+import { colors, globalStyles } from "@/styles/global";
+
 type CycleStatus = {
   regular: boolean;
   reason?: string;
@@ -165,7 +167,7 @@ export default function CicloInfoCard() {
 
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.title}>Información De Tu Ciclo</Text>
+      <Text style={globalStyles.label}>Información De Tu Ciclo</Text>
 
       <View style={styles.card}>
         {!status.regular && (
@@ -184,24 +186,24 @@ export default function CicloInfoCard() {
         <View style={styles.rowContent}>
           <View style={styles.faceCircle}>
             <Image
-                  source={
-                    status.regular
-                      ? require("@/app/assets/images/HappyWhite.png")
-                      : require("@/app/assets/images/SadWhite.png")
-                  }
-                  style={styles.faceImage}
-                  resizeMode="contain"
-                />
-              </View>
+              source={
+                status.regular
+                  ? require("@/app/assets/images/HappyWhite.png")
+                  : require("@/app/assets/images/SadWhite.png")
+              }
+              style={styles.faceImage}
+              resizeMode="contain"
+            />
+          </View>
 
-              <View style={styles.messageBox}>
-                <Text style={styles.messageTitle}>
-                  {status.regular
-                    ? "Tu menstruación está regular"
-                    : "Tu menstruación está irregular"}
-                </Text>
+          <View style={styles.messageBox}>
+            <Text style={styles.messageTitle}>
+              {status.regular
+                ? "Tu menstruación está regular"
+                : "Tu menstruación está irregular"}
+            </Text>
 
-            <Text style={styles.messageBody}>
+            <Text style={[globalStyles.textNormal, styles.messageBody]}>
               {status.regular
                 ? "¡Que bien! Tu período llega a tiempo cada mes."
                 : status.reason}
@@ -216,24 +218,23 @@ export default function CicloInfoCard() {
                   <Text style={styles.actualizarText}>Actualizar fecha</Text>
                 </TouchableOpacity>
               )}
-<TouchableOpacity
-  style={styles.leerMasRow}
-  onPress={() => {
-    if (status.regular) {
-      setExpanded((prev) => !prev);
-    } else {
-      router.push("/(tabs)/leer-mas-ciclo" as any);
-    }
-  }}
->
-  <Text style={styles.leerMasText}>Leer más</Text>
-  <Ionicons name="chevron-forward" size={16} color="#B0195B" />
-</TouchableOpacity>
-
-</View>
+              <TouchableOpacity
+                style={styles.leerMasRow}
+                onPress={() => {
+                  if (status.regular) {
+                    setExpanded((prev) => !prev);
+                  } else {
+                    router.push("/(tabs)/leer-mas-ciclo" as any);
+                  }
+                }}
+              >
+                <Text style={styles.leerMasText}>Leer más</Text>
+                <Ionicons name="chevron-forward" size={16} color={colors.text} />
+              </TouchableOpacity>
+            </View>
 
             {expanded && (
-              <Text style={styles.expandedText}>
+              <Text style={[globalStyles.textNormal, styles.expandedText]}>
                 {status.regular
                   ? "Un ciclo regular suele durar entre 21 y 35 días. Seguir registrando tu período nos ayuda a detectar cambios a tiempo."
                   : "Si esto continúa, te recomendamos hablar con tu doctor(a) sobre los cambios en tu ciclo."}
@@ -248,15 +249,15 @@ export default function CicloInfoCard() {
 
 const styles = StyleSheet.create({
   wrapper: { marginTop: 30 },
-  title: { fontSize: 20, fontWeight: "bold", color: "#B0195B", marginBottom: 14 },
   card: {
-    backgroundColor: "#F6C6D6",
+    backgroundColor: colors.surface,
     borderRadius: 24,
     padding: 16,
   },
   pendingText: {
-    fontSize: 12,
-    color: "#7A1240",
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 15,
+    color: colors.text,
     textAlign: "right",
     marginTop: 8,
   },
@@ -272,26 +273,52 @@ const styles = StyleSheet.create({
   faceImage: { width: 100, height: 100 },
   messageBox: {
     flex: 1,
+    minWidth: 0,
     backgroundColor: "white",
     borderRadius: 18,
     padding: 16,
   },
-  messageTitle: { fontSize: 15, fontWeight: "bold", color: "#B0195B", marginBottom: 6 },
-  messageBody: { fontSize: 13, color: "#444", lineHeight: 18 },
+  messageTitle: {
+    fontFamily: "LeagueSpartan_700Bold",
+    fontSize: 15,
+    color: colors.text,
+    marginBottom: 6,
+  },
+  messageBody: {
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 15,
+    color: "#444",
+    lineHeight: 21,
+  },
   leerMasRow: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 10 },
-  leerMasText: { fontSize: 13, fontWeight: "bold", color: "#B0195B", textDecorationLine: "underline" },
-  expandedText: { marginTop: 10, fontSize: 13, color: "#555", lineHeight: 18 },
+  leerMasText: {
+    fontFamily: "LeagueSpartan_700Bold",
+    fontSize: 15,
+    color: colors.text,
+    textDecorationLine: "underline",
+  },
+  expandedText: {
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 15,
+    color: "#555",
+    marginTop: 10,
+    lineHeight: 21,
+  },
   reiniciarButton: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    backgroundColor: "#B0195B",
+    backgroundColor: colors.text,
     borderRadius: 20,
     paddingVertical: 10,
     alignSelf: "flex-end",
   },
-  reiniciarText: { color: "white", fontSize: 13, fontWeight: "bold" },
+  reiniciarText: {
+    fontFamily: "LeagueSpartan_700Bold",
+    color: "white",
+    fontSize: 15,
+  },
   actionsRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -299,10 +326,14 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   actualizarButton: {
-    backgroundColor: "#F6AFC5",
+    backgroundColor: colors.inputBackground,
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 14,
   },
-  actualizarText: { fontSize: 13, fontWeight: "bold", color: "#B0195B" },
+  actualizarText: {
+    fontFamily: "LeagueSpartan_700Bold",
+    fontSize: 15,
+    color: colors.text,
+  },
 });

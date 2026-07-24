@@ -1,19 +1,21 @@
 // app/(tabs)/Apoyanos/otramanera.tsx
 
-import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
+
+import PinkHeader from "@/components/PinkHeader";
+import { colors, globalStyles } from "@/styles/global";
 
 export default function OtraManeraScreen() {
   const [contactName, setContactName] = useState("");
@@ -41,136 +43,101 @@ export default function OtraManeraScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: "white" }}
+      style={{ flex: 1, backgroundColor: colors.background }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{ paddingBottom: 40 }}
-      >
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => router.back()}
-        >
-          <Ionicons name="chevron-back" size={24} color="#B0195B" />
-        </TouchableOpacity>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 }}>
+        <PinkHeader title="Quiero Apoyar De Otra Forma" />
 
-        <Text style={styles.title}>Quiero Apoyar De Otra Forma</Text>
-
-        <View style={styles.stepsRow}>
-          <View style={styles.stepCard}>
-            <View style={styles.stepCircle}>
-              <Text style={styles.stepNumber}>1</Text>
+        <View style={globalStyles.content}>
+          <View style={styles.stepsRow}>
+            <View style={styles.stepCard}>
+              <View style={styles.stepCircle}>
+                <Text style={styles.stepNumber}>1</Text>
+              </View>
+              <Text style={styles.stepLabel}>Envías tu solicitud</Text>
             </View>
-            <Text style={styles.stepLabel}>Envías tu solicitud</Text>
+
+            <View style={styles.stepCard}>
+              <View style={styles.stepCircle}>
+                <Text style={styles.stepNumber}>2</Text>
+              </View>
+              <Text style={styles.stepLabel}>
+                Coordinamos una llamada y cerramos el acuerdo
+              </Text>
+            </View>
           </View>
 
-          <View style={styles.stepCard}>
-            <View style={styles.stepCircle}>
-              <Text style={styles.stepNumber}>2</Text>
-            </View>
-            <Text style={styles.stepLabel}>
-              Coordinamos una llamada y cerramos el acuerdo
-            </Text>
-          </View>
+          <Text style={styles.intro}>
+            ¿Te gustaría ayudarnos de otra manera? Nos encantaría contar con tu
+            apoyo. Puedes apoyarnos compartiendo tus conocimientos, tiempo,
+            recursos o ayudándonos a llegar a más mujeres.
+          </Text>
+
+          <Text style={globalStyles.label}>Nombre de contacto</Text>
+          <TextInput
+            style={globalStyles.formInput}
+            placeholder="Nombre y apellido"
+            value={contactName}
+            onChangeText={setContactName}
+          />
+
+          <Text style={globalStyles.label}>Empresa (si aplica)</Text>
+          <TextInput
+            style={globalStyles.formInput}
+            placeholder="Nombre de la empresa"
+            value={company}
+            onChangeText={setCompany}
+          />
+
+          <Text style={globalStyles.label}>Correo electrónico</Text>
+          <TextInput
+            style={globalStyles.formInput}
+            placeholder="nombre@empresa.com"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+
+          <Text style={globalStyles.label}>Teléfono</Text>
+          <TextInput
+            style={globalStyles.formInput}
+            placeholder="+505 0000 0000"
+            value={phone}
+            onChangeText={setPhone}
+            keyboardType="phone-pad"
+          />
+
+          <Text style={globalStyles.label}>Sitio web de la empresa (si aplica)</Text>
+          <TextInput
+            style={globalStyles.formInput}
+            placeholder="www.empresa.com"
+            value={website}
+            onChangeText={setWebsite}
+            autoCapitalize="none"
+          />
+
+          <Text style={globalStyles.label}>Cuéntanos sobre tu interés en apoyarnos</Text>
+          <TextInput
+            style={styles.textArea}
+            placeholder="Por ejemplo: compartir conocimiento, apoyar con marketing..."
+            value={message}
+            onChangeText={setMessage}
+            multiline
+            textAlignVertical="top"
+          />
+
+          <TouchableOpacity style={globalStyles.actionButton} onPress={handleSubmit}>
+            <Text style={globalStyles.actionButtonText}>Enviar Solicitud De Contacto</Text>
+          </TouchableOpacity>
         </View>
-
-        <Text style={styles.intro}>
-          ¿Te gustaría ayudarnos de otra manera? Nos encantaría contar con tu
-          apoyo. Puedes apoyarnos compartiendo tus conocimientos, tiempo,
-          recursos o ayudándonos a llegar a más mujeres.
-        </Text>
-
-        <Text style={styles.label}>Nombre de contacto</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre y apellido"
-          placeholderTextColor="#C97A93"
-          value={contactName}
-          onChangeText={setContactName}
-        />
-
-        <Text style={styles.label}>Empresa (si aplica)</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre de la empresa"
-          placeholderTextColor="#C97A93"
-          value={company}
-          onChangeText={setCompany}
-        />
-
-        <Text style={styles.label}>Correo electrónico</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="nombre@empresa.com"
-          placeholderTextColor="#C97A93"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-
-        <Text style={styles.label}>Teléfono</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="+505 0000 0000"
-          placeholderTextColor="#C97A93"
-          value={phone}
-          onChangeText={setPhone}
-          keyboardType="phone-pad"
-        />
-
-        <Text style={styles.label}>Sitio web de la empresa (si aplica)</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="www.empresa.com"
-          placeholderTextColor="#C97A93"
-          value={website}
-          onChangeText={setWebsite}
-          autoCapitalize="none"
-        />
-
-        <Text style={styles.label}>Cuéntanos sobre tu interés en apoyarnos</Text>
-        <TextInput
-          style={styles.textArea}
-          placeholder="Por ejemplo: compartir conocimiento, apoyar con marketing..."
-          placeholderTextColor="#999"
-          value={message}
-          onChangeText={setMessage}
-          multiline
-          textAlignVertical="top"
-        />
-
-        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <Text style={styles.submitButtonText}>Enviar Solicitud De Contacto</Text>
-        </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 60,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#FBDCE7",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#B0195B",
-    textAlign: "center",
-    marginBottom: 24,
-  },
   stepsRow: {
     flexDirection: "row",
     gap: 12,
@@ -188,64 +155,40 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "#FBDCE7",
+    backgroundColor: colors.surface,
     borderWidth: 1.5,
-    borderColor: "#B0195B",
+    borderColor: colors.text,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 10,
   },
   stepNumber: {
+    fontFamily: "LeagueSpartan_700Bold",
     fontSize: 16,
-    fontWeight: "bold",
-    color: "#B0195B",
+    color: colors.text,
   },
   stepLabel: {
-    fontSize: 13,
-    fontWeight: "600",
-    color: "#222",
+    fontFamily: "LeagueSpartan_700Bold",
+    fontSize: 15,
+    color: colors.textSecondary,
     textAlign: "center",
   },
   intro: {
-    fontSize: 14,
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 18,
     color: "#333",
     lineHeight: 20,
     marginBottom: 24,
   },
-  label: {
-    fontSize: 15,
-    color: "#222",
-    marginBottom: 8,
-    marginTop: 4,
-  },
-  input: {
-    backgroundColor: "#FDE8EF",
-    color: "#B0195B",
-    borderRadius: 14,
-    padding: 14,
-    fontSize: 15,
-    marginBottom: 20,
-  },
   textArea: {
     borderWidth: 1.5,
-    borderColor: "#F6AFC5",
+    borderColor: colors.surface,
     borderRadius: 16,
     padding: 14,
-    fontSize: 14,
-    color: "#222",
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 16,
+    color: colors.textSecondary,
     minHeight: 100,
     marginBottom: 30,
-  },
-  submitButton: {
-    backgroundColor: "#B0195B",
-    paddingVertical: 18,
-    borderRadius: 30,
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  submitButtonText: {
-    color: "white",
-    fontSize: 17,
-    fontWeight: "bold",
   },
 });

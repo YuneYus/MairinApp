@@ -1,43 +1,62 @@
 // app/(tabs)/perfil/audio.tsx
 
+import {
+  AudioOption,
+  getAudioLanguage,
+  setAudioLanguage,
+} from "@/storage/audioLanguageStorage";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { useState } from "react";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
-type AudioOption = "es" | "miskito" | "none";
+import { colors, globalStyles } from "@/styles/global";
 
 export default function AudioScreen() {
-  const [selected, setSelected] = useState<AudioOption>("miskito");
+  const [selected, setSelected] = useState<AudioOption>("es");
+
+  useFocusEffect(
+    useCallback(() => {
+      const load = async () => {
+        const saved = await getAudioLanguage();
+        setSelected(saved);
+      };
+      load();
+    }, [])
+  );
+
+  const handleSelect = async (option: AudioOption) => {
+    setSelected(option);
+    await setAudioLanguage(option);
+  };
 
   const options: { key: AudioOption; label: string }[] = [
     { key: "es", label: "Español" },
-    { key: "miskito", label: "Miskito" },
     { key: "none", label: "No Audio" },
   ];
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => router.back()}
         >
-          <Ionicons name="chevron-back" size={24} color="#B0195B" />
+          <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Cambiar Idioma De Audio</Text>
+        <Text style={globalStyles.pinkHeaderTitle}>Audio</Text>
       </View>
 
       <View style={styles.list}>
         {options.map((option) => (
           <View key={option.key} style={styles.row}>
-            <Text style={styles.rowLabel}>{option.label}</Text>
+            <Text style={globalStyles.label}>{option.label}</Text>
 
             <Switch
               value={selected === option.key}
-              onValueChange={() => setSelected(option.key)}
-              trackColor={{ false: "#F6D9E4", true: "#B0195B" }}
+              onValueChange={() => handleSelect(option.key)}
+              trackColor={{ false: colors.surface, true: colors.text }}
               thumbColor="white"
             />
           </View>
@@ -48,13 +67,8 @@ export default function AudioScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-
   header: {
-    backgroundColor: "#F6C6D6",
+    backgroundColor: colors.surface,
     borderBottomLeftRadius: 60,
     borderBottomRightRadius: 60,
     alignItems: "center",
@@ -63,33 +77,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
 
-  backButton: {
-    position: "absolute",
-    top: 60,
-    left: 20,
-  },
+  backButton: { position: "absolute", top: 60, left: 20 },
 
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#222",
-    textAlign: "center",
-  },
-
-  list: {
-    paddingHorizontal: 24,
-    paddingTop: 24,
-  },
+  list: { paddingHorizontal: 24, paddingTop: 24 },
 
   row: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 16,
-  },
-
-  rowLabel: {
-    fontSize: 15,
-    color: "#222",
   },
 });

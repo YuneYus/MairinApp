@@ -4,10 +4,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+import { colors, globalStyles } from "@/styles/global";
+
 export default function SponsorshipAd() {
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>Nuestro patrocinadores</Text>
+      <Text style={[globalStyles.label, styles.title]}>Nuestro patrocinadores</Text>
 
       <View style={styles.logosRow}>
         <Image
@@ -26,7 +28,7 @@ export default function SponsorshipAd() {
       </View>
 
       <View style={styles.bottomRow}>
-        <Text style={styles.thanksText}>
+        <Text style={[globalStyles.textNormal, styles.thanksText]}>
           ¡Gracias por tu apoyo que nos ayuda a crecer!
         </Text>
 
@@ -35,7 +37,7 @@ export default function SponsorshipAd() {
           onPress={() => router.push("/(tabs)/Apoyanos" as any)}
         >
           <Text style={styles.joinButtonText}>¡Únete!</Text>
-          <Ionicons name="chevron-forward" size={16} color="#B0195B" />
+          <Ionicons name="chevron-forward" size={16} color={colors.text} />
         </TouchableOpacity>
       </View>
     </View>
@@ -44,18 +46,16 @@ export default function SponsorshipAd() {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "white",
+    backgroundColor: colors.background,
     borderRadius: 24,
     borderWidth: 1,
-    borderColor: "#EEE",
+    borderColor: "#CCCCCC",
     padding: 20,
     marginTop: 20,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#222",
     textAlign: "center",
+    marginTop: 0,
     marginBottom: 20,
   },
   logosRow: {
@@ -88,22 +88,20 @@ const styles = StyleSheet.create({
   },
   thanksText: {
     flex: 1,
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#222",
+    minWidth: 0,
   },
   joinButton: {
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
-    backgroundColor: "#FBDCE7",
+    backgroundColor: colors.surface,
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 18,
   },
   joinButtonText: {
+    fontFamily: "LeagueSpartan_700Bold",
     fontSize: 14,
-    fontWeight: "bold",
-    color: "#B0195B",
+    color: colors.text,
   },
 });

@@ -6,6 +6,8 @@ import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
+import { colors, globalStyles } from "@/styles/global";
+
 type DayStatus = "done" | "missed" | "future";
 
 type WeekDay = {
@@ -33,17 +35,17 @@ export default function ExerciseStreakCard() {
 
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>Hice Ejercicios</Text>
+      <Text style={[globalStyles.label, styles.title]}>Hice Ejercicios</Text>
 
-      <Ionicons name="flame" size={48} color="#B0195B" style={styles.flameIcon} />
+      <Ionicons name="flame" size={48} color={colors.text} style={styles.flameIcon} />
 
       <Text style={styles.streakCount}>{streak} días</Text>
-      <Text style={styles.streakSubtitle}>de racha</Text>
+      <Text style={[globalStyles.textNormal, styles.streakSubtitle]}>de racha</Text>
 
       <View style={styles.weekRow}>
         {week.map((day) => (
           <View key={day.dateString} style={styles.dayColumn}>
-            <Text style={styles.dayLabel}>{day.label}</Text>
+            <Text style={[globalStyles.textNormal, styles.dayLabel]}>{day.label}</Text>
             <View
               style={[
                 styles.dayCircle,
@@ -66,31 +68,28 @@ export default function ExerciseStreakCard() {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#FDE8EF",
+    backgroundColor: colors.inputBackground,
     borderRadius: 24,
     borderWidth: 2,
-    borderColor: "#F6C6D6",
+    borderColor: colors.surface,
     padding: 20,
     alignItems: "center",
     marginTop: 20,
   },
   title: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#B0195B",
+    color: colors.text,
     marginBottom: 8,
   },
   flameIcon: {
     marginVertical: 4,
   },
   streakCount: {
+    fontFamily: "LeagueSpartan_700Bold",
     fontSize: 30,
-    fontWeight: "bold",
-    color: "#222",
+    color: colors.textSecondary,
     marginTop: 6,
   },
   streakSubtitle: {
-    fontSize: 13,
     color: "#666",
     marginBottom: 16,
   },
@@ -104,14 +103,13 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   dayLabel: {
-    fontSize: 13,
     color: "#999",
   },
   dayCircle: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: "#B0195B",
+    backgroundColor: colors.text,
     alignItems: "center",
     justifyContent: "center",
   },

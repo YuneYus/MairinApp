@@ -104,7 +104,6 @@ export default function AddDoctors() {
         <TextInput
           style={globalStyles.formInput}
           placeholder="Nombre del Doctor(a)/Centro de salud"
-          placeholderTextColor={globalStyles.placeholderColor.color}
           value={name}
           onChangeText={setName}
         />
@@ -113,7 +112,6 @@ export default function AddDoctors() {
         <TextInput
           style={globalStyles.formInput}
           placeholder="eg. Psicología"
-          placeholderTextColor={globalStyles.placeholderColor.color}
           value={professionalism}
           onChangeText={setProfessionalism}
         />
@@ -126,7 +124,6 @@ export default function AddDoctors() {
           <TextInput
             style={[globalStyles.formInput, styles.phoneInput]}
             placeholder="8701-2259"
-          placeholderTextColor={globalStyles.placeholderColor.color}
             value={phonenumber}
             onChangeText={setPhoneNumber}
             keyboardType="phone-pad"
@@ -137,7 +134,6 @@ export default function AddDoctors() {
         <TextInput
           style={styles.descriptionInput}
           placeholder="Quiero Anotar..."
-          placeholderTextColor={globalStyles.placeholderColor.color}
           value={details}
           onChangeText={setDetails}
           multiline

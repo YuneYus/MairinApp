@@ -22,31 +22,23 @@
 import { WEEK_DATA } from "@/data/embarazoSemanas";
 import { getHealthStage } from "@/storage/healthStageStorage";
 import {
-    getPregnancyWeek,
-    setPregnancyWeek,
+  getPregnancyWeek,
+  setPregnancyWeek,
 } from "@/storage/pregnancyWeekStorage";
+import { colors, globalStyles } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useRef, useState } from "react";
 import {
-    Animated,
-    FlatList,
-    Modal,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Animated,
+  FlatList,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-
-const MAROON = "#7C1F3F";
-const PINK_BG = "#FDEEF2";
-const PINK_SOFT = "#F7CDD9";
-const PINK_MID = "#EFA9C1";
-const PINK_STRONG = "#E05F8B";
-const PINK_PALE_CIRCLE = "#F6C6D6";
-const TEXT_BODY = "#6B4550";
-const TEXT_DARK = "#3A1420";
 
 const WEEK_OPTIONS = Array.from({ length: 40 }, (_, i) => i + 1);
 
@@ -106,23 +98,24 @@ export function PregnancyJourneyCard() {
   if (savedWeek === null) {
     return (
       <View style={styles.wrapper}>
-        <Text style={styles.title}>Tu Viaje De Embarazo</Text>
+        <Text style={[globalStyles.titleBig, {textAlign:"left"}]}>Tu Viaje De Embarazo</Text>
+
         <View style={styles.card}>
-          <Text style={styles.question}>¿De cuántas semanas estás embarazada?</Text>
+          <Text style={globalStyles.cardTitle}>¿De cuántas semanas estás embarazada?</Text>
 
           <TouchableOpacity style={styles.selector} onPress={() => setPickerOpen(true)}>
             <Text style={styles.selectorText}>
               {pendingWeek !== null ? `Semana ${pendingWeek}` : "Selecciona una semana"}
             </Text>
-            <Ionicons name="chevron-down" size={18} color={MAROON} />
+            <Ionicons name="chevron-down" size={18} color={colors.text} />
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.saveButton, pendingWeek === null && styles.saveButtonDisabled]}
+            style={[globalStyles.pillButton, styles.saveButton, pendingWeek === null && styles.saveButtonDisabled]}
             disabled={pendingWeek === null}
             onPress={handleGuardar}
           >
-            <Text style={styles.saveButtonText}>Guardar</Text>
+            <Text style={globalStyles.pillButtonText}>Guardar</Text>
           </TouchableOpacity>
         </View>
 
@@ -173,20 +166,21 @@ export function PregnancyJourneyCard() {
 
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.title}>Tu Viaje De Embarazo</Text>
+      <Text style={[globalStyles.titleBig, {textAlign:"left"}]}>Tu Viaje De Embarazo</Text>
+
       <View style={styles.card}>
-        <Text style={styles.heading}>
+        <Text style={globalStyles.cardTitle}>
           SEMANA {savedWeek} ({week.title})
         </Text>
 
         <TouchableOpacity activeOpacity={0.85} onPress={handleHeartPress}>
           <Animated.View style={[styles.heartCircle, { transform: [{ scale }] }]}>
-            <Ionicons name="heart" size={34} color={MAROON} />
+            <Ionicons name="heart" size={34} color={colors.text} />
             <Text style={styles.heartLabel}>¡Presióname!</Text>
           </Animated.View>
         </TouchableOpacity>
 
-        <Text style={styles.helperText}>
+        <Text style={globalStyles.textNormal}>
           Toca el corazón para sentir el siguiente latido de tu viaje
         </Text>
       </View>
@@ -196,70 +190,55 @@ export function PregnancyJourneyCard() {
 
 const styles = StyleSheet.create({
   wrapper: { marginTop: 8, marginBottom: 8 },
-  title: { fontSize: 18, fontWeight: "700", color: MAROON, marginBottom: 10 },
+
   card: {
-    backgroundColor: PINK_BG,
+    backgroundColor: colors.inputBackground,
     borderWidth: 1.5,
-    borderColor: PINK_SOFT,
+    borderColor: colors.surface,
     borderRadius: 20,
     paddingVertical: 22,
     paddingHorizontal: 18,
     alignItems: "center",
   },
 
-  question: {
-    fontSize: 15,
-    fontWeight: "700",
-    color: TEXT_DARK,
-    textAlign: "center",
-    marginBottom: 16,
-  },
   selector: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    backgroundColor: "white",
+    backgroundColor: colors.background,
     borderWidth: 1.5,
-    borderColor: PINK_MID,
+    borderColor: colors.text,
     borderRadius: 14,
     paddingVertical: 12,
     paddingHorizontal: 16,
     marginBottom: 14,
+    marginTop: 16,
   },
-  selectorText: { fontSize: 14.5, fontWeight: "600", color: TEXT_DARK },
-  saveButton: {
-    backgroundColor: PINK_STRONG,
-    borderRadius: 20,
-    paddingVertical: 12,
-    width: "100%",
-    alignItems: "center",
+  selectorText: {
+    fontFamily: "LeagueSpartan_700Bold",
+    fontSize: 14.5,
+    color: colors.textSecondary,
   },
-  saveButtonDisabled: { opacity: 0.4 },
-  saveButtonText: { color: "white", fontWeight: "700", fontSize: 14.5 },
 
-  heading: {
-    fontSize: 15,
-    fontWeight: "700",
-    color: TEXT_DARK,
-    textAlign: "center",
-    marginBottom: 16,
-  },
+  saveButton: { width: "100%" },
+  saveButtonDisabled: { opacity: 0.4 },
+
   heartCircle: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: PINK_PALE_CIRCLE,
+    backgroundColor: colors.surface,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 16,
     marginBottom: 12,
   },
-  heartLabel: { color: MAROON, fontWeight: "700", fontSize: 12.5, marginTop: 4 },
-  helperText: {
-    fontSize: 13,
-    color: TEXT_BODY,
-    textAlign: "center",
-    lineHeight: 18,
+  heartLabel: {
+    fontFamily: "LeagueSpartan_700Bold",
+    color: colors.text,
+    fontSize: 12.5,
+    marginTop: 4,
   },
 
   modalBackdrop: {
@@ -268,16 +247,16 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   modalSheet: {
-    backgroundColor: "white",
+    backgroundColor: colors.background,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 20,
     maxHeight: "60%",
   },
   modalTitle: {
+    fontFamily: "LeagueSpartan_700Bold",
     fontSize: 16,
-    fontWeight: "700",
-    color: MAROON,
+    color: colors.text,
     textAlign: "center",
     marginBottom: 14,
   },
@@ -287,11 +266,15 @@ const styles = StyleSheet.create({
     margin: 4,
     borderRadius: 999,
     borderWidth: 1.5,
-    borderColor: PINK_SOFT,
+    borderColor: colors.surface,
     alignItems: "center",
     justifyContent: "center",
   },
-  weekOptionSelected: { backgroundColor: PINK_STRONG, borderColor: PINK_STRONG },
-  weekOptionText: { fontSize: 13, fontWeight: "700", color: TEXT_BODY },
+  weekOptionSelected: { backgroundColor: colors.text, borderColor: colors.text },
+  weekOptionText: {
+    fontFamily: "LeagueSpartan_700Bold",
+    fontSize: 13,
+    color: colors.textSecondary,
+  },
   weekOptionTextSelected: { color: "white" },
 });

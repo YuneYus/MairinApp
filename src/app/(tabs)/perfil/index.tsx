@@ -1,6 +1,6 @@
 // app/(tabs)/perfil/index.tsx
 
-import { colors } from "@/styles/global";
+import { colors, globalStyles } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
@@ -82,24 +82,15 @@ export default function PerfilScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Mi Perfil</Text>
+        <Text style={globalStyles.pinkHeaderTitle}>Mi Perfil</Text>
 
         {photoUri ? (
           <Image source={{ uri: photoUri }} style={styles.avatar} />
         ) : (
-          <View
-            style={[
-              styles.avatar,
-              {
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "#FBDCE7",
-              },
-            ]}
-          >
-            <Ionicons name="person" size={40} color="#B0195B" />
+          <View style={[styles.avatar, styles.avatarPlaceholder]}>
+            <Ionicons name="person" size={40} color={colors.text} />
           </View>
         )}
 
@@ -119,7 +110,7 @@ export default function PerfilScreen() {
       )}
 
       <ScrollView
-        style={styles.list}
+        style={globalStyles.content}
         contentContainerStyle={{ paddingBottom: 40 }}
       >
         {MENU_ITEMS.map((item) => (
@@ -129,11 +120,7 @@ export default function PerfilScreen() {
             onPress={() => router.push(item.route as any)}
           >
             <View style={styles.iconCircle}>
-              <Ionicons
-                name={item.icon as any}
-                size={20}
-                color={colors.primary ?? "#B0195B"}
-              />
+              <Ionicons name={item.icon as any} size={20} color={colors.text} />
             </View>
 
             <Text style={styles.rowLabel}>{item.label}</Text>
@@ -144,11 +131,7 @@ export default function PerfilScreen() {
 
         <TouchableOpacity style={styles.row} onPress={handleLogout}>
           <View style={styles.iconCircle}>
-            <Ionicons
-              name="log-out-outline"
-              size={20}
-              color={colors.primary ?? "#B0195B"}
-            />
+            <Ionicons name="log-out-outline" size={20} color={colors.text} />
           </View>
 
           <Text style={styles.rowLabel}>Cerrar Sesión</Text>
@@ -159,13 +142,8 @@ export default function PerfilScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-
   header: {
-    backgroundColor: "#F6C6D6",
+    backgroundColor: colors.surface,
     borderBottomLeftRadius: 60,
     borderBottomRightRadius: 60,
     alignItems: "center",
@@ -173,45 +151,39 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
 
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#B0195B",
-    marginBottom: 20,
-  },
-
   avatar: {
     width: 100,
     height: 100,
     borderRadius: 50,
     backgroundColor: "#ddd",
+    marginTop: 16,
+  },
+
+  avatarPlaceholder: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.inputBackground,
   },
 
   name: {
+    fontFamily: "LeagueSpartan_700Bold",
     fontSize: 22,
-    fontWeight: "bold",
-    color: "#222",
+    color: colors.textSecondary,
     marginTop: 14,
   },
 
   upgradeBanner: {
-    backgroundColor: "#FBDCE7",
+    backgroundColor: colors.surface,
     marginHorizontal: 24,
     marginTop: 16,
     padding: 14,
     borderRadius: 14,
   },
   upgradeBannerText: {
-    color: "#7A1240",
+    fontFamily: "LeagueSpartan_700Bold",
+    color: colors.text,
     fontSize: 13,
-    fontWeight: "600",
     textAlign: "center",
-  },
-
-  list: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 20,
   },
 
   row: {
@@ -224,7 +196,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: "#FBDCE7",
+    backgroundColor: colors.surface,
     alignItems: "center",
     justifyContent: "center",
     marginRight: 16,
@@ -232,7 +204,8 @@ const styles = StyleSheet.create({
 
   rowLabel: {
     flex: 1,
+    fontFamily: "LeagueSpartan_400Regular",
     fontSize: 16,
-    color: "#222",
+    color: colors.textSecondary,
   },
 });

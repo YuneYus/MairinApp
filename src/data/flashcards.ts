@@ -352,7 +352,7 @@ export const flashcards = [
     category: "menopausia",
     question: "No se necesita calcio después de la menopausia.",
     answer: false,
-    explanation: "El calcio y la vitamina D son fundamentales para la salud ósea.",
+    explanation: "El calcio y la vitamina D son fundamentales para la salud en esta etapa.",
   },
   {
     id: 50,

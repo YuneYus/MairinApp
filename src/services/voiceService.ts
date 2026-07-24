@@ -20,3 +20,14 @@ export const speakText = (
 export const stopSpeaking = () => {
   Speech.stop();
 };
+
+/*
+ <TouchableOpacity
+        onPress={() =>
+          speakText(
+            "Hola Ashley, aqui esta la prueba de voz para la aplicacion"
+          )
+        }>
+          <Text style= {globalStyles.textNormal}>🔉Hola Ashley, aqui esta la prueba de voz para la aplicacion.</Text>
+      </TouchableOpacity>
+      */

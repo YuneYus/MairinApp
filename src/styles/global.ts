@@ -33,7 +33,7 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "LeagueSpartan_700Bold",
     fontSize: 20,
     color: colors.textSecondary,
-    marginTop: 22,
+    marginTop: 8,
     marginBottom: 8,
   },
 
@@ -48,13 +48,11 @@ export const globalStyles = StyleSheet.create({
   // ---- legacy font styles (not League Spartan — confirm if still needed) ----
   LSRegular: {
     fontSize: 28,
-    fontWeight: "normal",
     color: colors.text,
     fontFamily: "LeagueSpartan_400Regular",
   },
   LSBold: {
     fontSize: 18,
-    fontWeight: "normal",
     color: "black",
     fontFamily: "LeagueSpartan_700Bold",
   },
@@ -116,6 +114,8 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: colors.primary,
     justifyContent: "center",
     alignItems: "center",
+    borderColor:"white",
+    borderWidth:2,
   },
   date: {
     fontSize: 15,
@@ -246,6 +246,8 @@ export const globalStyles = StyleSheet.create({
     padding: 16,
     borderRadius: 30,
     alignItems: "center",
+        borderColor:"white",
+    borderWidth:2,
   },
   actionButtonText: {
     fontFamily: "LeagueSpartan_700Bold",

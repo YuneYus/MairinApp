@@ -1,8 +1,5 @@
-import { globalStyles } from "@/styles/global";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
-
-import { speakText } from '../../services/voiceService';
+import { colors, globalStyles } from "@/styles/global";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { useCallback, useEffect, useState } from "react";
 
@@ -20,8 +17,6 @@ import { router, useFocusEffect } from "expo-router";
 
 import MoodTracker from "@/components/moodTracker";
 
-
-// app/(tabs)/index.tsx
 import { PregnancyJourneyCard } from "@/components/PregnancyJourneyCard";
 import { PregnancySizeCard } from "@/components/PregnancySizeCard";
 
@@ -50,12 +45,9 @@ const ALL_ITEMS: {
   { key: "menopausia", title: "Menopausia", subtitle: "Aprender más", icon: "call" },
 ];
 
-
 function InfoCenter() {
   const [stage, setStage] = useState<HealthStage>("menstruacion");
 
-  // Re-read every time the Inicio tab comes into focus,
-  // so switching stage in Ajustes updates this immediately
   useFocusEffect(
     useCallback(() => {
       const load = async () => {
@@ -70,8 +62,6 @@ function InfoCenter() {
   const bigItem = ALL_ITEMS.find((item) => item.key === stage)!;
   const smallItems = ALL_ITEMS.filter((item) => item.key !== stage);
 
-  // Routes each info-center category to its screen. Only "embarazo" has a
-  // destination wired up so far — the others keep the original TODO.
   const handleItemPress = (key: (typeof ALL_ITEMS)[number]["key"]) => {
     if (key === "embarazo") {
       router.push("/viaje-embarazo");
@@ -81,137 +71,82 @@ function InfoCenter() {
   };
 
   return (
-    
-    <View style={{ marginTop: 30 }}>
-
-      {stage === "menopausia" && <ExerciseStreakCard/>}
-      <MoodTracker/>
+    <View style={{ gap: 20 }}>
+      {stage === "menopausia" && <ExerciseStreakCard />}
       <ChatSummaryCard />
       <PregnancyJourneyCard />
       <PregnancySizeCard />
 
-      <Text style={styles.sectionTitle}>Centro De Información</Text>
-      <ButtonInfo
-        title={bigItem.title}
-        subtitle={bigItem.subtitle}
-        icon={bigItem.icon}
-        size="big"
-        onPress={() => handleItemPress(bigItem.key)}
-      />
+      <View>
+        <Text style={styles.sectionTitle}>Centro De Información</Text>
+        <ButtonInfo
+          title={bigItem.title}
+          subtitle={bigItem.subtitle}
+          icon={bigItem.icon}
+          size="big"
+          onPress={() => handleItemPress(bigItem.key)}
+        />
 
-      <View style={styles.grid}>
-        {smallItems.map((item) => (
-          <ButtonInfo
-            key={item.key}
-            title={item.title}
-            subtitle={item.subtitle}
-            icon={item.icon}
-            size="small"
-            onPress={() => handleItemPress(item.key)}
-          />
-        ))}
+        <View style={styles.grid}>
+          {smallItems.map((item) => (
+            <ButtonInfo
+              key={item.key}
+              title={item.title}
+              subtitle={item.subtitle}
+              icon={item.icon}
+              size="small"
+              onPress={() => handleItemPress(item.key)}
+            />
+          ))}
+        </View>
       </View>
     </View>
   );
 }
 
 export default function Homescreen() {
-console.log("HOME SCREEN LOADED");
+  const todaysQuote = getTodaysQuote();
 
-const todaysQuote = getTodaysQuote();
-
- const [question, setQuestion] = useState<any>(null);
-
+  const [question, setQuestion] = useState<any>(null);
 
   useEffect(() => {
-
-    // Gets the question of the day
     const dailyQuestion = getDailyFlashcard();
-
     setQuestion(dailyQuestion);
-
   }, []);
 
+  return (
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 }}>
+      <WelcomeBanner />
 
+      <View style={styles.content}>
+        <SponsorshipAd />
+        <QuoteCard quote={todaysQuote.quote} />
+        <CicloInfoCard />
+                <InfoCenter />
+                      <MoodTracker />
 
-return(
-  
-   <ScrollView
-      style={{
-        marginTop: 50,
-       flex: 1,
-    padding: 20,
-      }}
-    >
-<SponsorshipAd/>
-<WelcomeBanner/>
-
-      <QuoteCard quote={todaysQuote.quote} />
-
-      <TouchableOpacity
-        onPress={() =>
-          speakText(
-            "Hola Ashley, aqui esta la prueba de voz para la aplicacion"
-          )
-        }>
-          <Text style= {{color:"black", fontFamily:globalStyles.LSRegular.fontFamily}}>🔉Hola Ashley, aqui esta la prueba de voz para la aplicacion.</Text>
-      </TouchableOpacity>
-
-<CicloInfoCard />
-
-       <View >
-{
-question &&
-
-<Flashcard data={question}/>
-}
-
-    </View>
-         
-  
-    <InfoCenter/>
-
+        {question && <Flashcard data={question} />}
+      </View>
     </ScrollView>
-    
-)
-
+  );
 }
-
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent:"center",
-    backgroundColor: "#cff7ff",
-    padding: 10,
-    //paddingTop: 10,
-    //paddingLeft:20
-    //paddingHorizontal: 10
-  },
-  text: {
-    fontSize: 23,
-    fontWeight: "bold",
-    fontFamily: "LeagueSpartan_700Bold",
-  },
-   title: {
-    color: "blue",
-    fontWeight:"bold",
-    fontFamily: "LeagueSpartan_400Regular",
+  content: {
+    ...globalStyles.content,
+    gap: 20,
   },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: 12,
     justifyContent: "space-between",
-
+    marginTop: 14,
   },
-    sectionTitle: {
+  sectionTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#B0195B",
+    color: colors.text,
     marginBottom: 14,
   },
-  
-  
 });
