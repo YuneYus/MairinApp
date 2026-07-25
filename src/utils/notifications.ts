@@ -7,7 +7,6 @@ import { predictNextPeriodDate } from './cyclePrediction';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true,
     shouldShowBanner: true,
     shouldShowList: true,
     shouldPlaySound: false,

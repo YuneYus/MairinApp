@@ -1,5 +1,7 @@
 // app/(tabs)/perfil/audio.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
+import { speakText } from "@/services/voiceService";
 import {
   AudioOption,
   getAudioLanguage,
@@ -13,6 +15,7 @@ import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 import { colors, globalStyles } from "@/styles/global";
 
 export default function AudioScreen() {
+  const { t } = useLanguage();
   const [selected, setSelected] = useState<AudioOption>("es");
 
   useFocusEffect(
@@ -30,9 +33,16 @@ export default function AudioScreen() {
     await setAudioLanguage(option);
   };
 
-  const options: { key: AudioOption; label: string }[] = [
-    { key: "es", label: "Español" },
-    { key: "none", label: "No Audio" },
+  const handlePreview = (option: AudioOption) => {
+    if (option === "es") {
+      speakText(t("audioMuestraEspanol"));
+    }
+    // "none" has no preview to play
+  };
+
+  const options: { key: AudioOption; labelKey: "audioEspanol" | "audioNinguno" }[] = [
+    { key: "es", labelKey: "audioEspanol" },
+    { key: "none", labelKey: "audioNinguno" },
   ];
 
   return (
@@ -45,13 +55,28 @@ export default function AudioScreen() {
           <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
 
-        <Text style={globalStyles.pinkHeaderTitle}>Audio</Text>
+        <Text style={globalStyles.pinkHeaderTitle}>{t("cambiarIdiomaAudio")}</Text>
       </View>
 
       <View style={styles.list}>
         {options.map((option) => (
-          <View key={option.key} style={styles.row}>
-            <Text style={globalStyles.label}>{option.label}</Text>
+          <TouchableOpacity
+            key={option.key}
+            style={styles.row}
+            onPress={() => handlePreview(option.key)}
+            disabled={option.key === "none"}
+          >
+            <View style={styles.rowLeft}>
+              {option.key !== "none" && (
+                <Ionicons
+                  name="volume-medium"
+                  size={18}
+                  color={colors.text}
+                  style={styles.speakerIcon}
+                />
+              )}
+              <Text style={globalStyles.label}>{t(option.labelKey)}</Text>
+            </View>
 
             <Switch
               value={selected === option.key}
@@ -59,7 +84,7 @@ export default function AudioScreen() {
               trackColor={{ false: colors.surface, true: colors.text }}
               thumbColor="white"
             />
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </View>
@@ -87,4 +112,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 16,
   },
+
+  rowLeft: { flexDirection: "row", alignItems: "center", flex: 1 },
+
+  speakerIcon: { marginRight: 8 },
 });

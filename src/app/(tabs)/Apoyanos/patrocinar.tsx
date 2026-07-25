@@ -1,5 +1,7 @@
 // app/(tabs)/Apoyanos/patrocinar.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
+import { speakIfEnabled } from "@/hooks/useSpeak";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -16,6 +18,9 @@ import {
 import { colors, globalStyles } from "@/styles/global";
 
 export default function PatrocinarScreen() {
+  const { t, language } = useLanguage();
+  const showSpeakerIcons = language === "es";
+
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
@@ -23,15 +28,7 @@ export default function PatrocinarScreen() {
   const [website, setWebsite] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = () => {
-    if (!name || !email) {
-      Alert.alert("Error", "Por favor completa al menos nombre y correo");
-      return;
-    }
-
-    Alert.alert("Éxito", "Tu solicitud ha sido enviada");
-    router.back();
-  };
+const handleSubmit = () => {    if (!name || !email) {      Alert.alert("Error", "Por favor completa al menos nombre y correo");      return;    }     Alert.alert("Éxito", "Tu solicitud ha sido enviada");    router.back();  }; 
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: colors.background }}>
@@ -43,7 +40,22 @@ export default function PatrocinarScreen() {
           <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
 
-        <Text style={globalStyles.pinkHeaderTitle}>Quiero Ser Patrocinador</Text>
+        <View style={styles.titleRow}>
+          <Text style={globalStyles.pinkHeaderTitle}>{t("patrocinarTitle")}</Text>
+          {showSpeakerIcons && (
+            <TouchableOpacity
+              onPress={() => speakIfEnabled(t("patrocinarTitle"), language)}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <Ionicons
+                name="volume-medium"
+                size={20}
+                color={colors.text}
+                style={styles.speakerIcon}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
 
       <View style={globalStyles.content}>
@@ -52,49 +64,55 @@ export default function PatrocinarScreen() {
             <View style={styles.stepCircle}>
               <Text style={styles.stepNumber}>1</Text>
             </View>
-            <Text style={styles.stepText}>Envías tu solicitud</Text>
+            <Text style={styles.stepText}>{t("enviaTuSolicitud")}</Text>
           </View>
 
           <View style={styles.step}>
             <View style={styles.stepCircle}>
               <Text style={styles.stepNumber}>2</Text>
             </View>
-            <Text style={styles.stepText}>
-              Coordinamos una llamada y cerramos el acuerdo
-            </Text>
+            <Text style={styles.stepText}>{t("numeroDos")}</Text>
           </View>
 
           <View style={styles.step}>
             <View style={styles.stepCircle}>
               <Text style={styles.stepNumber}>3</Text>
             </View>
-            <Text style={styles.stepText}>Tu logo se publica en la app</Text>
+            <Text style={styles.stepText}>{t("numeroTres")}</Text>
           </View>
         </View>
 
-        <Text style={styles.note}>
-          Como agradecimiento, tu logo aparecerá en la parte superior de la
-          página principal de nuestra app. Completa tus datos y te
-          contactamos para coordinar los detalles.
-        </Text>
+        <View style={styles.noteWrapper}>
+          <Text style={styles.note}>{t("patrocinarTexto")}</Text>
 
-        <Text style={globalStyles.label}>Nombre de contacto</Text>
+          {showSpeakerIcons && (
+            <TouchableOpacity
+              style={styles.noteSpeaker}
+              onPress={() => speakIfEnabled(t("patrocinarTexto"), language)}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <Ionicons name="volume-medium" size={18} color={colors.text} />
+            </TouchableOpacity>
+          )}
+        </View>
+
+        <Text style={globalStyles.label}>{t("nombreContacto")}</Text>
         <TextInput
           style={globalStyles.formInput}
           value={name}
           onChangeText={setName}
-          placeholder="Nombre y apellido"
+          placeholder={t("nombreApellido")}
         />
 
-        <Text style={globalStyles.label}>Empresa</Text>
+        <Text style={globalStyles.label}>{t("empresa")}</Text>
         <TextInput
           style={globalStyles.formInput}
           value={company}
           onChangeText={setCompany}
-          placeholder="Nombre de la empresa"
+          placeholder={t("nombreEmpresa")}
         />
 
-        <Text style={globalStyles.label}>Correo electrónico</Text>
+        <Text style={globalStyles.label}>{t("correoElectronico")}</Text>
         <TextInput
           style={globalStyles.formInput}
           value={email}
@@ -104,7 +122,7 @@ export default function PatrocinarScreen() {
           autoCapitalize="none"
         />
 
-        <Text style={globalStyles.label}>Teléfono</Text>
+        <Text style={globalStyles.label}>{t("telefono")}</Text>
         <TextInput
           style={globalStyles.formInput}
           value={phone}
@@ -113,7 +131,7 @@ export default function PatrocinarScreen() {
           keyboardType="phone-pad"
         />
 
-        <Text style={globalStyles.label}>Sitio web de la empresa</Text>
+        <Text style={globalStyles.label}>{t("sitioWebEmpresa")}</Text>
         <TextInput
           style={globalStyles.formInput}
           value={website}
@@ -122,18 +140,18 @@ export default function PatrocinarScreen() {
           autoCapitalize="none"
         />
 
-        <Text style={globalStyles.label}>Cuéntanos sobre tu interés en patrocinar</Text>
+        <Text style={globalStyles.label}>{t("cuentanosInteresEmpresa")}</Text>
         <TextInput
           style={styles.textarea}
           value={message}
           onChangeText={setMessage}
-          placeholder="Por ejemplo: presupuesto disponible, tiempo de exposición deseado, preguntas..."
+          placeholder={t("porEjemploPresupuesto")}
           multiline
           textAlignVertical="top"
         />
 
-        <TouchableOpacity style={[globalStyles.actionButton,{marginTop:20}]} onPress={handleSubmit}>
-          <Text style={globalStyles.actionButtonText}>Enviar Solicitud De Contacto</Text>
+        <TouchableOpacity style={[globalStyles.actionButton, { marginTop: 20 }]} onPress={handleSubmit}>
+          <Text style={globalStyles.actionButtonText}>{t("EnviarSolicitudContacot")}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -152,6 +170,9 @@ const styles = StyleSheet.create({
   },
 
   backButton: { position: "absolute", top: 60, left: 20 },
+
+  titleRow: { flexDirection: "row", alignItems: "center" },
+  speakerIcon: { marginLeft: 8 },
 
   stepsRow: {
     flexDirection: "row",
@@ -175,7 +196,7 @@ const styles = StyleSheet.create({
   stepNumber: {
     fontFamily: "LeagueSpartan_700Bold",
     color: colors.text,
-    fontSize: 16
+    fontSize: 16,
   },
 
   stepText: {
@@ -185,12 +206,18 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
 
+  noteWrapper: { marginBottom: 20 },
+
   note: {
     fontFamily: "LeagueSpartan_400Regular",
     fontSize: 16,
     color: "#666",
     lineHeight: 18,
-    marginBottom: 20,
+  },
+
+  noteSpeaker: {
+    marginTop: 8,
+    alignSelf: "flex-start",
   },
 
   textarea: {

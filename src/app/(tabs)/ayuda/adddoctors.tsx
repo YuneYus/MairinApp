@@ -1,5 +1,7 @@
 // app/ayuda/adddoctors.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
+import { speakIfEnabled } from "@/hooks/useSpeak";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 
@@ -15,6 +17,7 @@ import {
 
 import PinkHeader from "@/components/PinkHeader";
 import { colors, globalStyles } from "@/styles/global";
+import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 
 import {
@@ -25,6 +28,9 @@ import {
 } from "../../../storage/doctorStorage";
 
 export default function AddDoctors() {
+  const { t, language } = useLanguage();
+  const showSpeakerIcons = language === "es";
+
   const { id } = useLocalSearchParams<{ id?: string }>();
   const editing = !!id;
 
@@ -93,14 +99,46 @@ export default function AddDoctors() {
     }
   };
 
+  const LabelWithVoice = ({ text }: { text: string }) => (
+    <View style={styles.labelRow}>
+      <Text style={globalStyles.label}>{text}</Text>
+      {showSpeakerIcons && (
+        <TouchableOpacity
+          onPress={() => speakIfEnabled(text, language)}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <Ionicons
+            name="volume-medium"
+            size={16}
+            color={colors.text}
+            style={{ marginLeft: 8 }}
+          />
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+
+  const headerTitle = editing
+    ? "Editar Mi Doctor"
+    : "Agregar Mi Doctor O Centro De Salud";
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <PinkHeader
-        title={editing ? "Editar Mi Doctor" : "Agregar Mi Doctor O Centro De Salud"}
-      />
+      <View style={styles.headerRow}>
+        <PinkHeader title={headerTitle} />
+      </View>
+      {showSpeakerIcons && (
+        <TouchableOpacity
+          style={styles.headerSpeaker}
+          onPress={() => speakIfEnabled(headerTitle, language)}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <Ionicons name="volume-medium" size={18} color={colors.text} />
+        </TouchableOpacity>
+      )}
 
       <ScrollView style={globalStyles.content} contentContainerStyle={{ paddingBottom: 40 }}>
-        <Text style={globalStyles.label}>Nombre</Text>
+        <LabelWithVoice text="Nombre" />
         <TextInput
           style={globalStyles.formInput}
           placeholder="Nombre del Doctor(a)/Centro de salud"
@@ -108,7 +146,7 @@ export default function AddDoctors() {
           onChangeText={setName}
         />
 
-        <Text style={globalStyles.label}>Área de Profesión</Text>
+        <LabelWithVoice text="Área de Profesión" />
         <TextInput
           style={globalStyles.formInput}
           placeholder="eg. Psicología"
@@ -116,7 +154,7 @@ export default function AddDoctors() {
           onChangeText={setProfessionalism}
         />
 
-        <Text style={globalStyles.label}>Número de Teléfono</Text>
+        <LabelWithVoice text="Número de Teléfono" />
         <View style={styles.phoneRow}>
           <View style={[globalStyles.formInput, styles.phonePrefixBox]}>
             <Text style={styles.phonePrefixText}>+505</Text>
@@ -130,7 +168,7 @@ export default function AddDoctors() {
           />
         </View>
 
-        <Text style={globalStyles.label}>Descripción</Text>
+        <LabelWithVoice text="Descripción" />
         <TextInput
           style={styles.descriptionInput}
           placeholder="Quiero Anotar..."
@@ -157,6 +195,15 @@ export default function AddDoctors() {
 }
 
 const styles = StyleSheet.create({
+  headerRow: { position: "relative" },
+  headerSpeaker: {
+    position: "absolute",
+    top: 90,
+    right: 24,
+  },
+
+  labelRow: { flexDirection: "row", alignItems: "center" },
+
   phoneRow: { flexDirection: "row", gap: 10 },
   phonePrefixBox: { justifyContent: "center", paddingHorizontal: 16 },
   phonePrefixText: {

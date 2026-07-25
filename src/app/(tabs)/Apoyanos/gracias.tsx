@@ -1,10 +1,10 @@
-
-
 // app/(tabs)/Apoyanos/gracias.tsx
 
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+import { colors, globalStyles } from "@/styles/global";
 
 export default function GraciasScreen() {
   return (
@@ -13,7 +13,7 @@ export default function GraciasScreen() {
         <Ionicons name="checkmark" size={60} color="white" />
       </View>
 
-      <Text style={styles.title}>¡Gracias!</Text>
+      <Text style={globalStyles.titleBig}>¡Gracias!</Text>
       <Text style={styles.subtitle}>El pago se ha realizado con éxito</Text>
 
       <View style={styles.messageBox}>
@@ -26,7 +26,7 @@ export default function GraciasScreen() {
         style={styles.button}
         onPress={() => router.replace("/(tabs)/Apoyanos" as any)}
       >
-        <Text style={styles.buttonText}>Volver Al Inicio</Text>
+        <Text style={globalStyles.actionButtonText}>Volver Al Inicio</Text>
       </TouchableOpacity>
     </View>
   );
@@ -35,7 +35,7 @@ export default function GraciasScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: colors.background,
     alignItems: "center",
     justifyContent: "center",
     padding: 30,
@@ -45,34 +45,40 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: "#F6C6D6",
+    backgroundColor: colors.text,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 24,
   },
 
-  title: { fontSize: 26, fontWeight: "bold", color: "#222", marginBottom: 8 },
-
-  subtitle: { fontSize: 14, color: "#555", marginBottom: 40 },
+  subtitle: {
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 16,
+    color: colors.textSecondary,
+    marginBottom: 40,
+  },
 
   messageBox: {
     borderWidth: 1,
-    borderColor: "#222",
+    borderColor: colors.text,
     borderRadius: 16,
     padding: 20,
     marginBottom: 40,
-    backgroundColor: "white",
+    backgroundColor: colors.background,
   },
 
-  messageText: { fontSize: 14, color: "#222", textAlign: "center" },
+  messageText: {
+    fontFamily: "LeagueSpartan_400Regular",
+    fontSize: 16,
+    color: colors.textSecondary,
+    textAlign: "center",
+  },
 
   button: {
-    backgroundColor: "#B0195B",
+    backgroundColor: colors.text,
     padding: 16,
     borderRadius: 30,
     alignItems: "center",
     width: "100%",
   },
-
-  buttonText: { color: "white", fontSize: 16, fontWeight: "bold" },
 });

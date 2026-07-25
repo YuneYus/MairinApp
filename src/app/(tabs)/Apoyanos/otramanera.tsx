@@ -15,9 +15,15 @@ import {
 } from "react-native";
 
 import PinkHeader from "@/components/PinkHeader";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { speakIfEnabled } from "@/hooks/useSpeak";
 import { colors, globalStyles } from "@/styles/global";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function OtraManeraScreen() {
+  const { t, language } = useLanguage();
+  const showSpeakerIcons = language === "es";
+
   const [contactName, setContactName] = useState("");
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
@@ -47,7 +53,7 @@ export default function OtraManeraScreen() {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 }}>
-        <PinkHeader title="Quiero Apoyar De Otra Forma" />
+        <PinkHeader title={t("otraformasTitle")} />
 
         <View style={globalStyles.content}>
           <View style={styles.stepsRow}>
@@ -55,42 +61,48 @@ export default function OtraManeraScreen() {
               <View style={styles.stepCircle}>
                 <Text style={styles.stepNumber}>1</Text>
               </View>
-              <Text style={styles.stepLabel}>Envías tu solicitud</Text>
+              <Text style={styles.stepLabel}>{t("enviaTuSolicitudFormas")}</Text>
             </View>
 
             <View style={styles.stepCard}>
               <View style={styles.stepCircle}>
                 <Text style={styles.stepNumber}>2</Text>
               </View>
-              <Text style={styles.stepLabel}>
-                Coordinamos una llamada y cerramos el acuerdo
-              </Text>
+              <Text style={styles.stepLabel}>{t("coordinamosLlamadas")}</Text>
             </View>
           </View>
 
-          <Text style={styles.intro}>
-            ¿Te gustaría ayudarnos de otra manera? Nos encantaría contar con tu
-            apoyo. Puedes apoyarnos compartiendo tus conocimientos, tiempo,
-            recursos o ayudándonos a llegar a más mujeres.
-          </Text>
+          <View style={styles.introWrapper}>
+            <Text style={styles.intro}>{t("otraformasTexto")}</Text>
 
-          <Text style={globalStyles.label}>Nombre de contacto</Text>
+            {showSpeakerIcons && (
+              <TouchableOpacity
+                style={styles.introSpeaker}
+                onPress={() => speakIfEnabled(t("otraformasTexto"), language)}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              >
+                <Ionicons name="volume-medium" size={18} color={colors.text} />
+              </TouchableOpacity>
+            )}
+          </View>
+
+          <Text style={globalStyles.label}>{t("nombreContactoFormas")}</Text>
           <TextInput
             style={globalStyles.formInput}
-            placeholder="Nombre y apellido"
+            placeholder={t("nombreApellidoFormas")}
             value={contactName}
             onChangeText={setContactName}
           />
 
-          <Text style={globalStyles.label}>Empresa (si aplica)</Text>
+          <Text style={globalStyles.label}>{t("empresaFormas")}</Text>
           <TextInput
             style={globalStyles.formInput}
-            placeholder="Nombre de la empresa"
+            placeholder={t("nombreEmpresaFormas")}
             value={company}
             onChangeText={setCompany}
           />
 
-          <Text style={globalStyles.label}>Correo electrónico</Text>
+          <Text style={globalStyles.label}>{t("correoElectronicoFormas")}</Text>
           <TextInput
             style={globalStyles.formInput}
             placeholder="nombre@empresa.com"
@@ -100,7 +112,7 @@ export default function OtraManeraScreen() {
             autoCapitalize="none"
           />
 
-          <Text style={globalStyles.label}>Teléfono</Text>
+          <Text style={globalStyles.label}>{t("telefonoFormas")}</Text>
           <TextInput
             style={globalStyles.formInput}
             placeholder="+505 0000 0000"
@@ -109,7 +121,7 @@ export default function OtraManeraScreen() {
             keyboardType="phone-pad"
           />
 
-          <Text style={globalStyles.label}>Sitio web de la empresa (si aplica)</Text>
+          <Text style={globalStyles.label}>{t("sitioWebEmpresaFormas")}</Text>
           <TextInput
             style={globalStyles.formInput}
             placeholder="www.empresa.com"
@@ -118,10 +130,10 @@ export default function OtraManeraScreen() {
             autoCapitalize="none"
           />
 
-          <Text style={globalStyles.label}>Cuéntanos sobre tu interés en apoyarnos</Text>
+          <Text style={globalStyles.label}>{t("cuentanosInteresEmpresaFormas")}</Text>
           <TextInput
             style={styles.textArea}
-            placeholder="Por ejemplo: compartir conocimiento, apoyar con marketing..."
+            placeholder={t("porEjemploPresupuestoFormas")}
             value={message}
             onChangeText={setMessage}
             multiline
@@ -129,7 +141,7 @@ export default function OtraManeraScreen() {
           />
 
           <TouchableOpacity style={globalStyles.actionButton} onPress={handleSubmit}>
-            <Text style={globalStyles.actionButtonText}>Enviar Solicitud De Contacto</Text>
+            <Text style={globalStyles.actionButtonText}>{t("EnviarSolicitudContactoFormas")}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -173,12 +185,18 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     textAlign: "center",
   },
+  introWrapper: {
+    marginBottom: 24,
+  },
   intro: {
     fontFamily: "LeagueSpartan_400Regular",
     fontSize: 18,
     color: "#333",
     lineHeight: 20,
-    marginBottom: 24,
+  },
+  introSpeaker: {
+    marginTop: 8,
+    alignSelf: "flex-start",
   },
   textArea: {
     borderWidth: 1.5,

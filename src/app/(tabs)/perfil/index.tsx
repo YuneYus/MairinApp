@@ -1,5 +1,7 @@
 // app/(tabs)/perfil/index.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
+import { speakIfEnabled } from "@/hooks/useSpeak";
 import { colors, globalStyles } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
@@ -18,38 +20,21 @@ import { getAccountType } from "@/storage/accountTypeStorage";
 import { getProfileInfo } from "@/storage/profilenameStorage";
 import { getProfilePhoto } from "@/storage/profileStorage";
 
-const MENU_ITEMS = [
-  {
-    label: "Perfil",
-    icon: "person-outline",
-    route: "/(tabs)/perfil/personal",
-  },
-  {
-    label: "Mi Información Médica",
-    icon: "document-text-outline",
-    route: "/(tabs)/perfil/medical",
-  },
-  {
-    label: "Ajustes",
-    icon: "settings-outline",
-    route: "/(tabs)/perfil/settings",
-  },
-  {
-    label: "Asistencia",
-    icon: "help-circle-outline",
-    route: "/(tabs)/perfil/support",
-  },
-  {
-    label: "Cambiar Mi Etapa De Salud",
-    icon: "heart-outline",
-    route: "/(tabs)/perfil/health-stage",
-  },
-] as const;
-
 export default function PerfilScreen() {
+  const { t, language } = useLanguage();
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [fullName, setFullName] = useState("");
   const [isGuest, setIsGuest] = useState(false);
+
+  const showSpeakerIcons = language === "es";
+
+  const MENU_ITEMS = [
+    { labelKey: "menuPerfil" as const, icon: "person-outline", route: "/(tabs)/perfil/personal" },
+    { labelKey: "menuInfoMedica" as const, icon: "document-text-outline", route: "/(tabs)/perfil/medical" },
+    { labelKey: "menuAjustes" as const, icon: "settings-outline", route: "/(tabs)/perfil/settings" },
+    { labelKey: "menuAsistencia" as const, icon: "help-circle-outline", route: "/(tabs)/perfil/support" },
+    { labelKey: "menuEtapaSalud" as const, icon: "heart-outline", route: "/(tabs)/perfil/health-stage" },
+  ];
 
   useFocusEffect(
     useCallback(() => {
@@ -59,24 +44,22 @@ export default function PerfilScreen() {
 
         const info = await getProfileInfo();
         const name = `${info.firstName} ${info.lastName}`.trim();
-        setFullName(name || "Usuaria");
+        setFullName(name || t("usuaria"));
 
         const accountType = await getAccountType();
         setIsGuest(accountType === "guest");
       };
       load();
-    }, [])
+    }, [t])
   );
 
   const handleLogout = () => {
-    Alert.alert("Cerrar Sesión", "¿Deseas cerrar sesión?", [
-      { text: "Cancelar", style: "cancel" },
+    Alert.alert(t("cerrarSesion"), t("cerrarSesionPregunta"), [
+      { text: t("cancelar"), style: "cancel" },
       {
-        text: "Cerrar Sesión",
+        text: t("cerrarSesion"),
         style: "destructive",
-        onPress: () => {
-          router.replace("/(auth)/login");
-        },
+        onPress: () => router.replace("/(auth)/login"),
       },
     ]);
   };
@@ -84,7 +67,16 @@ export default function PerfilScreen() {
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={styles.header}>
-        <Text style={globalStyles.pinkHeaderTitle}>Mi Perfil</Text>
+        <TouchableOpacity
+          style={styles.titleRow}
+          onPress={() => speakIfEnabled(t("miPerfil"), language)}
+          disabled={!showSpeakerIcons}
+        >
+          <Text style={globalStyles.pinkHeaderTitle}>{t("miPerfil")}</Text>
+          {showSpeakerIcons && (
+            <Ionicons name="volume-medium" size={20} color={colors.text} style={styles.speakerIcon} />
+          )}
+        </TouchableOpacity>
 
         {photoUri ? (
           <Image source={{ uri: photoUri }} style={styles.avatar} />
@@ -94,7 +86,7 @@ export default function PerfilScreen() {
           </View>
         )}
 
-        <Text style={styles.name}>{fullName}</Text>
+        <Text style={globalStyles.label}>{fullName}</Text>
       </View>
 
       {isGuest && (
@@ -102,39 +94,42 @@ export default function PerfilScreen() {
           style={styles.upgradeBanner}
           onPress={() => router.push("/(auth)/crear-cuenta-desde-invitado" as any)}
         >
-          <Text style={styles.upgradeBannerText}>
-            Estás usando Mairin como invitado. Toca aquí para crear tu cuenta y
-            no perder tu información.
-          </Text>
+          <Text style={globalStyles.label}>{t("invitadoBanner")}</Text>
         </TouchableOpacity>
       )}
 
-      <ScrollView
-        style={globalStyles.content}
-        contentContainerStyle={{ paddingBottom: 40 }}
-      >
+      <ScrollView style={styles.list} contentContainerStyle={{ paddingBottom: 40 }}>
         {MENU_ITEMS.map((item) => (
-          <TouchableOpacity
-            key={item.label}
-            style={styles.row}
-            onPress={() => router.push(item.route as any)}
-          >
-            <View style={styles.iconCircle}>
-              <Ionicons name={item.icon as any} size={20} color={colors.text} />
-            </View>
+          <View key={item.labelKey} style={styles.row}>
+            <TouchableOpacity
+              style={styles.rowMain}
+              onPress={() => router.push(item.route as any)}
+            >
+              <View style={styles.iconCircle}>
+                <Ionicons name={item.icon as any} size={20} color={colors.primary ?? colors.text} />
+              </View>
 
-            <Text style={styles.rowLabel}>{item.label}</Text>
+              <Text style={globalStyles.label}>{t(item.labelKey)}</Text>
+            </TouchableOpacity>
 
-            <Ionicons name="chevron-forward" size={20} color="#C9B7D6" />
-          </TouchableOpacity>
+            {showSpeakerIcons && (
+              <TouchableOpacity onPress={() => speakIfEnabled(t(item.labelKey), language)}>
+                <Ionicons name="volume-medium" size={18} color={colors.surface} style={{ marginHorizontal: 8 }} />
+              </TouchableOpacity>
+            )}
+
+            <TouchableOpacity onPress={() => router.push(item.route as any)}>
+              <Ionicons name="chevron-forward" size={20} color={colors.surface} />
+            </TouchableOpacity>
+          </View>
         ))}
 
         <TouchableOpacity style={styles.row} onPress={handleLogout}>
           <View style={styles.iconCircle}>
-            <Ionicons name="log-out-outline" size={20} color={colors.text} />
+            <Ionicons name="log-out-outline" size={20} color={colors.primary ?? colors.text} />
           </View>
 
-          <Text style={styles.rowLabel}>Cerrar Sesión</Text>
+          <Text style={globalStyles.label}>{t("cerrarSesion")}</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -151,46 +146,18 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
 
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "#ddd",
-    marginTop: 16,
-  },
+  titleRow: { flexDirection: "row", alignItems: "center", marginBottom: 20 },
+  speakerIcon: { marginLeft: 8 },
 
-  avatarPlaceholder: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.inputBackground,
-  },
+  avatar: { width: 100, height: 100, borderRadius: 50, backgroundColor: "#ddd" },
+  avatarPlaceholder: { alignItems: "center", justifyContent: "center", backgroundColor: colors.surface },
 
-  name: {
-    fontFamily: "LeagueSpartan_700Bold",
-    fontSize: 22,
-    color: colors.textSecondary,
-    marginTop: 14,
-  },
+  upgradeBanner: { backgroundColor: colors.surface, marginHorizontal: 24, marginTop: 16, padding: 14, borderRadius: 14 },
 
-  upgradeBanner: {
-    backgroundColor: colors.surface,
-    marginHorizontal: 24,
-    marginTop: 16,
-    padding: 14,
-    borderRadius: 14,
-  },
-  upgradeBannerText: {
-    fontFamily: "LeagueSpartan_700Bold",
-    color: colors.text,
-    fontSize: 13,
-    textAlign: "center",
-  },
+  list: { flex: 1, paddingHorizontal: 24, paddingTop: 20 },
 
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 16,
-  },
+  row: { flexDirection: "row", alignItems: "center", paddingVertical: 16 },
+  rowMain: { flex: 1, flexDirection: "row", alignItems: "center" },
 
   iconCircle: {
     width: 44,
@@ -200,12 +167,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginRight: 16,
-  },
-
-  rowLabel: {
-    flex: 1,
-    fontFamily: "LeagueSpartan_400Regular",
-    fontSize: 16,
-    color: colors.textSecondary,
   },
 });

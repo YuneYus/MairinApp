@@ -1,5 +1,7 @@
 // app/ayuda/index.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
+import { speakIfEnabled } from "@/hooks/useSpeak";
 import { colors, globalStyles } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -19,11 +21,14 @@ const EMERGENCY_NUMBERS = [
 ];
 
 export default function HelpScreen() {
+  const { t, language } = useLanguage();
+  const showSpeakerIcons = language === "es";
+
   const handleCall = async (number: string) => {
     const url = `tel:${number}`;
     const supported = await Linking.canOpenURL(url);
 
-    if (supported) {
+ if (supported) {
       await Linking.openURL(url);
     } else {
       Alert.alert(
@@ -33,10 +38,25 @@ export default function HelpScreen() {
     }
   };
 
+
   return (
     <View style={styles.container}>
       <View style={globalStyles.pinkHeader}>
-        <Text style={globalStyles.pinkHeaderTitle}>Número De Emergencia</Text>
+        <TouchableOpacity
+          style={styles.titleRow}
+          onPress={() => speakIfEnabled(t("numeroEmergenciaTitle"), language)}
+          disabled={!showSpeakerIcons}
+        >
+          <Text style={globalStyles.pinkHeaderTitle}>{t("numeroEmergenciaTitle")}</Text>
+          {showSpeakerIcons && (
+            <Ionicons
+              name="volume-medium"
+              size={20}
+              color={colors.text}
+              style={styles.speakerIcon}
+            />
+          )}
+        </TouchableOpacity>
       </View>
 
       <View style={globalStyles.content}>
@@ -52,14 +72,30 @@ export default function HelpScreen() {
                 </View>
               </View>
 
-              <Text style={globalStyles.cardTitle}>{item.name}</Text>
+              <View style={styles.nameRow}>
+                <Text style={globalStyles.cardTitle}>{item.name}</Text>
+                {showSpeakerIcons && (
+                  <TouchableOpacity
+                    onPress={() => speakIfEnabled(item.name, language)}
+                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                  >
+                    <Ionicons
+                      name="volume-medium"
+                      size={14}
+                      color={colors.text}
+                      style={styles.speakerIconSmall}
+                    />
+                  </TouchableOpacity>
+                )}
+              </View>
+
               <Text style={globalStyles.cardSubtitle}>{item.number}</Text>
 
               <TouchableOpacity
                 style={styles.callRow}
                 onPress={() => handleCall(item.number)}
               >
-                <Text style={styles.callText}>Llamar</Text>
+                <Text style={styles.callText}>{t("llamar")}</Text>
                 <Ionicons name="chevron-forward" size={16} color={colors.text} />
               </TouchableOpacity>
             </View>
@@ -72,17 +108,39 @@ export default function HelpScreen() {
           </View>
 
           <View style={styles.doctorsPreviewTextBlock}>
-            <Text style={globalStyles.label}>
-              Mi Lista de Doctores/{"\n"}Centro de salud
-            </Text>
+            <View style={styles.nameRow}>
+              <Text style={globalStyles.label}>{t("ListaDoctoresCentroSalud")}</Text>
+              {showSpeakerIcons && (
+                <TouchableOpacity
+                  onPress={() => speakIfEnabled(t("ListaDoctoresCentroSalud"), language)}
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                >
+                  <Ionicons
+                    name="volume-medium"
+                    size={14}
+                    color={colors.text}
+                    style={styles.speakerIconSmall}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
 
-            <TouchableOpacity
-              style={styles.masButton}
-              onPress={() => router.push("/ayuda/doctor")}
-            >
-              <Text style={styles.masButtonText}>Más</Text>
-              <Ionicons name="chevron-forward" size={16} color={colors.text} />
-            </TouchableOpacity>
+           <TouchableOpacity
+  style={styles.masButton}
+  onPress={() => router.push("/ayuda/doctor")}
+>
+  <Text style={styles.masButtonText}>Más</Text>
+  <Ionicons name="chevron-forward" size={16} color={colors.text} />
+</TouchableOpacity>
+
+{showSpeakerIcons && (
+  <TouchableOpacity
+    onPress={() => speakIfEnabled("Más", language)}
+    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+  >
+    <Ionicons name="volume-medium" size={14} color={colors.text} style={{ marginLeft: 4 }} />
+  </TouchableOpacity>
+)}
           </View>
         </View>
       </View>
@@ -92,6 +150,12 @@ export default function HelpScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
+
+  titleRow: { flexDirection: "row", alignItems: "center" },
+  speakerIcon: { marginLeft: 8 },
+  speakerIconSmall: { marginLeft: 6 },
+
+  nameRow: { flexDirection: "row", alignItems: "center" },
 
   emergencyRow: { flexDirection: "row", gap: 14 },
   emergencyCard: {

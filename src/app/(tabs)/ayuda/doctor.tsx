@@ -1,5 +1,7 @@
 // app/ayuda/doctor.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
+import { speakIfEnabled } from "@/hooks/useSpeak";
 import { colors, globalStyles } from "@/styles/global";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
@@ -13,6 +15,9 @@ import {
 } from "../../../storage/doctorStorage";
 
 export default function DoctorsScreen() {
+  const { t, language } = useLanguage();
+  const showSpeakerIcons = language === "es";
+
   const [doctors, setDoctors] = useState<DoctorProfile[]>([]);
   const [searchText, setSearchText] = useState("");
 
@@ -52,12 +57,23 @@ export default function DoctorsScreen() {
           <Ionicons name="search" size={20} color="#999" />
         </View>
 
-        <TouchableOpacity
-          style={globalStyles.addButton}
-          onPress={() => router.push("/ayuda/adddoctors")}
-        >
-          <Text style={globalStyles.addButtonText}>+ Agregar Mis Doctores</Text>
-        </TouchableOpacity>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          <TouchableOpacity
+            style={[globalStyles.addButton, { flex: 1 }]}
+            onPress={() => router.push("/ayuda/adddoctors")}
+          >
+            <Text style={globalStyles.addButtonText}>+ {t("agregarDoctores")}</Text>
+          </TouchableOpacity>
+
+          {showSpeakerIcons && (
+            <TouchableOpacity
+              onPress={() => speakIfEnabled(t("agregarDoctores"), language)}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <Ionicons name="volume-medium" size={18} color={colors.text} />
+            </TouchableOpacity>
+          )}
+        </View>
 
         {filteredDoctors.length === 0 ? (
           <Text style={globalStyles.empty}>No hay doctores guardados.</Text>
@@ -68,17 +84,28 @@ export default function DoctorsScreen() {
               <Text style={globalStyles.cardSubtitle}>{doctor.professionalism}</Text>
               <Text style={globalStyles.cardHighlight}>{doctor.phonenumber}</Text>
 
-              <TouchableOpacity
-                style={globalStyles.pillButton}
-                onPress={() =>
-                  router.push({
-                    pathname: "/ayuda/adddoctors",
-                    params: { id: doctor.id },
-                  } as any)
-                }
-              >
-                <Text style={globalStyles.pillButtonText}>Ver En Grande</Text>
-              </TouchableOpacity>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                <TouchableOpacity
+                  style={[globalStyles.pillButton, { flex: 1 }]}
+                  onPress={() =>
+                    router.push({
+                      pathname: "/ayuda/adddoctors",
+                      params: { id: doctor.id },
+                    } as any)
+                  }
+                >
+                  <Text style={globalStyles.pillButtonText}>{t("verGrande")}</Text>
+                </TouchableOpacity>
+
+                {showSpeakerIcons && (
+                  <TouchableOpacity
+                    onPress={() => speakIfEnabled(t("verGrande"), language)}
+                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                  >
+                    <Ionicons name="volume-medium" size={16} color={colors.text} />
+                  </TouchableOpacity>
+                )}
+              </View>
             </View>
           ))
         )}

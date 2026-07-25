@@ -6,11 +6,11 @@ import { router } from "expo-router";
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
 export default function TextTranslateScreen() {
-  const { language, changeLanguage } = useLanguage();
+  const { language, changeLanguage, t } = useLanguage();
 
-  const options: { key: "es" | "mis"; label: string }[] = [
-    { key: "es", label: "Español" },
-    { key: "mis", label: "Miskito" },
+  const options: { key: "es" | "mis"; labelKey: "audioEspanol" | "audioMiskito" }[] = [
+    { key: "es", labelKey: "audioEspanol" },
+    { key: "mis", labelKey: "audioMiskito" },
   ];
 
   return (
@@ -23,13 +23,13 @@ export default function TextTranslateScreen() {
           <Ionicons name="chevron-back" size={24} color="#B0195B" />
         </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Cambiar Idioma De Texto</Text>
+        <Text style={styles.headerTitle}>{t("cambiarIdiomaTexto")}</Text>
       </View>
 
       <View style={styles.list}>
         {options.map((option) => (
           <View key={option.key} style={styles.row}>
-            <Text style={styles.rowLabel}>{option.label}</Text>
+            <Text style={styles.rowLabel}>{t(option.labelKey)}</Text>
 
             <Switch
               value={language === option.key}
@@ -43,6 +43,8 @@ export default function TextTranslateScreen() {
     </View>
   );
 }
+
+// styles unchanged
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white" },

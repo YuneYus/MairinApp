@@ -1,3 +1,6 @@
+// app/(tabs)/_layout.tsx
+
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { Text, View } from "react-native";
@@ -48,6 +51,8 @@ function TabIcon({
 }
 
 export default function TabLayout() {
+  const { t } = useLanguage();
+
   return (
     <Tabs
       screenOptions={{
@@ -69,9 +74,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Inicio",
+          title: t("tabInicio"),
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} iconName="home" label="Inicio" />
+            <TabIcon focused={focused} iconName="home" label={t("tabInicio")} />
           ),
         }}
       />
@@ -79,12 +84,12 @@ export default function TabLayout() {
       <Tabs.Screen
         name="calendar"
         options={{
-          title: "Calendario",
+          title: t("tabCalendario"),
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
               iconName="calendar"
-              label="Calendario"
+              label={t("tabCalendario")}
             />
           ),
         }}
@@ -93,12 +98,12 @@ export default function TabLayout() {
       <Tabs.Screen
         name="ayuda"
         options={{
-          title: "Ayuda",
+          title: t("tabAyuda"),
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
               iconName="warning-outline"
-              label="Ayuda"
+              label={t("tabAyuda")}
             />
           ),
         }}
@@ -107,9 +112,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="Apoyanos"
         options={{
-          title: "Apóyanos",
+          title: t("tabApoyanos"),
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} iconName="heart" label="Apóyanos" />
+            <TabIcon focused={focused} iconName="heart" label={t("tabApoyanos")} />
           ),
         }}
       />
@@ -117,17 +122,17 @@ export default function TabLayout() {
       <Tabs.Screen
         name="perfil"
         options={{
-          title: "Perfil",
+          title: t("tabPerfil"),
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} iconName="person" label="Perfil" />
+            <TabIcon focused={focused} iconName="person" label={t("tabPerfil")} />
           ),
         }}
       />
 
       <Tabs.Screen name="leer-mas-ciclo" options={{ href: null }} />
       <Tabs.Screen name="tamano-bebe" options={{ href: null }} />
-       <Tabs.Screen name="detalle-semana" options={{ href: null }} />
-       <Tabs.Screen name="viaje-embarazo" options={{ href: null }} />
+      <Tabs.Screen name="detalle-semana" options={{ href: null }} />
+      <Tabs.Screen name="viaje-embarazo" options={{ href: null }} />
     </Tabs>
   );
 }

@@ -1,5 +1,7 @@
 // app/(tabs)/Apoyanos/donar.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
+import { speakIfEnabled } from "@/hooks/useSpeak";
 import { colors, globalStyles } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -16,6 +18,9 @@ import {
 const AMOUNTS = ["20", "40", "60", "100", "120", "150"];
 
 export default function DonarScreen() {
+  const { t, language } = useLanguage();
+  const showSpeakerIcons = language === "es";
+
   const [selectedAmount, setSelectedAmount] = useState<string | null>(null);
   const [customAmount, setCustomAmount] = useState("");
 
@@ -48,14 +53,38 @@ export default function DonarScreen() {
           <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
 
-        <Text style={globalStyles.pinkHeaderTitle}>Quiero Donar</Text>
+        <View style={styles.titleRow}>
+          <Text style={globalStyles.pinkHeaderTitle}>{t("quieroDonarTitle")}</Text>
+          {showSpeakerIcons && (
+            <TouchableOpacity
+              onPress={() => speakIfEnabled(t("quieroDonarTitle"), language)}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <Ionicons
+                name="volume-medium"
+                size={20}
+                color={colors.text}
+                style={styles.speakerIcon}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
 
       <View style={globalStyles.content}>
-        <Text style={globalStyles.textNormal}>
-          Tu donación nos ayudará a mejorar la app y a seguir creando
-          recursos y herramientas accesibles para ti y para más mujeres.
-        </Text>
+        <View style={styles.descriptionWrapper}>
+          <Text style={globalStyles.textNormal}>{t("donarTexto")}</Text>
+
+          {showSpeakerIcons && (
+            <TouchableOpacity
+              style={styles.descriptionSpeaker}
+              onPress={() => speakIfEnabled(t("donarTexto"), language)}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <Ionicons name="volume-medium" size={18} color={colors.text} />
+            </TouchableOpacity>
+          )}
+        </View>
 
         <View style={styles.amountGrid}>
           {AMOUNTS.map((amount) => (
@@ -83,7 +112,7 @@ export default function DonarScreen() {
           <Text style={styles.currencyPrefix}>C$</Text>
           <TextInput
             style={styles.customAmountInput}
-            placeholder="Escribe el monto"
+            placeholder={t("EscribeElMonto")}
             placeholderTextColor={colors.text}
             keyboardType="numeric"
             value={customAmount}
@@ -94,18 +123,41 @@ export default function DonarScreen() {
           />
         </View>
 
-        <Text style={globalStyles.label}>Forma De Pago</Text>
+        <View style={styles.labelRow}>
+          <Text style={globalStyles.label}>{t("formaDePago")}</Text>
+          {showSpeakerIcons && (
+            <TouchableOpacity
+              onPress={() => speakIfEnabled(t("formaDePago"), language)}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <Ionicons
+                name="volume-medium"
+                size={16}
+                color={colors.text}
+                style={styles.speakerIconSmall}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
 
         <View style={styles.paymentOption}>
           <Ionicons name="card-outline" size={22} color={colors.text} />
-          <Text style={globalStyles.textNormal}>Pagar En Tarjeta</Text>
+          <Text style={globalStyles.textNormal}>{t("pagarTarjeta")}</Text>
+          {showSpeakerIcons && (
+            <TouchableOpacity
+              onPress={() => speakIfEnabled(t("pagarTarjeta"), language)}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <Ionicons name="volume-medium" size={16} color={colors.text} />
+            </TouchableOpacity>
+          )}
           <View style={styles.radioOuter}>
             <View style={styles.radioInner} />
           </View>
         </View>
 
         <TouchableOpacity style={globalStyles.pillButton} onPress={handleDonarAhora}>
-          <Text style={globalStyles.pillButtonText}>Donar Ahora</Text>
+          <Text style={globalStyles.pillButtonText}>{t("donarAhora")}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -115,11 +167,20 @@ export default function DonarScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
 
+  titleRow: { flexDirection: "row", alignItems: "center" },
+  speakerIcon: { marginLeft: 8 },
+  speakerIconSmall: { marginLeft: 6 },
+
+  descriptionWrapper: { marginTop: 0, marginBottom: 20 },
+  descriptionSpeaker: { marginTop: 8, alignSelf: "flex-start" },
+
+  labelRow: { flexDirection: "row", alignItems: "center" },
+
   amountGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 10,
-    marginTop: 20,
+    marginTop: 0,
     marginBottom: 20,
   },
 
@@ -185,6 +246,7 @@ const styles = StyleSheet.create({
     borderColor: colors.text,
     alignItems: "center",
     justifyContent: "center",
+    marginLeft: "auto",
   },
 
   radioInner: {
