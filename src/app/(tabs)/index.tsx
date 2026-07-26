@@ -1,5 +1,6 @@
 import { colors, globalStyles } from "@/styles/global";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { useCallback, useEffect, useState } from "react";
 
@@ -44,6 +45,20 @@ const ALL_ITEMS: {
   { key: "embarazo", title: "Embarazo", subtitle: "Aprender más", icon: "call" },
   { key: "menopausia", title: "Menopausia", subtitle: "Aprender más", icon: "call" },
 ];
+
+function BreathingButton() {
+  return (
+    <TouchableOpacity
+      style={styles.breathingButton}
+      onPress={() => router.push("/BreathingExercise")}
+      activeOpacity={0.85}
+    >
+      <Ionicons name="leaf-outline" size={26} color={colors.text} />
+      <Text style={[globalStyles.label, styles.breathingButtonText]}>Respira conmigo</Text>
+      <Ionicons name="chevron-forward" size={20} color={colors.text} />
+    </TouchableOpacity>
+  );
+}
 
 function InfoCenter() {
   const [stage, setStage] = useState<HealthStage>("menstruacion");
@@ -120,6 +135,7 @@ export default function Homescreen() {
 
       <View style={styles.content}>
         <SponsorshipAd />
+        <BreathingButton />
         <QuoteCard quote={todaysQuote.quote} />
         <CicloInfoCard />
                 <InfoCenter />
@@ -148,5 +164,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.text,
     marginBottom: 14,
+  },
+  breathingButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    backgroundColor: colors.inputBackground,
+    borderWidth: 1.5,
+    borderColor: colors.surface,
+    borderRadius: 30,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+  },
+  breathingButtonText: {
+    flex: 1,
+    marginTop: 0,
+    marginBottom: 0,
   },
 });

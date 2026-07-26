@@ -6,11 +6,13 @@ import {
   useFonts,
 } from "@expo-google-fonts/league-spartan";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Stack } from "expo-router";
 
 import { LanguageProvider } from "@/contexts/LanguageContext";
+
+import AppIntro from "@/components/AppIntro";
 
 import {
   requestPermissions,
@@ -23,6 +25,8 @@ export default function RootLayout() {
     LeagueSpartan_400Regular,
     LeagueSpartan_700Bold,
   });
+
+  const [introDone, setIntroDone] = useState(false);
 
   useEffect(() => {
     const setupNotifications = async () => {
@@ -44,12 +48,16 @@ export default function RootLayout() {
     return null;
   }
 
- return (
-  <LanguageProvider>
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(auth)" />
-      <Stack.Screen name="(tabs)" />
-    </Stack>
-  </LanguageProvider>
-);
+  if (!introDone) {
+    return <AppIntro onFinish={() => setIntroDone(true)} />;
+  }
+
+  return (
+    <LanguageProvider>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(tabs)" />
+      </Stack>
+    </LanguageProvider>
+  );
 }

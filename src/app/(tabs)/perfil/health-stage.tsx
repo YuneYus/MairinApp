@@ -1,25 +1,29 @@
 // app/(tabs)/perfil/health-stage.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   getHealthStage,
   HealthStage,
   setHealthStage,
 } from "@/storage/healthStageStorage";
 import { clearPregnancyWeek } from "@/storage/pregnancyWeekStorage";
+import { TranslationKey } from "@/translations";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
+import SpeakableText from "@/components/SpeakableText";
 import { colors, globalStyles } from "@/styles/global";
 
-const STAGES: { key: HealthStage; label: string }[] = [
-  { key: "menstruacion", label: "Menstruación" },
-  { key: "embarazo", label: "Embarazo" },
-  { key: "menopausia", label: "Menopausia" },
+const STAGES: { key: HealthStage; labelKey: TranslationKey }[] = [
+  { key: "menstruacion", labelKey: "Menstruación" },
+  { key: "embarazo", labelKey: "Embarazo" },
+  { key: "menopausia", labelKey: "Menopausia" },
 ];
 
 export default function HealthStageScreen() {
+  const { t } = useLanguage();
   const [selected, setSelected] = useState<HealthStage>("menstruacion");
 
   useFocusEffect(
@@ -52,13 +56,17 @@ export default function HealthStageScreen() {
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
           <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
-        <Text style={globalStyles.pinkHeaderTitle}>Cambiar Mi Etapa De Salud</Text>
+        <SpeakableText
+          text={t("menuEtapaSalud")}
+          style={globalStyles.pinkHeaderTitle}
+          iconSize={20}
+        />
       </View>
 
       <View style={styles.list}>
         {STAGES.map((stage) => (
           <View key={stage.key} style={styles.row}>
-            <Text style={globalStyles.label}>{stage.label}</Text>
+            <SpeakableText text={t(stage.labelKey)} style={globalStyles.label} iconSize={16} />
             <Switch
               value={selected === stage.key}
               onValueChange={() => setSelected(stage.key)}
@@ -70,7 +78,7 @@ export default function HealthStageScreen() {
       </View>
 
       <TouchableOpacity style={styles.saveButton} onPress={handleGuardar}>
-        <Text style={globalStyles.actionButtonText}>Guardar</Text>
+        <Text style={globalStyles.actionButtonText}>{t("guardar")}</Text>
       </TouchableOpacity>
     </View>
   );

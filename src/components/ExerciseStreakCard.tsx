@@ -1,10 +1,12 @@
 // components/ExerciseStreakCard.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
+import { speakIfEnabled } from "@/hooks/useSpeak";
 import { getExerciseStreakData } from "@/utils/exerciseStreak";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { colors, globalStyles } from "@/styles/global";
 
@@ -17,6 +19,9 @@ type WeekDay = {
 };
 
 export default function ExerciseStreakCard() {
+  const { t, language } = useLanguage();
+  const showSpeakerIcons = language === "es";
+
   const [streak, setStreak] = useState(0);
   const [week, setWeek] = useState<WeekDay[]>([]);
 
@@ -33,14 +38,48 @@ export default function ExerciseStreakCard() {
     }, [])
   );
 
+  const titleText = t("HiceEjercicios");
+  const subtitleText = `${streak} ${t("diasRancha")}`;
+
   return (
     <View style={styles.card}>
-      <Text style={[globalStyles.label, styles.title]}>Hice Ejercicios</Text>
+      <View style={styles.titleRow}>
+        <Text style={[globalStyles.label, styles.title]}>{titleText}</Text>
+        {showSpeakerIcons && (
+          <TouchableOpacity
+            onPress={() => speakIfEnabled(titleText, language)}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
+            <Ionicons
+              name="volume-medium"
+              size={16}
+              color={colors.text}
+              style={styles.speakerIcon}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
 
       <Ionicons name="flame" size={48} color={colors.text} style={styles.flameIcon} />
 
-      <Text style={styles.streakCount}>{streak} días</Text>
-      <Text style={[globalStyles.textNormal, styles.streakSubtitle]}>de racha</Text>
+      <View style={styles.subtitleRow}>
+        <Text style={[globalStyles.textNormal, styles.streakSubtitle]}>
+          {subtitleText}
+        </Text>
+        {showSpeakerIcons && (
+          <TouchableOpacity
+            onPress={() => speakIfEnabled(subtitleText, language)}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
+            <Ionicons
+              name="volume-medium"
+              size={14}
+              color={colors.text}
+              style={styles.speakerIcon}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
 
       <View style={styles.weekRow}>
         {week.map((day) => (
@@ -76,10 +115,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
+  titleRow: { flexDirection: "row", alignItems: "center" },
   title: {
     color: colors.text,
-    marginBottom: 8,
+    marginBottom: 0,
+    marginTop: 0,
   },
+  speakerIcon: { marginLeft: 8 },
   flameIcon: {
     marginVertical: 4,
   },
@@ -89,9 +131,13 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     marginTop: 6,
   },
+  subtitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+  },
   streakSubtitle: {
     color: "#666",
-    marginBottom: 16,
   },
   weekRow: {
     flexDirection: "row",

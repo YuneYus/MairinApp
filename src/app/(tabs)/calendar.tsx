@@ -1,7 +1,10 @@
 // app/(tabs)/calendar.tsx
 
 import PinkHeader from "@/components/PinkHeader";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { speakIfEnabled } from "@/hooks/useSpeak";
 import { colors, globalStyles } from "@/styles/global";
+import { TranslationKey, translations } from "@/translations";
 import { useCallback, useState } from "react";
 import {
   Alert,
@@ -47,23 +50,54 @@ import {
 } from "@/utils/reminderScheduler";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
+// --- react-native-calendars locale setup (both languages) ---
+
 LocaleConfig.locales["es"] = {
   monthNames: [
-    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+    translations.es.Enero, translations.es.Febrero, translations.es.Marzo,
+    translations.es.abril, translations.es.mayo, translations.es.junio,
+    translations.es.julio, translations.es.agosto, translations.es.septiembre,
+    translations.es.octubre, translations.es.noviembre, translations.es.diciembre,
   ],
   monthNamesShort: [
     "Ene", "Feb", "Mar", "Abr", "May", "Jun",
     "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",
   ],
   dayNames: [
-    "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado",
+    translations.es.dom, translations.es.Lun, translations.es.mar,
+    translations.es.mier, translations.es.jue, translations.es.vier, translations.es.sat,
   ],
   dayNamesShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
   today: "Hoy",
 };
 
+LocaleConfig.locales["mis"] = {
+  monthNames: [
+    translations.mis.Enero, translations.mis.Febrero, translations.mis.Marzo,
+    translations.mis.abril, translations.mis.mayo, translations.mis.junio,
+    translations.mis.julio, translations.mis.agosto, translations.mis.septiembre,
+    translations.mis.octubre, translations.mis.noviembre, translations.mis.diciembre,
+  ],
+  monthNamesShort: [
+    translations.mis.Enero, translations.mis.Febrero, translations.mis.Marzo,
+    translations.mis.abril, translations.mis.mayo, translations.mis.junio,
+    translations.mis.julio, translations.mis.agosto, translations.mis.septiembre,
+    translations.mis.octubre, translations.mis.noviembre, translations.mis.diciembre,
+  ],
+  dayNames: [
+    translations.mis.dom, translations.mis.Lun, translations.mis.mar,
+    translations.mis.mier, translations.mis.jue, translations.mis.vier, translations.mis.sat,
+  ],
+  dayNamesShort: [
+    translations.mis.dom, translations.mis.Lun, translations.mis.mar,
+    translations.mis.mier, translations.mis.jue, translations.mis.vier, translations.mis.sat,
+  ],
+  today: "Today",
+};
+
 LocaleConfig.defaultLocale = "es";
+
+// --- symptom lists (kept as Spanish identifiers for storage) ---
 
 const PREGNANCY_SYMPTOMS = [
   "Nausea", "Dolor de cabeza", "Fatiga/cansancio", "Acidez estomacal",
@@ -74,6 +108,35 @@ const MENOPAUSE_SYMPTOMS = [
   "Sofocos(sensación repentina de calor en el cuerpo)", "Sudores nocturnos",
   "Cambios de humor", "Problemas para dormir", "Fatiga/cansancio",
   "Dolores de cabeza", "Mareos", "Dolor articular (rodillas, muñecas, hombros, etc.)",
+];
+
+// maps each symptom identifier -> translation key, for DISPLAY only
+const PREGNANCY_SYMPTOM_KEYS: Record<string, TranslationKey> = {
+  "Nausea": "Nausea",
+  "Dolor de cabeza": "dolorCabeza",
+  "Fatiga/cansancio": "fatigaCansancio",
+  "Acidez estomacal": "aceidezEstomacal",
+  "Hinchazón de los pies": "hinchazonPies",
+  "Dolor de espalda": "dolorEspalda",
+  "Mareos": "mareos",
+  "Cambios de humor": "cambioHumor",
+};
+
+const MENOPAUSE_SYMPTOM_KEYS: Record<string, TranslationKey> = {
+  "Sofocos(sensación repentina de calor en el cuerpo)": "sofoco",
+  "Sudores nocturnos": "sudonesNocturno",
+  "Cambios de humor": "cambioHumor",
+  "Problemas para dormir": "problemaDormir",
+  "Fatiga/cansancio": "fatigaCansancio",
+  "Dolores de cabeza": "dolorCabeza",
+  "Mareos": "mareos",
+  "Dolor articular (rodillas, muñecas, hombros, etc.)": "dolorArticular",
+};
+
+const WEEKDAY_KEYS: TranslationKey[] = ["dom", "Lun", "mar", "mier", "jue", "vier", "sat"];
+const MONTH_KEYS: TranslationKey[] = [
+  "Enero", "Febrero", "Marzo", "abril", "mayo", "junio",
+  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
 ];
 
 const emptyAppointment: Appointment = {
@@ -95,6 +158,12 @@ type SearchResult = {
 };
 
 export default function CalendarScreen() {
+  const { t, language } = useLanguage();
+  const showSpeakerIcons = language === "es";
+
+  // keep react-native-calendars in sync with the current language
+  LocaleConfig.defaultLocale = language === "mis" ? "mis" : "es";
+
   const today = new Date();
   const todayString = today.toISOString().split("T")[0];
 
@@ -168,7 +237,7 @@ export default function CalendarScreen() {
       return;
     }
 
-   if (stage === "menopausia") {
+    if (stage === "menopausia") {
       const data = await getMenopauseEntry(date);
       if (data) {
         setMenopauseExercise(data.exercise ?? false);
@@ -439,10 +508,9 @@ export default function CalendarScreen() {
     setSearchResults([]);
   };
 
-  const formattedDate = new Date(`${selectedDate}T00:00:00`).toLocaleDateString(
-    "es-ES",
-    { weekday: "long", year: "numeric", month: "long", day: "numeric" }
-  );
+  // translated date line below the calendar, built from our own weekday/month keys
+  const selectedDateObj = new Date(`${selectedDate}T00:00:00`);
+  const formattedDate = `${t(WEEKDAY_KEYS[selectedDateObj.getDay()])}, ${selectedDateObj.getDate()} de ${t(MONTH_KEYS[selectedDateObj.getMonth()])} de ${selectedDateObj.getFullYear()}`;
 
   const searchPlaceholder =
     healthStage === "menstruacion"
@@ -451,9 +519,45 @@ export default function CalendarScreen() {
       ? "Buscar en citas o notas..."
       : "Buscar en suplementos o notas...";
 
+  const pregnancySymptomLabel = (symptom: string) => {
+    const key = PREGNANCY_SYMPTOM_KEYS[symptom];
+    return key ? t(key) : symptom;
+  };
+
+  const menopauseSymptomLabel = (symptom: string) => {
+    const key = MENOPAUSE_SYMPTOM_KEYS[symptom];
+    return key ? t(key) : symptom;
+  };
+
+  const SpeakerIcon = ({ text, size = 18 }: { text: string; size?: number }) =>
+    showSpeakerIcons ? (
+      <TouchableOpacity
+        onPress={() => speakIfEnabled(text, language)}
+        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+      >
+        <Ionicons
+          name="volume-medium"
+          size={size}
+          color={colors.text}
+          style={styles.speakerIcon}
+        />
+      </TouchableOpacity>
+    ) : null;
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: colors.background }}>
-      <PinkHeader title="Calendario" showBack={false} />
+      <View style={styles.headerWrapper}>
+        <PinkHeader title={t("calendario")} showBack={false} />
+        {showSpeakerIcons && (
+          <TouchableOpacity
+            style={styles.headerSpeaker}
+            onPress={() => speakIfEnabled(t("calendario"), language)}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
+            <Ionicons name="volume-medium" size={20} color={colors.text} />
+          </TouchableOpacity>
+        )}
+      </View>
 
       <View style={globalStyles.content}>
         <View style={globalStyles.searchBar}>
@@ -499,7 +603,7 @@ export default function CalendarScreen() {
           markedDates={markedDates}
         />
 
-        <Text style={[globalStyles.label, { textAlign: "center" , paddingTop: 10}]}>
+        <Text style={[globalStyles.label, { textAlign: "center", paddingTop: 10 }]}>
           {formattedDate}
         </Text>
 
@@ -507,20 +611,31 @@ export default function CalendarScreen() {
           <>
             <View style={styles.card}>
               <View style={styles.row}>
-                <Text style={[styles.switchLabel]} numberOfLines={2}>🔴 Hoy tengo la regla (menstruación)</Text>
+                <View style={styles.labelWithIcon}>
+                  <Text style={[styles.switchLabel]} numberOfLines={2}>
+                    🔴 {t("hoytengoRegla")}
+                  </Text>
+                  <SpeakerIcon text={t("hoytengoRegla")} />
+                </View>
                 <Switch value={period} onValueChange={setPeriod} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
               </View>
             </View>
 
             <View style={styles.card}>
               <View style={styles.row}>
-                <Text style={globalStyles.label}>🟢 Hoy hice ejercicio</Text>
+                <View style={styles.labelWithIcon}>
+                  <Text style={globalStyles.label}>🟢 {t("hoyhiceEjercicio")}</Text>
+                  <SpeakerIcon text={t("hoyhiceEjercicio")} />
+                </View>
                 <Switch value={exercise} onValueChange={setExercise} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
               </View>
             </View>
 
             <View style={styles.card}>
-              <Text style={globalStyles.label}>😊 Mi estado de ánimo</Text>
+              <View style={styles.titleWithIcon}>
+                <Text style={globalStyles.label}>😊 {t("EstadoAnimo")}</Text>
+                <SpeakerIcon text={t("EstadoAnimo")} />
+              </View>
               <View style={styles.emojiRow}>
                 {["😊", "🙂", "😐", "😔", "😡"].map((emoji) => (
                   <TouchableOpacity
@@ -540,14 +655,22 @@ export default function CalendarScreen() {
           <>
             <View style={styles.card}>
               <View style={styles.row}>
-                <Text style={[styles.switchLabel]} numberOfLines={2}>🟣 Movimientos del bebé (pataditas)</Text>
+                <View style={styles.labelWithIcon}>
+                  <Text style={[styles.switchLabel]} numberOfLines={2}>
+                    🟣 {t("MovBebe")}
+                  </Text>
+                  <SpeakerIcon text={t("MovBebe")} />
+                </View>
                 <Switch value={babyMovement} onValueChange={setBabyMovement} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
               </View>
             </View>
 
             <View style={styles.card}>
               <View style={styles.row}>
-                <Text style={globalStyles.label}>🟢 Cita médica</Text>
+                <View style={styles.labelWithIcon}>
+                  <Text style={globalStyles.label}>🟢 {t("citaMedica")}</Text>
+                  <SpeakerIcon text={t("citaMedica")} />
+                </View>
                 <Switch value={doctorAppointment} onValueChange={setDoctorAppointment} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
               </View>
 
@@ -558,6 +681,7 @@ export default function CalendarScreen() {
                       key={index}
                       item={appt}
                       onUpdate={(field, value) => updateAppointment(index, field, value)}
+                      t={t}
                     />
                   ))}
 
@@ -569,7 +693,7 @@ export default function CalendarScreen() {
             </View>
 
             <SymptomsCard
-              title="🟡 Síntomas"
+              title={`🟡 ${t("sintomas")}`}
               symptomsList={PREGNANCY_SYMPTOMS}
               selected={symptoms}
               onToggle={toggleSymptom}
@@ -578,6 +702,10 @@ export default function CalendarScreen() {
               onOtherChange={setOtherSymptom}
               onAddOther={addCustomSymptom}
               onRemoveCustom={removeCustomSymptom}
+              labelFor={pregnancySymptomLabel}
+              t={t}
+              showSpeakerIcons={showSpeakerIcons}
+              language={language}
             />
           </>
         )}
@@ -586,14 +714,22 @@ export default function CalendarScreen() {
           <>
             <View style={styles.card}>
               <View style={styles.row}>
-                <Text style={globalStyles.label}>🟢 Ejercicio</Text>
+                <View style={styles.labelWithIcon}>
+                  <Text style={globalStyles.label}>🟢 {t("ejercicio")}</Text>
+                  <SpeakerIcon text={t("ejercicio")} />
+                </View>
                 <Switch value={menopauseExercise} onValueChange={setMenopauseExercise} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
               </View>
             </View>
 
             <View style={styles.card}>
               <View style={styles.row}>
-                <Text style={[styles.switchLabel]} numberOfLines={2}>🔵 Debo beber medicamentos/suplementos</Text>
+                <View style={styles.labelWithIcon}>
+                  <Text style={[styles.switchLabel]} numberOfLines={2}>
+                    🔵 {t("vitaminaSuplemento")}
+                  </Text>
+                  <SpeakerIcon text={t("vitaminaSuplemento")} />
+                </View>
                 <Switch value={vitamins} onValueChange={setVitamins} trackColor={{ false: "#E5E5E5", true: "#A4195B" }} thumbColor="#FFFFFF" />
               </View>
 
@@ -604,6 +740,7 @@ export default function CalendarScreen() {
                       key={index}
                       item={sup}
                       onUpdate={(field, value) => updateSupplement(index, field, value)}
+                      t={t}
                     />
                   ))}
 
@@ -615,7 +752,7 @@ export default function CalendarScreen() {
             </View>
 
             <SymptomsCard
-              title="🟡 Síntomas"
+              title={`🟡 ${t("sintomas")}`}
               symptomsList={MENOPAUSE_SYMPTOMS}
               selected={symptoms}
               onToggle={toggleSymptom}
@@ -624,17 +761,27 @@ export default function CalendarScreen() {
               onOtherChange={setOtherSymptom}
               onAddOther={addCustomSymptom}
               onRemoveCustom={removeCustomSymptom}
+              labelFor={menopauseSymptomLabel}
+              t={t}
+              showSpeakerIcons={showSpeakerIcons}
+              language={language}
             />
           </>
         )}
 
         <View style={styles.card}>
-          <Text style={globalStyles.label}>📝 Notas</Text>
-          <TextInput value={notes} onChangeText={setNotes} placeholder="Quiero escribir..." multiline style={[styles.notesInput, globalStyles.textNormal]} />
+          <Text style={globalStyles.label}>📝{t("nota")}</Text>
+          <TextInput
+            value={notes}
+            onChangeText={setNotes}
+            placeholder={t("quieroEscribir")}
+            multiline
+            style={[styles.notesInput, globalStyles.textNormal]}
+          />
         </View>
 
         <TouchableOpacity style={globalStyles.actionButton} onPress={handleSave}>
-          <Text style={globalStyles.actionButtonText}>Guardar</Text>
+          <Text style={globalStyles.actionButtonText}>{t("guardarCalendario")}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -644,6 +791,7 @@ export default function CalendarScreen() {
 function AppointmentEditor({
   item,
   onUpdate,
+  t,
 }: {
   item: {
     name: string;
@@ -655,6 +803,7 @@ function AppointmentEditor({
     field: "name" | "time" | "description" | "reminderOffset",
     value: any
   ) => void;
+  t: (key: TranslationKey) => string;
 }) {
   const [showPicker, setShowPicker] = useState(false);
   const [showReminderDropdown, setShowReminderDropdown] = useState(false);
@@ -678,7 +827,7 @@ function AppointmentEditor({
         style={styles.fieldInput}
         value={item.name}
         onChangeText={(text) => onUpdate("name", text)}
-        placeholder="Nombre"
+        placeholder={t("nombre")}
       />
 
       <TouchableOpacity style={styles.fieldInput} onPress={() => setShowPicker(true)}>
@@ -727,7 +876,7 @@ function AppointmentEditor({
         style={styles.fieldInput}
         value={item.description}
         onChangeText={(text) => onUpdate("description", text)}
-        placeholder="Descripción"
+        placeholder={t("descripcion")}
       />
     </View>
   );
@@ -743,6 +892,10 @@ function SymptomsCard({
   onOtherChange,
   onAddOther,
   onRemoveCustom,
+  labelFor,
+  t,
+  showSpeakerIcons,
+  language,
 }: {
   title: string;
   symptomsList: string[];
@@ -753,14 +906,35 @@ function SymptomsCard({
   onOtherChange: (text: string) => void;
   onAddOther: () => void;
   onRemoveCustom: (symptom: string) => void;
+  labelFor: (symptom: string) => string;
+  t: (key: TranslationKey) => string;
+  showSpeakerIcons: boolean;
+  language: "es" | "mis";
 }) {
   return (
     <View style={styles.card}>
-      <Text style={globalStyles.label}>{title}</Text>
+      <View style={styles.titleWithIcon}>
+        <Text style={globalStyles.label}>{title}</Text>
+        {showSpeakerIcons && (
+          <TouchableOpacity
+            onPress={() => speakIfEnabled(title, language)}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
+            <Ionicons
+              name="volume-medium"
+              size={18}
+              color={colors.text}
+              style={styles.speakerIcon}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
 
       {symptomsList.map((symptom) => (
         <TouchableOpacity key={symptom} onPress={() => onToggle(symptom)} style={styles.checkboxRow}>
-          <Text style={globalStyles.textNormal}>{selected.includes(symptom) ? "☑" : "☐"} {symptom}</Text>
+          <Text style={globalStyles.textNormal}>
+            {selected.includes(symptom) ? "☑" : "☐"} {labelFor(symptom)}
+          </Text>
         </TouchableOpacity>
       ))}
 
@@ -778,7 +952,7 @@ function SymptomsCard({
         <TextInput
           value={otherSymptom}
           onChangeText={onOtherChange}
-          placeholder="Otro síntoma..."
+          placeholder={t("otrosSintomas")}
           style={[styles.fieldInput, globalStyles.textNormal, { flex: 1, marginTop: 12 }]}
         />
 
@@ -791,6 +965,16 @@ function SymptomsCard({
 }
 
 const styles = StyleSheet.create({
+  headerWrapper: { position: "relative" },
+  headerSpeaker: {
+    position: "absolute",
+    top: 60,
+    right: 24,
+  },
+  speakerIcon: { marginLeft: 8 },
+  titleWithIcon: { flexDirection: "row", alignItems: "center" },
+  labelWithIcon: { flexDirection: "row", alignItems: "center", flex: 1 },
+
   searchResultsBox: {
     backgroundColor: "white",
     borderRadius: 14,
@@ -854,12 +1038,11 @@ const styles = StyleSheet.create({
   dropdownOption: { padding: 12, borderBottomWidth: 1, borderBottomColor: "#F6E4EC" },
   dropdownOptionText: { fontSize: 13, color: "#222" },
 
-
   switchLabel: {
-  flex: 1,
-  flexShrink: 1,
-  marginRight: 12,
-  fontSize: 18,
-  fontFamily: globalStyles.label.fontFamily,
-},
+    flex: 1,
+    flexShrink: 1,
+    marginRight: 12,
+    fontSize: 18,
+    fontFamily: globalStyles.label.fontFamily,
+  },
 });

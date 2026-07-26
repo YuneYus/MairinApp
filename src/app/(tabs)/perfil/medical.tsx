@@ -1,11 +1,14 @@
 // app/(tabs)/perfil/medical.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
+import { speakIfEnabled } from "@/hooks/useSpeak";
 import {
   emptyMedicalInfo,
   getMedicalInfo,
   MedicalInfo,
   saveMedicalInfo,
 } from "@/storage/medicalInfoStorage";
+import { TranslationKey } from "@/translations";
 import { generateAndSharePdf } from "@/utils/medicalPdf";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
@@ -23,57 +26,101 @@ import {
 import PinkHeader from "@/components/PinkHeader";
 import { colors, globalStyles } from "@/styles/global";
 
-const MENSTRUAL_SYMPTOMS = [
-  "Cólicos (dolor en el abdomen)",
-  "Dolor de cabeza",
-  "Cansancio",
-  "Dolor de espalda",
-  "Hinchazón (sensación de inflamación abdominal)",
-  "Náuseas",
-  "Mareos",
-  "Cambios de humor",
-  "Antojos (deseo de ciertos alimentos)",
-  "Poco sueño",
-  "Diarrea",
-  "Estreñimiento (dificultad para evacuar)",
-  "Dolor en las piernas",
-  "Sangre abundante (mucha sangre)",
-  "Manchado (pequeño sangrado menstrual)",
+// Translation keys, in the same order as the original Spanish lists,
+// so both languages stay in sync.
+const MENSTRUAL_SYMPTOM_KEYS: TranslationKey[] = [
+  "colicos",
+  "dolorCabeza",
+  "cansancio",
+  "dolorEspalda",
+  "hinchazon",
+  "nauseas",
+  "mareos",
+  "cambiosHumor",
+  "antojos",
+  "pocoSueno",
+  "diarrea",
+  "estrenimiento",
+  "dolorPiernas",
+  "sangreAbundante",
+  "manchado",
 ];
 
-const PREGNANCY_SYMPTOMS = [
-  "Nausea",
-  "Dolor de cabeza",
-  "Fatiga/cansancio",
-  "Acidez estomacal",
-  "Hinchazón de los pies",
-  "Dolor de espalda",
-  "Mareos",
-  "Cambios de humor",
+const PREGNANCY_SYMPTOM_KEYS: TranslationKey[] = [
+  "nausea",
+  "dolorCabezaEmbarazo",
+  "fatiga",
+  "acidezEstomacal",
+  "hinchazonPies",
+  "dolorEspaldaEmbarazo",
+  "mareosEmbarazo",
+  "cambiosHumorEmbarazo",
 ];
 
-const MENOPAUSE_SYMPTOMS = [
-  "Sofocos(sensación repentina de calor en el cuerpo)",
-  "Sudores nocturnos",
-  "Cambios de humor",
-  "Problemas para dormir",
-  "Fatiga/cansancio",
-  "Dolores de cabeza",
-  "Mareos",
-  "Dolor articular (rodillas, muñecas, hombros, etc.)",
+const MENOPAUSE_SYMPTOM_KEYS: TranslationKey[] = [
+  "sofocos",
+  "sudoresNocturnos",
+  "cambiosHumorMenopausia",
+  "problemasDormir",
+  "fatigaMenopausia",
+  "doloresCabeza",
+  "mareosMenopausia",
+  "dolorArticular",
 ];
 
-const PAIN_LEVELS = [
-  "1 - Muy leve (Apenas lo sientes)",
-  "2 - Leve (Molesta un poco)",
-  "3 - Moderado (Puede requerer descanso)",
-  "4 - Fuerte (Dificulta tus actividades)",
-  "5 - Muy fuerte (Impide tus actividades normales)",
+const PAIN_LEVEL_KEYS: TranslationKey[] = [
+  "dolorMuyLeve",
+  "dolorLeve",
+  "dolorModerado",
+  "dolorFuerte",
+  "dolorMuyFuerte",
 ];
 
 const SURGERY_COUNTS = ["1", "2", "3", "4", "5"];
 
+const PART_TITLE_KEYS: Record<number, TranslationKey> = {
+  1: "miInformacionMedicaParte1",
+  2: "miInformacionMedicaParte2",
+  3: "miInformacionMedicaParte3",
+  4: "miInformacionMedicaParte4",
+};
+
+type T = (key: TranslationKey) => string;
+
+// Shared label + speaker-icon row, reused by every field in this screen.
+function LabelWithVoice({
+  text,
+  language,
+  showSpeakerIcons,
+}: {
+  text: string;
+  language: string;
+  showSpeakerIcons: boolean;
+}) {
+  return (
+    <View style={styles.labelRow}>
+      <Text style={globalStyles.label}>{text}</Text>
+      {showSpeakerIcons && (
+        <TouchableOpacity
+          onPress={() => speakIfEnabled(text, language as any)}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <Ionicons
+            name="volume-medium"
+            size={16}
+            color={colors.text}
+            style={styles.speakerIcon}
+          />
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+}
+
 export default function MedicalScreen() {
+  const { t, language } = useLanguage();
+  const showSpeakerIcons = language === "es";
+
   const [step, setStep] = useState(1);
   const [info, setInfo] = useState<MedicalInfo>(emptyMedicalInfo);
   const [dirty, setDirty] = useState(false);
@@ -117,22 +164,28 @@ export default function MedicalScreen() {
     }
   };
 
-  const partTitle = {
-    1: "Mi Información Médica\n(Parte 1)",
-    2: "Mi Información Médica\n(Parte 2)",
-    3: "Mi Información Médica\n(Parte 3)",
-    4: "Mi Información Médica\n(Parte 4)",
-  }[step];
+  const partTitleKey: TranslationKey =
+    PART_TITLE_KEYS[step] ?? "miInformacionMedicaParte1";
+
+  const partTitle = t(partTitleKey);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <PinkHeader title={partTitle!} onBack={handleBack} />
+      <PinkHeader title={partTitle} onBack={handleBack} />
 
       <ScrollView style={globalStyles.content} contentContainerStyle={{ paddingBottom: 40 }}>
-        {step === 1 && <Part1 info={info} update={update} />}
-        {step === 2 && <Part2 info={info} update={update} />}
-        {step === 3 && <Part3 info={info} update={update} />}
-        {step === 4 && <Part4 info={info} update={update} />}
+        {step === 1 && (
+          <Part1 info={info} update={update} t={t} language={language} showSpeakerIcons={showSpeakerIcons} />
+        )}
+        {step === 2 && (
+          <Part2 info={info} update={update} t={t} language={language} showSpeakerIcons={showSpeakerIcons} />
+        )}
+        {step === 3 && (
+          <Part3 info={info} update={update} t={t} language={language} showSpeakerIcons={showSpeakerIcons} />
+        )}
+        {step === 4 && (
+          <Part4 info={info} update={update} t={t} language={language} showSpeakerIcons={showSpeakerIcons} />
+        )}
 
         <View style={styles.buttonRow}>
           <TouchableOpacity
@@ -140,11 +193,11 @@ export default function MedicalScreen() {
             onPress={handleGuardar}
             disabled={!dirty}
           >
-            <Text style={globalStyles.actionButtonText}>Guardar</Text>
+            <Text style={globalStyles.actionButtonText}>{t("guardar")}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={globalStyles.actionButton} onPress={handleGenerarPdf}>
-            <Text style={globalStyles.actionButtonText}>Generar{"\n"}PDF</Text>
+            <Text style={globalStyles.actionButtonText}>{t("generarPdf")}</Text>
           </TouchableOpacity>
 
           {step < 4 && (
@@ -152,7 +205,7 @@ export default function MedicalScreen() {
               style={globalStyles.actionButton}
               onPress={() => setStep(step + 1)}
             >
-              <Text style={globalStyles.actionButtonText}>Siguiente</Text>
+              <Text style={globalStyles.actionButtonText}>{t("siguiente")}</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -166,37 +219,43 @@ export default function MedicalScreen() {
 function Part1({
   info,
   update,
+  t,
+  language,
+  showSpeakerIcons,
 }: {
   info: MedicalInfo;
   update: (patch: Partial<MedicalInfo>) => void;
+  t: T;
+  language: string;
+  showSpeakerIcons: boolean;
 }) {
   return (
     <View>
-      <Text style={styles.sectionTitle}>Mis Datos Personales</Text>
+      <Text style={styles.sectionTitle}>{t("misDatosPersonales")}</Text>
 
-      <Field label="Nombre y Apellido" value={info.fullName} onChangeText={(v) => update({ fullName: v })} placeholder="Ejemplo: Lily Hernandez" />
-      <Field label="Fecha de nacimiento" value={info.birthDate} onChangeText={(v) => update({ birthDate: v })} placeholder="DD/MM/AAAA" />
-
-      <View style={styles.row}>
-        <Field label="Altura" value={info.height} onChangeText={(v) => update({ height: v })} placeholder="160cm" containerStyle={{ flex: 1 }} />
-        <Field label="Peso" value={info.weight} onChangeText={(v) => update({ weight: v })} placeholder="58kg" containerStyle={{ flex: 1 }} />
-        <Field label="Tipo de sangre" value={info.bloodType} onChangeText={(v) => update({ bloodType: v })} placeholder="O+" containerStyle={{ flex: 1 }} />
-      </View>
-
-      <Field label="Ocupación" value={info.occupation} onChangeText={(v) => update({ occupation: v })} placeholder="Ejemplo: Ayudantes de cocina" />
-      <Field label="Ciudad de residencia" value={info.city} onChangeText={(v) => update({ city: v })} placeholder="Ejemplo: Managua" />
+      <Field label={t("nombreApellido")} value={info.fullName} onChangeText={(v) => update({ fullName: v })} placeholder="Ejemplo: Lily Hernandez" language={language} showSpeakerIcons={showSpeakerIcons} />
+      <Field label={t("fechaNacimiento")} value={info.birthDate} onChangeText={(v) => update({ birthDate: v })} placeholder="DD/MM/AAAA" language={language} showSpeakerIcons={showSpeakerIcons} />
 
       <View style={styles.row}>
-        <Field label="Teléfono" value={info.phone} onChangeText={(v) => update({ phone: v })} placeholder="00000000" containerStyle={{ flex: 1 }} keyboardType="phone-pad" />
-        <Field label="Seguro médico (si aplica)" value={info.insurance} onChangeText={(v) => update({ insurance: v })} placeholder="eje: club de salud" containerStyle={{ flex: 1 }} />
+        <Field label={t("altura")} value={info.height} onChangeText={(v) => update({ height: v })} placeholder="160cm" containerStyle={{ flex: 1 }} language={language} showSpeakerIcons={showSpeakerIcons} />
+        <Field label={t("peso")} value={info.weight} onChangeText={(v) => update({ weight: v })} placeholder="58kg" containerStyle={{ flex: 1 }} language={language} showSpeakerIcons={showSpeakerIcons} />
+        <Field label={t("tipoSangre")} value={info.bloodType} onChangeText={(v) => update({ bloodType: v })} placeholder="O+" containerStyle={{ flex: 1 }} language={language} showSpeakerIcons={showSpeakerIcons} />
       </View>
 
-      <Field label="Correo electrónico" value={info.email} onChangeText={(v) => update({ email: v })} placeholder="Ejemplo: lilyhernandez1982@gmail.com" keyboardType="email-address" autoCapitalize="none" />
+      <Field label={t("ocupacion")} value={info.occupation} onChangeText={(v) => update({ occupation: v })} placeholder="Ejemplo: Ayudantes de cocina" language={language} showSpeakerIcons={showSpeakerIcons} />
+      <Field label={t("ciudadResidencia")} value={info.city} onChangeText={(v) => update({ city: v })} placeholder="Ejemplo: Managua" language={language} showSpeakerIcons={showSpeakerIcons} />
 
-      <Text style={[styles.sectionTitle, { marginTop: 24 }]}>Contacto De Emergencia</Text>
+      <View style={styles.row}>
+        <Field label={t("telefono")} value={info.phone} onChangeText={(v) => update({ phone: v })} placeholder="00000000" containerStyle={{ flex: 1 }} keyboardType="phone-pad" language={language} showSpeakerIcons={showSpeakerIcons} />
+        <Field label={t("seguroMedico")} value={info.insurance} onChangeText={(v) => update({ insurance: v })} placeholder="eje: club de salud" containerStyle={{ flex: 1 }} language={language} showSpeakerIcons={showSpeakerIcons} />
+      </View>
 
-      <Field label="Nombre y Apellido" value={info.emergencyName} onChangeText={(v) => update({ emergencyName: v })} placeholder="Ejemplo: Lily Hernandez" />
-      <Field label="Teléfono" value={info.emergencyPhone} onChangeText={(v) => update({ emergencyPhone: v })} placeholder="00000000" keyboardType="phone-pad" />
+      <Field label={t("correoElectronico")} value={info.email} onChangeText={(v) => update({ email: v })} placeholder="Ejemplo: lilyhernandez1982@gmail.com" keyboardType="email-address" autoCapitalize="none" language={language} showSpeakerIcons={showSpeakerIcons} />
+
+      <Text style={[styles.sectionTitle, { marginTop: 24 }]}>{t("contactoEmergencia")}</Text>
+
+      <Field label={t("contactoEmergenciaNombre")} value={info.emergencyName} onChangeText={(v) => update({ emergencyName: v })} placeholder="Ejemplo: Lily Hernandez" language={language} showSpeakerIcons={showSpeakerIcons} />
+      <Field label={t("contactoEmergenciaTelefono")} value={info.emergencyPhone} onChangeText={(v) => update({ emergencyPhone: v })} placeholder="00000000" keyboardType="phone-pad" language={language} showSpeakerIcons={showSpeakerIcons} />
     </View>
   );
 }
@@ -206,9 +265,15 @@ function Part1({
 function Part2({
   info,
   update,
+  t,
+  language,
+  showSpeakerIcons,
 }: {
   info: MedicalInfo;
   update: (patch: Partial<MedicalInfo>) => void;
+  t: T;
+  language: string;
+  showSpeakerIcons: boolean;
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -226,9 +291,9 @@ function Part2({
 
   return (
     <View>
-      <Text style={styles.sectionTitle}>Enfermedades Actuales O Previas</Text>
+      <Text style={styles.sectionTitle}>{t("enfermedadesActualesPrevias")}</Text>
 
-      <Text style={globalStyles.label}>¿Algunas enfermedades diagnosticadas?</Text>
+      <LabelWithVoice text={t("enfermedadesDiagnosticadas")} language={language} showSpeakerIcons={showSpeakerIcons} />
       <TextInput
         style={styles.textarea}
         value={info.currentIllnesses}
@@ -238,10 +303,10 @@ function Part2({
         textAlignVertical="top"
       />
 
-      <Text style={globalStyles.label}>¿Cuántas cirugía previa?</Text>
+      <LabelWithVoice text={t("cuantasCirugiasPrevias")} language={language} showSpeakerIcons={showSpeakerIcons} />
       <TouchableOpacity style={styles.dropdownField} onPress={() => setShowDropdown((p) => !p)}>
         <Text style={info.surgeryCount ? styles.dropdownValue : styles.dropdownPlaceholder}>
-          {info.surgeryCount || "selecciona el número"}
+          {info.surgeryCount || t("seleccionaNumero")}
         </Text>
         <Ionicons name={showDropdown ? "chevron-up" : "chevron-down"} size={18} color={colors.text} />
       </TouchableOpacity>
@@ -258,23 +323,12 @@ function Part2({
 
       {info.surgeries.map((surgery, index) => (
         <View key={index} style={styles.surgeryCard}>
-          <Text style={styles.surgeryTitle}>Cirugía {index + 1}</Text>
+          <Text style={styles.surgeryTitle}>
+            {t("cirugia")} {index + 1}
+          </Text>
 
-          <Text style={globalStyles.label}>Razón de la cirugía</Text>
-          <TextInput
-            style={globalStyles.formInput}
-            value={surgery.reason}
-            onChangeText={(v) => updateSurgery(index, "reason", v)}
-            placeholder="Ejemplo: Parto"
-          />
-
-          <Text style={globalStyles.label}>Fecha de la cirugía</Text>
-          <TextInput
-            style={globalStyles.formInput}
-            value={surgery.date}
-            onChangeText={(v) => updateSurgery(index, "date", v)}
-            placeholder="DD/MM/AAAA"
-          />
+          <Field label={t("razonCirugia")} value={surgery.reason} onChangeText={(v) => updateSurgery(index, "reason", v)} placeholder="Ejemplo: Parto" language={language} showSpeakerIcons={showSpeakerIcons} />
+          <Field label={t("fechaCirugia")} value={surgery.date} onChangeText={(v) => updateSurgery(index, "date", v)} placeholder="DD/MM/AAAA" language={language} showSpeakerIcons={showSpeakerIcons} />
         </View>
       ))}
     </View>
@@ -286,9 +340,15 @@ function Part2({
 function Part3({
   info,
   update,
+  t,
+  language,
+  showSpeakerIcons,
 }: {
   info: MedicalInfo;
   update: (patch: Partial<MedicalInfo>) => void;
+  t: T;
+  language: string;
+  showSpeakerIcons: boolean;
 }) {
   const [showPainDropdown, setShowPainDropdown] = useState(false);
 
@@ -297,61 +357,70 @@ function Part3({
 
   return (
     <View>
-      <Text style={styles.sectionTitle}>Salud De La Mujer</Text>
+      <Text style={styles.sectionTitle}>{t("saludMujer")}</Text>
 
-      <Field label="Edad de primera menstruación" value={info.firstPeriodAge} onChangeText={(v) => update({ firstPeriodAge: v })} placeholder="ejem: 12" keyboardType="numeric" />
+      <Field label={t("edadPrimeraMenstruacion")} value={info.firstPeriodAge} onChangeText={(v) => update({ firstPeriodAge: v })} placeholder="ejem: 12" keyboardType="numeric" language={language} showSpeakerIcons={showSpeakerIcons} />
 
       <View style={styles.row}>
-        <Field label="Duración del ciclo" value={info.cycleDuration} onChangeText={(v) => update({ cycleDuration: v })} placeholder="ejemplo: 29 días" containerStyle={{ flex: 1 }} />
-        <Field label="Duración del sangrado" value={info.bleedingDuration} onChangeText={(v) => update({ bleedingDuration: v })} placeholder="ejemplo: 5-7 días" containerStyle={{ flex: 1 }} />
+        <Field label={t("duracionCiclo")} value={info.cycleDuration} onChangeText={(v) => update({ cycleDuration: v })} placeholder="ejemplo: 29 días" containerStyle={{ flex: 1 }} language={language} showSpeakerIcons={showSpeakerIcons} />
+        <Field label={t("duracionSangrado")} value={info.bleedingDuration} onChangeText={(v) => update({ bleedingDuration: v })} placeholder="ejemplo: 5-7 días" containerStyle={{ flex: 1 }} language={language} showSpeakerIcons={showSpeakerIcons} />
       </View>
 
-      <Text style={globalStyles.label}>Nivel de dolor menstrual</Text>
+      <LabelWithVoice text={t("nivelDolorMenstrual")} language={language} showSpeakerIcons={showSpeakerIcons} />
       <TouchableOpacity style={styles.dropdownField} onPress={() => setShowPainDropdown((p) => !p)}>
         <Text style={info.painLevel ? styles.dropdownValue : styles.dropdownPlaceholder} numberOfLines={1}>
-          {info.painLevel || "selecciona el número"}
+          {info.painLevel || t("seleccionaNumero")}
         </Text>
         <Ionicons name={showPainDropdown ? "chevron-up" : "chevron-down"} size={18} color={colors.text} />
       </TouchableOpacity>
 
       {showPainDropdown && (
         <View style={styles.dropdownList}>
-          {PAIN_LEVELS.map((level) => (
+          {PAIN_LEVEL_KEYS.map((key) => (
             <TouchableOpacity
-              key={level}
+              key={key}
               style={styles.dropdownOption}
               onPress={() => {
-                update({ painLevel: level });
+                update({ painLevel: t(key) });
                 setShowPainDropdown(false);
               }}
             >
-              <Text style={styles.dropdownOptionText}>{level}</Text>
+              <Text style={styles.dropdownOptionText}>{t(key)}</Text>
             </TouchableOpacity>
           ))}
         </View>
       )}
 
       <Checklist
-        title="Síntomas menstruales:"
-        options={MENSTRUAL_SYMPTOMS}
+        title={t("sintomasMenstruales")}
+        optionKeys={MENSTRUAL_SYMPTOM_KEYS}
         selected={info.menstrualSymptoms}
         onToggle={(item) => update({ menstrualSymptoms: toggleInList(info.menstrualSymptoms, item) })}
+        t={t}
+        language={language}
+        showSpeakerIcons={showSpeakerIcons}
       />
 
-      <Field label="Número de embarazos (si aplica)" value={info.pregnancyCount} onChangeText={(v) => update({ pregnancyCount: v })} placeholder="ejemplo: 1" keyboardType="numeric" />
+      <Field label={t("numeroEmbarazos")} value={info.pregnancyCount} onChangeText={(v) => update({ pregnancyCount: v })} placeholder="ejemplo: 1" keyboardType="numeric" language={language} showSpeakerIcons={showSpeakerIcons} />
 
       <Checklist
-        title="Síntomas de embarazo (si aplica):"
-        options={PREGNANCY_SYMPTOMS}
+        title={t("sintomasEmbarazo")}
+        optionKeys={PREGNANCY_SYMPTOM_KEYS}
         selected={info.pregnancySymptoms}
         onToggle={(item) => update({ pregnancySymptoms: toggleInList(info.pregnancySymptoms, item) })}
+        t={t}
+        language={language}
+        showSpeakerIcons={showSpeakerIcons}
       />
 
       <Checklist
-        title="Síntomas de menopausia (si aplica):"
-        options={MENOPAUSE_SYMPTOMS}
+        title={t("sintomasMenopausia")}
+        optionKeys={MENOPAUSE_SYMPTOM_KEYS}
         selected={info.menopauseSymptoms}
         onToggle={(item) => update({ menopauseSymptoms: toggleInList(info.menopauseSymptoms, item) })}
+        t={t}
+        language={language}
+        showSpeakerIcons={showSpeakerIcons}
       />
     </View>
   );
@@ -359,18 +428,25 @@ function Part3({
 
 function Checklist({
   title,
-  options,
+  optionKeys,
   selected,
   onToggle,
+  t,
+  language,
+  showSpeakerIcons,
 }: {
   title: string;
-  options: string[];
+  optionKeys: TranslationKey[];
   selected: string[];
   onToggle: (item: string) => void;
+  t: T;
+  language: string;
+  showSpeakerIcons: boolean;
 }) {
   const [otherText, setOtherText] = useState("");
 
-  const customItems = selected.filter((item) => !options.includes(item));
+  const optionLabels = optionKeys.map((key) => t(key));
+  const customItems = selected.filter((item) => !optionLabels.includes(item));
 
   const handleAddOther = () => {
     if (!otherText.trim()) return;
@@ -380,18 +456,21 @@ function Checklist({
 
   return (
     <View style={{ marginTop: 16 }}>
-      <Text style={globalStyles.label}>{title}</Text>
+      <LabelWithVoice text={title} language={language} showSpeakerIcons={showSpeakerIcons} />
 
-      {options.map((option) => (
-        <TouchableOpacity key={option} onPress={() => onToggle(option)} style={styles.checkboxRow}>
-          <Ionicons
-            name={selected.includes(option) ? "checkbox" : "square-outline"}
-            size={18}
-            color={colors.text}
-          />
-          <Text style={globalStyles.textNormal}>{option}</Text>
-        </TouchableOpacity>
-      ))}
+      {optionKeys.map((key) => {
+        const label = t(key);
+        return (
+          <TouchableOpacity key={key} onPress={() => onToggle(label)} style={styles.checkboxRow}>
+            <Ionicons
+              name={selected.includes(label) ? "checkbox" : "square-outline"}
+              size={18}
+              color={colors.text}
+            />
+            <Text style={globalStyles.textNormal}>{label}</Text>
+          </TouchableOpacity>
+        );
+      })}
 
       {customItems.map((item) => (
         <TouchableOpacity key={item} onPress={() => onToggle(item)} style={styles.checkboxRow}>
@@ -401,7 +480,7 @@ function Checklist({
       ))}
 
       <View style={styles.otherRow}>
-        <Text style={globalStyles.textNormal}>Otros</Text>
+        <Text style={globalStyles.textNormal}>{t("otros")}</Text>
         <TextInput
           style={styles.otherInput}
           value={otherText}
@@ -421,15 +500,21 @@ function Checklist({
 function Part4({
   info,
   update,
+  t,
+  language,
+  showSpeakerIcons,
 }: {
   info: MedicalInfo;
   update: (patch: Partial<MedicalInfo>) => void;
+  t: T;
+  language: string;
+  showSpeakerIcons: boolean;
 }) {
   return (
     <View>
-      <Text style={styles.sectionTitle}>Medicamentos Y Alergias</Text>
+      <Text style={styles.sectionTitle}>{t("medicamentosAlergias")}</Text>
 
-      <Text style={globalStyles.label}>¿Qué medicamentos estas tomando?</Text>
+      <LabelWithVoice text={t("medicamentosActuales")} language={language} showSpeakerIcons={showSpeakerIcons} />
       <TextInput
         style={styles.textarea}
         value={info.medications}
@@ -439,7 +524,7 @@ function Part4({
         textAlignVertical="top"
       />
 
-      <Text style={globalStyles.label}>¿Qué alergias tienes?</Text>
+      <LabelWithVoice text={t("alergias")} language={language} showSpeakerIcons={showSpeakerIcons} />
       <TextInput
         style={styles.textarea}
         value={info.allergies}
@@ -462,6 +547,8 @@ function Field({
   keyboardType,
   autoCapitalize,
   containerStyle,
+  language,
+  showSpeakerIcons,
 }: {
   label: string;
   value: string;
@@ -470,10 +557,12 @@ function Field({
   keyboardType?: any;
   autoCapitalize?: any;
   containerStyle?: any;
+  language: string;
+  showSpeakerIcons: boolean;
 }) {
   return (
     <View style={containerStyle}>
-      <Text style={globalStyles.label}>{label}</Text>
+      <LabelWithVoice text={label} language={language} showSpeakerIcons={showSpeakerIcons} />
       <TextInput
         style={globalStyles.formInput}
         value={value}
@@ -494,6 +583,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 14,
   },
+
+  labelRow: { flexDirection: "row", alignItems: "center" },
+  speakerIcon: { marginLeft: 8 },
 
   textarea: {
     borderWidth: 1.5,

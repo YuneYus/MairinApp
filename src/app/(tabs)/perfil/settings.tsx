@@ -1,5 +1,7 @@
 // app/(tabs)/perfil/settings.tsx
 
+import SpeakableText from "@/components/SpeakableText";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { colors, globalStyles } from "@/styles/global"; // adjust path if needed
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -14,10 +16,12 @@ import {
 } from "react-native";
 
 export default function SettingsScreen() {
+  const { t } = useLanguage();
   const [notifications, setNotifications] = useState(true);
 
   const handleDeleteAccount = () => {
-    Alert.alert(
+    
+ Alert.alert(
       "Eliminar Cuenta",
       "¿Estás seguro? Esta acción no se puede deshacer.",
       [
@@ -43,7 +47,7 @@ export default function SettingsScreen() {
           <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
 
-        <Text style={globalStyles.pinkHeaderTitle}>Ajustes</Text>
+        <Text style={globalStyles.pinkHeaderTitle}>{t("menuAjustes")}</Text>
       </View>
 
       <View style={globalStyles.content}>
@@ -52,9 +56,10 @@ export default function SettingsScreen() {
           onPress={() => router.push("/(tabs)/perfil/textTranslate" as any)}
         >
           <Ionicons name="globe-outline" size={20} color={colors.text} />
-          <Text style={[globalStyles.textNormal, styles.rowLabel]}>
-            Cambiar Idioma De Texto
-          </Text>
+          <SpeakableText
+            text={t("cambiarIdiomaTexto")}
+            style={[globalStyles.textNormal, styles.rowLabel]}
+          />
           <Ionicons name="chevron-forward" size={18} color={colors.surface} />
         </TouchableOpacity>
 
@@ -63,9 +68,10 @@ export default function SettingsScreen() {
           onPress={() => router.push("/(tabs)/perfil/audio" as any)}
         >
           <Ionicons name="globe-outline" size={20} color={colors.text} />
-          <Text style={[globalStyles.textNormal, styles.rowLabel]}>
-            Audio
-          </Text>
+          <SpeakableText
+            text={t("cambiarIdiomaAudio")}
+            style={[globalStyles.textNormal, styles.rowLabel]}
+          />
           <Ionicons name="chevron-forward" size={18} color={colors.surface} />
         </TouchableOpacity>
 
@@ -76,17 +82,19 @@ export default function SettingsScreen() {
           }
         >
           <Ionicons name="key-outline" size={20} color={colors.text} />
-          <Text style={[globalStyles.textNormal, styles.rowLabel]}>
-            Cambiar Contraseña
-          </Text>
+          <SpeakableText
+            text={t("cambiarContrasena")}
+            style={[globalStyles.textNormal, styles.rowLabel]}
+          />
           <Ionicons name="chevron-forward" size={18} color={colors.surface} />
         </TouchableOpacity>
 
         <View style={styles.row}>
           <Ionicons name="bulb-outline" size={20} color={colors.text} />
-          <Text style={[globalStyles.textNormal, styles.rowLabel]}>
-            Permitir Notificaciones
-          </Text>
+          <SpeakableText
+            text={t("PermitirNotificacion")}
+            style={[globalStyles.textNormal, styles.rowLabel]}
+          />
           <Switch
             value={notifications}
             onValueChange={setNotifications}
@@ -97,9 +105,10 @@ export default function SettingsScreen() {
 
         <TouchableOpacity style={styles.row} onPress={handleDeleteAccount}>
           <Ionicons name="person-outline" size={20} color={colors.text} />
-          <Text style={[globalStyles.textNormal, styles.rowLabel]}>
-            Eliminar Cuenta
-          </Text>
+          <SpeakableText
+            text={t("EliminarCuenta")}
+            style={[globalStyles.textNormal, styles.rowLabel]}
+          />
         </TouchableOpacity>
       </View>
     </View>

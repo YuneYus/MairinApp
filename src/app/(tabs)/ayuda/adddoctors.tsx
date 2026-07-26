@@ -1,7 +1,6 @@
-// app/ayuda/adddoctors.tsx
-
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakIfEnabled } from "@/hooks/useSpeak";
+import { colors, globalStyles } from "@/styles/global";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 
@@ -15,8 +14,6 @@ import {
   View,
 } from "react-native";
 
-import PinkHeader from "@/components/PinkHeader";
-import { colors, globalStyles } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 
@@ -25,13 +22,14 @@ import {
   deleteDoctor,
   getDoctorById,
   updateDoctor,
-} from "../../../storage/doctorStorage";
+} from "@/storage/doctorStorage";
 
 export default function AddDoctors() {
   const { t, language } = useLanguage();
   const showSpeakerIcons = language === "es";
 
   const { id } = useLocalSearchParams<{ id?: string }>();
+
   const editing = !!id;
 
   const [name, setName] = useState("");
@@ -44,6 +42,7 @@ export default function AddDoctors() {
 
     const loadDoctor = async () => {
       const doctor = await getDoctorById(id as string);
+
       if (!doctor) return;
 
       setName(doctor.name);
@@ -56,6 +55,7 @@ export default function AddDoctors() {
   }, [id]);
 
   const handleAddDoctors = async () => {
+    // Check that required information exists
     if (!name || !phonenumber) {
       Alert.alert(
         "Error",
@@ -66,42 +66,45 @@ export default function AddDoctors() {
 
     if (editing) {
       const doctor = await getDoctorById(id as string);
+
       if (!doctor) {
         Alert.alert("Error", "No se encontró el doctor.");
         return;
       }
 
-      await updateDoctor({ ...doctor, name, professionalism, phonenumber, details });
+      await updateDoctor({
+        ...doctor,
+        name,
+        professionalism,
+        phonenumber,
+        details,
+      });
     } else {
-      await addDoctor({ name, professionalism, phonenumber, details });
+      await addDoctor({
+        name,
+        professionalism,
+        phonenumber,
+        details,
+      });
     }
 
+    // Haptic feedback
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+
+    // Show success message
     Alert.alert("Éxito", "Doctor guardado correctamente");
+
+    // Go back to the doctors list
     router.back();
   };
 
-  const handleDeleteOrCancel = async () => {
-    if (editing) {
-      Alert.alert("Eliminar Doctor", "¿Deseas eliminar este doctor?", [
-        { text: "Cancelar", style: "cancel" },
-        {
-          text: "Eliminar",
-          style: "destructive",
-          onPress: async () => {
-            await deleteDoctor(id as string);
-            router.back();
-          },
-        },
-      ]);
-    } else {
-      router.back();
-    }
-  };
+  const headerTitle = editing
+    ? "Editar Mi Doctor"
+    : t("ListaDoctoresCentroSaludAdddoctor");
 
   const LabelWithVoice = ({ text }: { text: string }) => (
     <View style={styles.labelRow}>
-      <Text style={globalStyles.label}>{text}</Text>
+      <Text style={styles.label}>{text}</Text>
       {showSpeakerIcons && (
         <TouchableOpacity
           onPress={() => speakIfEnabled(text, language)}
@@ -111,117 +114,174 @@ export default function AddDoctors() {
             name="volume-medium"
             size={16}
             color={colors.text}
-            style={{ marginLeft: 8 }}
+            style={styles.speakerIcon}
           />
         </TouchableOpacity>
       )}
     </View>
   );
 
-  const headerTitle = editing
-    ? "Editar Mi Doctor"
-    : "Agregar Mi Doctor O Centro De Salud";
-
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <View style={styles.headerRow}>
-        <PinkHeader title={headerTitle} />
+    <ScrollView
+      style={globalStyles.container}
+      contentContainerStyle={styles.content}
+    >
+      <View style={styles.titleRow}>
+        <Text style={globalStyles.titleBig}>{headerTitle}</Text>
+        {showSpeakerIcons && (
+          <TouchableOpacity
+            onPress={() => speakIfEnabled(headerTitle, language)}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
+            <Ionicons
+              name="volume-medium"
+              size={20}
+              color={colors.text}
+              style={styles.speakerIcon}
+            />
+          </TouchableOpacity>
+        )}
       </View>
-      {showSpeakerIcons && (
+
+      {/* NAME */}
+      <LabelWithVoice text={t("nombre")} />
+
+      <TextInput
+        style={styles.input}
+        placeholder={t("nombreDoctor")}
+        placeholderTextColor="#B0195B"
+        value={name}
+        onChangeText={setName}
+      />
+
+      {/* PROFESSION */}
+      <LabelWithVoice text={t("profesion")} />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Psicología"
+        placeholderTextColor="#B0195B"
+        value={professionalism}
+        onChangeText={setProfessionalism}
+      />
+
+      {/* PHONE NUMBER */}
+      <LabelWithVoice text={t("telefonoadddoctor")} />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Número de teléfono"
+        placeholderTextColor="#B0195B"
+        value={phonenumber}
+        onChangeText={setPhoneNumber}
+        keyboardType="phone-pad"
+      />
+
+      {/* DESCRIPTION */}
+      <LabelWithVoice text="Descripción" />
+
+      <TextInput
+        style={styles.descriptionInput}
+        placeholder={t("quieroAnotar")}
+        placeholderTextColor="#555"
+        value={details}
+        onChangeText={setDetails}
+        multiline
+        textAlignVertical="top"
+      />
+
+      {/* BUTTONS */}
+      <View style={styles.buttonsRow}>
         <TouchableOpacity
-          style={styles.headerSpeaker}
-          onPress={() => speakIfEnabled(headerTitle, language)}
-          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          style={styles.actionButton}
+          onPress={async () => {
+            if (editing) {
+              Alert.alert("Eliminar Doctor", "¿Deseas eliminar este doctor?", [
+                {
+                  text: "Cancelar",
+                  style: "cancel",
+                },
+                {
+                  text: "Eliminar",
+                  style: "destructive",
+                  onPress: async () => {
+                    await deleteDoctor(id as string);
+                    router.back();
+                  },
+                },
+              ]);
+            } else {
+              router.back();
+            }
+          }}
         >
-          <Ionicons name="volume-medium" size={18} color={colors.text} />
+          <Text style={styles.buttonText}>
+            {editing ? t("eliminar") : t("cancelar")}
+          </Text>
         </TouchableOpacity>
-      )}
 
-      <ScrollView style={globalStyles.content} contentContainerStyle={{ paddingBottom: 40 }}>
-        <LabelWithVoice text="Nombre" />
-        <TextInput
-          style={globalStyles.formInput}
-          placeholder="Nombre del Doctor(a)/Centro de salud"
-          value={name}
-          onChangeText={setName}
-        />
-
-        <LabelWithVoice text="Área de Profesión" />
-        <TextInput
-          style={globalStyles.formInput}
-          placeholder="eg. Psicología"
-          value={professionalism}
-          onChangeText={setProfessionalism}
-        />
-
-        <LabelWithVoice text="Número de Teléfono" />
-        <View style={styles.phoneRow}>
-          <View style={[globalStyles.formInput, styles.phonePrefixBox]}>
-            <Text style={styles.phonePrefixText}>+505</Text>
-          </View>
-          <TextInput
-            style={[globalStyles.formInput, styles.phoneInput]}
-            placeholder="8701-2259"
-            value={phonenumber}
-            onChangeText={setPhoneNumber}
-            keyboardType="phone-pad"
-          />
-        </View>
-
-        <LabelWithVoice text="Descripción" />
-        <TextInput
-          style={styles.descriptionInput}
-          placeholder="Quiero Anotar..."
-          value={details}
-          onChangeText={setDetails}
-          multiline
-          textAlignVertical="top"
-        />
-
-        <View style={globalStyles.buttonsRow}>
-          <TouchableOpacity style={globalStyles.actionButton} onPress={handleDeleteOrCancel}>
-            <Text style={globalStyles.actionButtonText}>
-              {editing ? "Eliminar" : "Cancelar"}
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={globalStyles.actionButton} onPress={handleAddDoctors}>
-            <Text style={globalStyles.actionButtonText}>Guardar</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </View>
+        <TouchableOpacity style={styles.actionButton} onPress={handleAddDoctors}>
+          <Text style={styles.buttonText}>{t("guardar")}</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerRow: { position: "relative" },
-  headerSpeaker: {
-    position: "absolute",
-    top: 90,
-    right: 24,
+  content: {
+    padding: 20,
   },
+
+  titleRow: { flexDirection: "row", alignItems: "center" },
 
   labelRow: { flexDirection: "row", alignItems: "center" },
 
-  phoneRow: { flexDirection: "row", gap: 10 },
-  phonePrefixBox: { justifyContent: "center", paddingHorizontal: 16 },
-  phonePrefixText: {
-    fontFamily: "LeagueSpartan_700Bold",
-    color: colors.text,
-    fontSize: 16,
+  speakerIcon: { marginLeft: 8 },
+
+  label: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 25,
+    marginBottom: 8,
   },
-  phoneInput: { flex: 1 },
+
+  input: {
+    backgroundColor: "#FDE8EF",
+    color: "#B0195B",
+    padding: 16,
+    borderRadius: 15,
+    fontSize: 17,
+  },
 
   descriptionInput: {
     borderWidth: 1,
-    borderColor: colors.surface,
+    borderColor: "#F18BAA",
     borderRadius: 20,
     padding: 16,
-    minHeight: 160,
-    fontFamily: "LeagueSpartan_400Regular",
+    minHeight: 180,
     fontSize: 16,
-    color: colors.textSecondary,
-    backgroundColor: colors.background,
+    backgroundColor: "white",
+  },
+
+  buttonsRow: {
+    flexDirection: "row",
+    gap: 15,
+    marginTop: 30,
+    marginBottom: 30,
+  },
+
+  actionButton: {
+    flex: 1,
+    backgroundColor: "#B0195B",
+    padding: 16,
+    borderRadius: 30,
+    alignItems: "center",
+  },
+
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

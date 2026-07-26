@@ -14,83 +14,39 @@ import {
   View,
 } from "react-native";
 
+import SpeakableText from "@/components/SpeakableText";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { colors, globalStyles } from "@/styles/global";
+import { TranslationKey } from "@/translations";
 
-const FAQ_ITEMS = [
-  {
-    question: "Estoy embarazada, ¿cómo actualizo mi estado de salud?",
-    answer:
-      'Dirígete a "Perfil" y selecciona la opción "Cambiar mi estado de salud". Allí podrás indicar que estás embarazada para recibir información más adecuada a tu situación.',
-  },
-  {
-    question: "¿La aplicación es gratuita?",
-    answer:
-      "Sí. La aplicación ofrece recursos gratuitos para ayudar a las mujeres a conocer y cuidar su salud en las diferentes etapas de su vida.",
-  },
-  {
-    question: "¿Puedo cambiar mi etapa de vida en cualquier momento?",
-    answer:
-      'Sí. Puedes actualizar tu información al dirigir a "Perfil" y seleccionar la opción "Cambiar mi estado de salud"',
-  },
-  {
-    question: "¿La aplicación reemplaza una consulta médica?",
-    answer:
-      "No. La aplicación tiene fines educativos y de seguimiento personal. No sustituye el diagnóstico ni la orientación de un profesional de la salud.",
-  },
-  {
-    question: "¿Qué etapas de la vida incluye la aplicación?",
-    answer:
-      "La aplicación proporciona información adaptada a diferentes etapas de la vida de la mujer, como:\n• Menstruación.\n• Embarazo.\n• Menopausia.",
-  },
-  {
-    question: "¿La información de la aplicación es confiable?",
-    answer:
-      "Sí. El contenido educativo está basado en fuentes confiables y es revisado para garantizar que sea claro y útil para las usuarias.",
-  },
-  {
-    question: "¿Puedo escuchar el contenido en audio?",
-    answer:
-      "Sí. Algunos recursos educativos estarán disponibles en formato de audio para facilitar el acceso a la información.",
-  },
-  {
-    question: "¿Qué hago si olvidé mi contraseña?",
-    answer:
-      'Puedes seleccionar la opción "¿Olvidaste tu contraseña?" y seguir las instrucciones para restablecerla.',
-  },
-  {
-    question: "¿Qué hago si quiero cambiar de contraseña?",
-    answer:
-      'Debes ir a "Perfil", después a "Ajustes" y hacer clic el botón de "cambiar contraseña"',
-  },
-  {
-    question:
-      "¿Puedo dejar de registrar mi menstruación si estoy embarazada o en la menopausia?",
-    answer:
-      "Sí. La aplicación ajustará las funciones disponibles según el estado de salud o la etapa de vida que selecciones.",
-  },
-  {
-    question: "¿Qué hago si ingresé mi información incorrectamente?",
-    answer:
-      'Puedes editar tus datos personales y de salud desde la sección "Perfil" en cualquier momento.',
-  },
-  {
-    question: "¿Cómo puedo contactar a MAIRIN?",
-    answer: "En el botón arriba derecha",
-  },
+const FAQ_KEYS: { qKey: TranslationKey; aKey: TranslationKey }[] = [
+  { qKey: "actualizarEstadoPregunta", aKey: "actualizarEstadoRespuesta" },
+  { qKey: "aplicacionGratuitaPregunta", aKey: "aplicacionGratuitaRespuesta" },
+  { qKey: "cambiarEtapaVidaPregunta", aKey: "cambiarEtapaVidaRespuesta" },
+  { qKey: "reemplazaConsultaPregunta", aKey: "reemplazaConsultaRespuesta" },
+  { qKey: "etapasVidaPregunta", aKey: "etapasVidaRespuesta" },
+  { qKey: "informacionConfiablePregunta", aKey: "informacionConfiableRespuesta" },
+  { qKey: "contenidoAudioPregunta", aKey: "contenidoAudioRespuesta" },
+  { qKey: "olvideContrasenaPregunta", aKey: "olvideContrasenaRespuesta" },
+  { qKey: "cambiarContrasenaPregunta", aKey: "cambiarContrasenaRespuesta" },
+  { qKey: "embarazoMenopausiaPregunta", aKey: "embarazoMenopausiaRespuesta" },
+  { qKey: "informacionIncorrectaPregunta", aKey: "informacionIncorrectaRespuesta" },
+  { qKey: "contactarMairinPregunta", aKey: "contactarMairinRespuesta" },
 ];
 
-const CONSULTATION_TYPES = [
-  "Problema técnico",
-  "Duda sobre mi cuenta",
-  "Reportar un error",
-  "Sugerencia",
-  "Otro",
+const CONSULTATION_TYPE_KEYS: TranslationKey[] = [
+  "problemaTecnico",
+  "dudaCuenta",
+  "reportarError",
+  "sugerencia",
+  "otro",
 ];
 
 type Tab = "faq" | "contact";
 type Attachment = { name: string; uri: string; mimeType?: string | null };
 
 export default function SupportScreen() {
+  const { t } = useLanguage();
   const [tab, setTab] = useState<Tab>("faq");
 
   return (
@@ -106,7 +62,7 @@ export default function SupportScreen() {
             onPress={() => setTab("faq")}
           >
             <Text style={[styles.tabText, tab === "faq" && styles.tabTextActive]}>
-              Preguntas Frequentes
+              {t("preguntasFrecuentes")}
             </Text>
           </TouchableOpacity>
 
@@ -115,7 +71,7 @@ export default function SupportScreen() {
             onPress={() => setTab("contact")}
           >
             <Text style={[styles.tabText, tab === "contact" && styles.tabTextActive]}>
-              Contáctanos
+              {t("contactanos")}
             </Text>
           </TouchableOpacity>
         </View>
@@ -127,11 +83,12 @@ export default function SupportScreen() {
 }
 
 function FaqTab() {
+  const { t } = useLanguage();
   const [query, setQuery] = useState("");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const filtered = FAQ_ITEMS.filter((item) =>
-    item.question.toLowerCase().includes(query.trim().toLowerCase())
+  const filtered = FAQ_KEYS.filter((item) =>
+    t(item.qKey).toLowerCase().includes(query.trim().toLowerCase())
   );
 
   return (
@@ -140,7 +97,7 @@ function FaqTab() {
         <TextInput
           value={query}
           onChangeText={setQuery}
-          placeholder="Buscar"
+          placeholder={t("buscar")}
           placeholderTextColor="#999"
           style={styles.searchInput}
         />
@@ -150,14 +107,15 @@ function FaqTab() {
       {filtered.map((item, index) => {
         const isOpen = openIndex === index;
         return (
-          <View key={item.question} style={styles.faqItem}>
+          <View key={item.qKey} style={styles.faqItem}>
             <TouchableOpacity
               style={styles.faqQuestionRow}
               onPress={() => setOpenIndex(isOpen ? null : index)}
             >
-              <Text style={[globalStyles.textNormal, styles.faqQuestionText]}>
-                {item.question}
-              </Text>
+              <SpeakableText
+                text={t(item.qKey)}
+                style={[globalStyles.textNormal, styles.faqQuestionText]}
+              />
               <Ionicons
                 name={isOpen ? "chevron-up" : "chevron-down"}
                 size={20}
@@ -167,9 +125,10 @@ function FaqTab() {
 
             {isOpen && (
               <View style={styles.faqAnswerBox}>
-                <Text style={[globalStyles.textNormal, styles.faqAnswerText]}>
-                  {item.answer}
-                </Text>
+                <SpeakableText
+                  text={t(item.aKey)}
+                  style={[globalStyles.textNormal, styles.faqAnswerText]}
+                />
               </View>
             )}
           </View>
@@ -186,6 +145,8 @@ function FaqTab() {
 }
 
 function ContactTab() {
+  const { t } = useLanguage();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [consultType, setConsultType] = useState("");
@@ -239,38 +200,38 @@ function ContactTab() {
 
   return (
     <ScrollView style={globalStyles.content} contentContainerStyle={{ paddingBottom: 40 }}>
-      <Text style={[globalStyles.textNormal, styles.contactTitle]}>
-        ¿No encontraste tu respuesta en las "preguntas frecuentes"?
-      </Text>
-      <Text style={[globalStyles.textNormal, styles.contactSubtitle]}>
-        Escríbenos y te respondemos a la brevedad.
-      </Text>
+      <SpeakableText
+        text={t("noEncontrasteRespuesta")}
+        style={[globalStyles.textNormal, styles.contactTitle]}
+      />
+      <SpeakableText
+        text={t("escribenos")}
+        style={[globalStyles.textNormal, styles.contactSubtitle]}
+      />
 
       <TouchableOpacity style={styles.contactMethodRow}>
         <View style={styles.contactIconCircle}>
           <Ionicons name="mail-outline" size={18} color={colors.text} />
         </View>
-        <Text style={globalStyles.textNormal}>Soporte@mairin.com</Text>
+        <Text style={globalStyles.textNormal}>{t("soporteEmail")}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.contactMethodRow}>
         <View style={styles.contactIconCircle}>
           <Ionicons name="chatbubble-outline" size={18} color={colors.text} />
         </View>
-        <Text style={globalStyles.textNormal}>WhatsApp disponible</Text>
+        <SpeakableText text={t("whatsappDisponible")} style={globalStyles.textNormal} />
       </TouchableOpacity>
 
-      <Text style={styles.orSendLabel}>O ENVÍANOS UN MENSAJE</Text>
-
-      <Text style={globalStyles.label}>Nombre</Text>
+      <SpeakableText text={t("nombre")} style={globalStyles.label} />
       <TextInput
         style={globalStyles.formInput}
         value={name}
         onChangeText={setName}
-        placeholder="Tu nombre"
+        placeholder={t("tuNombre")}
       />
 
-      <Text style={globalStyles.label}>Correo electrónico</Text>
+      <SpeakableText text={t("correoElectronico")} style={globalStyles.label} />
       <TextInput
         style={globalStyles.formInput}
         value={email}
@@ -280,13 +241,13 @@ function ContactTab() {
         autoCapitalize="none"
       />
 
-      <Text style={globalStyles.label}>Tipo de consulta</Text>
+      <SpeakableText text={t("tipoConsulta")} style={globalStyles.label} />
       <TouchableOpacity
         style={styles.dropdownField}
         onPress={() => setShowTypeDropdown((prev) => !prev)}
       >
         <Text style={globalStyles.textNormal}>
-          {consultType || "selecciona el número"}
+          {consultType || t("seleccionaNumero")}
         </Text>
         <Ionicons
           name={showTypeDropdown ? "chevron-up" : "chevron-down"}
@@ -297,46 +258,40 @@ function ContactTab() {
 
       {showTypeDropdown && (
         <View style={styles.dropdownList}>
-          {CONSULTATION_TYPES.map((type) => (
+          {CONSULTATION_TYPE_KEYS.map((key) => (
             <TouchableOpacity
-              key={type}
+              key={key}
               style={[
                 styles.dropdownOption,
-                consultType === type && styles.dropdownOptionSelected,
+                consultType === t(key) && styles.dropdownOptionSelected,
               ]}
               onPress={() => {
-                setConsultType(type);
+                setConsultType(t(key));
                 setShowTypeDropdown(false);
               }}
             >
-              <Text style={globalStyles.textNormal}>{type}</Text>
+              <Text style={globalStyles.textNormal}>{t(key)}</Text>
             </TouchableOpacity>
           ))}
         </View>
       )}
 
-      <Text style={globalStyles.label}>Mensaje</Text>
+      <SpeakableText text={t("mensaje")} style={globalStyles.label} />
       <TextInput
         style={styles.textarea}
         value={message}
         onChangeText={setMessage}
-        placeholder="Cuéntanos qué necesitas, incluye el mayor detalle posible..."
+        placeholder={t("cuentanosNecesitas")}
         multiline
         textAlignVertical="top"
       />
 
-      <Text style={globalStyles.label}>Adjuntar imagen o PDF (opcional)</Text>
-
       <TouchableOpacity style={styles.uploadButton} onPress={handlePickFile}>
         <Ionicons name="attach" size={18} color={colors.text} />
         <Text style={globalStyles.textNormal}>
-          {attachment ? attachment.name : "Haz clic para subir"}
+          {attachment ? attachment.name : t("subirArchivo")}
         </Text>
       </TouchableOpacity>
-
-      <Text style={[globalStyles.textNormal, styles.uploadHint]}>
-        JPG, PNG o PDF. Máximo 10 MB por archivo
-      </Text>
 
       {attachment && (
         <TouchableOpacity
@@ -353,7 +308,7 @@ function ContactTab() {
       <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
         <Ionicons name="send" size={16} color={colors.text} />
         <Text style={[globalStyles.textNormal, { color: colors.text }]}>
-          Enviar Mensaje
+          {t("enviarMensaje")}
         </Text>
       </TouchableOpacity>
     </ScrollView>
@@ -450,6 +405,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 14,
     marginBottom: 12,
+    flexWrap: "wrap",
   },
   contactIconCircle: {
     width: 34,

@@ -1,7 +1,7 @@
 // app/(tabs)/perfil/audio.tsx
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { speakText } from "@/services/voiceService";
+import { speakIfEnabled } from "@/hooks/useSpeak";
 import {
   AudioOption,
   getAudioLanguage,
@@ -15,7 +15,9 @@ import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 import { colors, globalStyles } from "@/styles/global";
 
 export default function AudioScreen() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const showSpeakerIcons = language === "es";
+
   const [selected, setSelected] = useState<AudioOption>("es");
 
   useFocusEffect(
@@ -35,7 +37,7 @@ export default function AudioScreen() {
 
   const handlePreview = (option: AudioOption) => {
     if (option === "es") {
-      speakText(t("audioMuestraEspanol"));
+      speakIfEnabled(t("audioEspanol"), language);
     }
     // "none" has no preview to play
   };
@@ -64,10 +66,10 @@ export default function AudioScreen() {
             key={option.key}
             style={styles.row}
             onPress={() => handlePreview(option.key)}
-            disabled={option.key === "none"}
+            disabled={option.key === "none" || !showSpeakerIcons}
           >
             <View style={styles.rowLeft}>
-              {option.key !== "none" && (
+              {option.key !== "none" && showSpeakerIcons && (
                 <Ionicons
                   name="volume-medium"
                   size={18}
