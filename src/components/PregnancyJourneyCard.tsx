@@ -19,6 +19,7 @@
 // switches to "embarazo" in perfil/health-stage.tsx) lives in that file,
 // not here — see the note I sent with it.
 
+import { useLanguage } from "@/contexts/LanguageContext";
 import { WEEK_DATA } from "@/data/embarazoSemanas";
 import { getHealthStage } from "@/storage/healthStageStorage";
 import {
@@ -40,9 +41,13 @@ import {
   View,
 } from "react-native";
 
+import SpeakableText from "@/components/SpeakableText";
+
 const WEEK_OPTIONS = Array.from({ length: 40 }, (_, i) => i + 1);
 
 export function PregnancyJourneyCard() {
+  const { t } = useLanguage();
+
   const [visible, setVisible] = useState(false);
   const [savedWeek, setSavedWeek] = useState<number | null>(null);
   const [pendingWeek, setPendingWeek] = useState<number | null>(null);
@@ -66,6 +71,14 @@ export function PregnancyJourneyCard() {
   );
 
   if (!visible) return null;
+
+  // "¡Presióname! Toca el corazón..." was combined into one translation
+  // key (presionaCorazon). Split back into the heart label + description
+  // so the original two-line layout still works.
+  const presionaText = t("presionaCorazon");
+  const [heartLabel, ...restParts] = presionaText.split("!");
+  const heartLabelText = `${heartLabel}!`;
+  const heartDescriptionText = restParts.join("!").trim();
 
   const handleGuardar = async () => {
     if (pendingWeek === null) return;
@@ -98,14 +111,20 @@ export function PregnancyJourneyCard() {
   if (savedWeek === null) {
     return (
       <View style={styles.wrapper}>
-        <Text style={[globalStyles.titleBig, {textAlign:"left"}]}>Tu Viaje De Embarazo</Text>
+        <SpeakableText
+          text={t("viajeEmbarazo")}
+          style={[globalStyles.titleBig, { textAlign: "left" }]}
+          iconSize={18}
+        />
 
         <View style={styles.card}>
           <Text style={globalStyles.cardTitle}>¿De cuántas semanas estás embarazada?</Text>
 
           <TouchableOpacity style={styles.selector} onPress={() => setPickerOpen(true)}>
             <Text style={styles.selectorText}>
-              {pendingWeek !== null ? `Semana ${pendingWeek}` : "Selecciona una semana"}
+              {pendingWeek !== null
+                ? `${t("semana")} ${pendingWeek}`
+                : "Selecciona una semana"}
             </Text>
             <Ionicons name="chevron-down" size={18} color={colors.text} />
           </TouchableOpacity>
@@ -115,7 +134,7 @@ export function PregnancyJourneyCard() {
             disabled={pendingWeek === null}
             onPress={handleGuardar}
           >
-            <Text style={globalStyles.pillButtonText}>Guardar</Text>
+            <Text style={globalStyles.pillButtonText}>{t("guardar")}</Text>
           </TouchableOpacity>
         </View>
 
@@ -166,23 +185,25 @@ export function PregnancyJourneyCard() {
 
   return (
     <View style={styles.wrapper}>
-      <Text style={[globalStyles.titleBig, {textAlign:"left"}]}>Tu Viaje De Embarazo</Text>
+      <SpeakableText
+        text={t("viajeEmbarazo")}
+        style={[globalStyles.titleBig, { textAlign: "left" }]}
+        iconSize={18}
+      />
 
       <View style={styles.card}>
         <Text style={globalStyles.cardTitle}>
-          SEMANA {savedWeek} ({week.title})
+          {t("semana").toUpperCase()} {savedWeek} ({week.title})
         </Text>
 
         <TouchableOpacity activeOpacity={0.85} onPress={handleHeartPress}>
           <Animated.View style={[styles.heartCircle, { transform: [{ scale }] }]}>
             <Ionicons name="heart" size={34} color={colors.text} />
-            <Text style={styles.heartLabel}>¡Presióname!</Text>
+            <Text style={styles.heartLabel}>{heartLabelText}</Text>
           </Animated.View>
         </TouchableOpacity>
 
-        <Text style={globalStyles.textNormal}>
-          Toca el corazón para sentir el siguiente latido de tu viaje
-        </Text>
+        <Text style={globalStyles.textNormal}>{heartDescriptionText}</Text>
       </View>
     </View>
   );

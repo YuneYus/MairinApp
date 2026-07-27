@@ -1,20 +1,25 @@
 // components/welcomeBanner.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
 import { getHealthStage, HealthStage } from "@/storage/healthStageStorage";
 import { getProfileInfo } from "@/storage/profilenameStorage";
+import { TranslationKey } from "@/translations";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
+import SpeakableText from "@/components/SpeakableText";
 import { globalStyles } from "@/styles/global";
 
-const STAGE_MESSAGES: Record<HealthStage, string> = {
-  menstruacion: "conozcas más sobre tu ciclo menstrual",
-  embarazo: "conozcas más sobre tu viaje de embarazo",
-  menopausia: "conozcas más sobre tu etapa de menopausia",
+const STAGE_MESSAGE_KEYS: Record<HealthStage, TranslationKey> = {
+  menstruacion: "BienvenidaTextoMenstruacion",
+  embarazo: "BienvenidaTextoEmbarazo",
+  menopausia: "BienvenidaTextoMenopausia",
 };
 
 export default function WelcomeBanner() {
+  const { t } = useLanguage();
+
   const [firstName, setFirstName] = useState("");
   const [stage, setStage] = useState<HealthStage>("menstruacion");
 
@@ -33,12 +38,17 @@ export default function WelcomeBanner() {
 
   const displayName = firstName || "Usuaria";
 
+  const titleText = `¡${t("Bienvenida")} ${displayName}!`;
+  const subtitleText = `${t("BienvenidaTexto")} ${t(STAGE_MESSAGE_KEYS[stage])}`;
+
   return (
     <View style={globalStyles.pinkHeader}>
-      <Text style={globalStyles.pinkHeaderTitle}>¡Bienvenida {displayName}!</Text>
-      <Text style={[globalStyles.textNormal, { marginTop: 10, textAlign: "center" }]}>
-        Estas en la pantalla de inicio te invitamos a que {STAGE_MESSAGES[stage]}
-      </Text>
+      <SpeakableText text={titleText} style={globalStyles.pinkHeaderTitle} iconSize={20} />
+      <SpeakableText
+        text={subtitleText}
+        style={[globalStyles.textNormal, { marginTop: 10, textAlign: "center" }]}
+        iconSize={16}
+      />
     </View>
   );
 }

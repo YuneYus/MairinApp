@@ -1,58 +1,77 @@
 // app/(tabs)/tamano-bebe.tsx
 
-import { getFetalWeekData, getTrimester } from "@/constants/fetalSizeData";
+import { getTrimester, getWeekEmoji } from "@/constants/fetalSizeData";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { TranslationKey } from "@/translations";
 import Slider from "@react-native-community/slider";
 import { useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import PinkHeader from "@/components/PinkHeader";
+import SpeakableText from "@/components/SpeakableText";
 import { colors } from "@/styles/global";
 
 const MIN_WEEK = 4;
 const MAX_WEEK = 40;
 
 export default function TamanoBebeScreen() {
+  const { t } = useLanguage();
   const [week, setWeek] = useState(16);
-  const data = getFetalWeekData(week);
-  const trimester = getTrimester(week);
+  const clampedWeek = Math.min(Math.max(week, MIN_WEEK), MAX_WEEK);
+
+  const trimester = getTrimester(clampedWeek);
+  const emoji = getWeekEmoji(clampedWeek);
+
+  const fruit = t(`semana${clampedWeek}Comparacion` as TranslationKey);
+  const lengthText = t(`semana${clampedWeek}Longitud` as TranslationKey);
+  const weightText = t(`semana${clampedWeek}Peso` as TranslationKey);
+  const desarrolloText = t(`semana${clampedWeek}Desarrollo` as TranslationKey);
+  const cambiosText = t(`semana${clampedWeek}Cambios` as TranslationKey);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <PinkHeader title="Tamaño De Tu Bebé" />
+      <PinkHeader title={t("tamanoBebe")} />
 
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.card}>
-          <Text style={styles.title}>Visualizador de Tamaño Fetal</Text>
-          <Text style={styles.subtitle}>
-            Desliza para ver la comparación de tamaño y los datos de cada semana.
-          </Text>
+          <SpeakableText
+            text="Visualizador de Tamaño Fetal"
+            style={styles.title}
+            iconSize={18}
+          />
+          
+          <SpeakableText
+            text="Desliza para ver la comparación de tamaño y los datos de cada semana."
+            style={styles.subtitle}
+            iconSize={18}
+          />
 
           <View style={styles.iconBlock}>
             <View style={styles.iconCircle}>
-              <Text style={styles.emoji}>{data.emoji}</Text>
+              <Text style={styles.emoji}>{emoji}</Text>
             </View>
             <View style={styles.badge}>
-              <Text style={styles.badgeText}>{data.fruit}</Text>
+              <Text style={styles.badgeText}>{fruit}</Text>
             </View>
           </View>
 
           <View style={styles.statsRow}>
             <View style={styles.statBox}>
-              <Text style={styles.statLabel}>LONGITUD</Text>
-              <Text style={styles.statValue}>~{data.lengthCm} cm</Text>
+              <Text style={styles.statLabel}>{t("semanaNLongitud").toUpperCase()}</Text>
+              <Text style={styles.statValue}>{lengthText}</Text>
             </View>
             <View style={styles.statBox}>
-              <Text style={styles.statLabel}>PESO</Text>
-              <Text style={styles.statValue}>~{data.weightG} g</Text>
+              <Text style={styles.statLabel}>{t("semanaNPeso").toUpperCase()}</Text>
+              <Text style={styles.statValue}>{weightText}</Text>
             </View>
           </View>
 
           <View style={styles.stageRow}>
             <Text style={styles.stageLabel}>
-              Semana <Text style={styles.stageNum}>{data.week}</Text>
+              {t("semana")} <Text style={styles.stageNum}>{clampedWeek}</Text>
             </Text>
             <View style={styles.phasePill}>
               <Text style={styles.phaseText}>{trimester.toUpperCase()}</Text>
@@ -80,15 +99,15 @@ export default function TamanoBebeScreen() {
           </View>
 
           <View style={styles.infoBlock}>
-            <Text style={styles.infoTitle}>Desarrollo del bebé</Text>
-            <Text style={styles.infoText}>{data.desarrollo}</Text>
+            <SpeakableText text={t("semanaNDesarrollo")} style={styles.infoTitle} iconSize={16} />
+            <SpeakableText text={desarrolloText} style={styles.infoText} iconSize={14} />
           </View>
 
           <View style={styles.divider} />
 
           <View style={[styles.infoBlock, { marginTop: 16 }]}>
-            <Text style={styles.infoTitle}>Cambios maternos</Text>
-            <Text style={styles.infoText}>{data.cambios}</Text>
+            <SpeakableText text={t("semanaNCambios")} style={styles.infoTitle} iconSize={16} />
+            <SpeakableText text={cambiosText} style={styles.infoText} iconSize={14} />
           </View>
         </View>
       </ScrollView>

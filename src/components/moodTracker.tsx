@@ -1,18 +1,22 @@
 // components/moodTracker.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
 import { getTodaysMood, saveTodaysMood } from "@/storage/moodStorage";
 import { colors, globalStyles } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+import SpeakableText from "@/components/SpeakableText";
+
 const MOODS = [
-  { emoji: "😊", label: "muy_feliz", message: "¡Asombroso! Estás contenta. Sigue así" },
-  { emoji: "🙂", label: "bien", message: null },
-  { emoji: "🥱", label: "cansada", message: null },
-  { emoji: "😔", label: "triste", message: null },
-  { emoji: "😭", label: "muy_triste", message: null },
-  { emoji: "😠", label: "enojada", message: null },
+  { emoji: "😊", label: "muy_feliz", messageKey: "contentoAnimo" as const },
+  { emoji: "🙂", label: "bien", messageKey: null },
+  { emoji: "🥱", label: "cansada", messageKey: null },
+  { emoji: "😔", label: "triste", messageKey: null },
+  { emoji: "😭", label: "muy_triste", messageKey: null },
+  { emoji: "😠", label: "enojada", messageKey: null },
 ];
 
 function AnimatedEmoji({
@@ -67,7 +71,7 @@ function AnimatedEmoji({
   );
 }
 
-function PulsingTalkLink({ onPress }: { onPress: () => void }) {
+function PulsingTalkLink({ text, onPress }: { text: string; onPress: () => void }) {
   const scale = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -94,9 +98,7 @@ function PulsingTalkLink({ onPress }: { onPress: () => void }) {
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
       <Animated.View style={[styles.talkRow, { transform: [{ scale }] }]}>
-        <Text style={styles.talkText}>
-          ¿Quieres hablar de cómo te sientes? (con MAIRIN)
-        </Text>
+        <Text style={styles.talkText}>{text}</Text>
         <Ionicons name="chevron-forward" size={20} color={colors.textSecondary} />
       </Animated.View>
     </TouchableOpacity>
@@ -104,6 +106,7 @@ function PulsingTalkLink({ onPress }: { onPress: () => void }) {
 }
 
 export default function MoodTracker() {
+  const { t } = useLanguage();
   const [selected, setSelected] = useState<string | null>(null);
 
   useFocusEffect(
@@ -126,12 +129,18 @@ export default function MoodTracker() {
 
   return (
     <View style={styles.wrapper}>
-      <Text style={[globalStyles.titleBig, styles.titleLeft]}>
-        Tu Estado De Ánimo
-      </Text>
+      <SpeakableText
+        text={t("estadoAnimo")}
+        style={[globalStyles.titleBig, styles.titleLeft]}
+        iconSize={18}
+      />
 
       <View style={styles.card}>
-        <Text style={globalStyles.cardHighlight}>¿Cómo te sientes hoy?</Text>
+        <SpeakableText
+          text={t("comoTeSientesHoy")}
+          style={globalStyles.cardHighlight}
+          iconSize={16}
+        />
 
         <View style={styles.emojiRow}>
           {MOODS.map((mood) => (
@@ -144,14 +153,17 @@ export default function MoodTracker() {
           ))}
         </View>
 
-        {selected && isVeryHappy && (
-          <Text style={[globalStyles.textNormal, styles.positiveMessage]}>
-            {selectedMood?.message}
-          </Text>
+        {selected && isVeryHappy && selectedMood?.messageKey && (
+          <SpeakableText
+            text={t(selectedMood.messageKey)}
+            style={[globalStyles.textNormal, styles.positiveMessage]}
+            iconSize={14}
+          />
         )}
 
         {selected && !isVeryHappy && (
           <PulsingTalkLink
+            text={t("hablarConMairin")}
             onPress={() =>
               router.push({
                 pathname: "/chat-mairin",

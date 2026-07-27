@@ -134,6 +134,7 @@ export default function TabLayout() {
       <Tabs.Screen name="detalle-semana" options={{ href: null }} />
       <Tabs.Screen name="viaje-embarazo" options={{ href: null }} />
       <Tabs.Screen name="BreathingExercise" options={{ href: null }} />
+      <Tabs.Screen name="aboutUs" options={{ href: null }} />
 
     </Tabs>
   );

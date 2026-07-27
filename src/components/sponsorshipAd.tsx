@@ -1,15 +1,23 @@
 // components/sponsorshipAd.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+import SpeakableText from "@/components/SpeakableText";
 import { colors, globalStyles } from "@/styles/global";
 
 export default function SponsorshipAd() {
+  const { t } = useLanguage();
+
   return (
     <View style={styles.card}>
-      <Text style={[globalStyles.label, styles.title]}>Nuestro patrocinadores</Text>
+      <SpeakableText
+        text={t("nuestroPatrocinador")}
+        style={[globalStyles.label, styles.title]}
+        iconSize={16}
+      />
 
       <View style={styles.logosRow}>
         <Image
@@ -28,15 +36,17 @@ export default function SponsorshipAd() {
       </View>
 
       <View style={styles.bottomRow}>
-        <Text style={[globalStyles.textNormal, styles.thanksText]}>
-          ¡Gracias por tu apoyo que nos ayuda a crecer!
-        </Text>
+        <SpeakableText
+          text={t("gracias")}
+          style={[globalStyles.textNormal, styles.thanksText]}
+          iconSize={14}
+        />
 
         <TouchableOpacity
           style={styles.joinButton}
           onPress={() => router.push("/(tabs)/Apoyanos" as any)}
         >
-          <Text style={styles.joinButtonText}>¡Únete!</Text>
+          <Text style={styles.joinButtonText}>¡{t("unete")}!</Text>
           <Ionicons name="chevron-forward" size={16} color={colors.text} />
         </TouchableOpacity>
       </View>

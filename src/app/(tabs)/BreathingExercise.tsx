@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { colors, globalStyles } from '@/styles/global';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -10,10 +11,14 @@ import {
   View,
 } from 'react-native';
 
+import SpeakableText from "@/components/SpeakableText";
+
 const TOTAL_SECONDS = 60; // total exercise length
 const PHASE_SECONDS = 5; // length of each inhale / exhale
 
 export default function BreathingExercise() {
+  const { t } = useLanguage();
+
   const [running, setRunning] = useState(false);
   const [timeLeft, setTimeLeft] = useState(TOTAL_SECONDS);
   const [phase, setPhase] = useState<'inhale' | 'exhale'>('inhale');
@@ -83,9 +88,11 @@ export default function BreathingExercise() {
 
   return (
     <View style={styles.container}>
-      <Text style={[globalStyles.titleBig, styles.title]}>
-        Ejercicio De Respiración
-      </Text>
+      <SpeakableText
+        text={t("ejercicioRespiracion")}
+        style={[globalStyles.titleBig, styles.title]}
+        iconSize={20}
+      />
       <Text style={styles.timer}>{timeLabel}</Text>
 
       <View style={styles.circleWrap}>
@@ -105,14 +112,14 @@ export default function BreathingExercise() {
       {running ? (
         <>
           <Text style={styles.phaseLabel}>
-            {phase === 'inhale' ? 'Inhalar' : 'Exhalar'}
+            {phase === 'inhale' ? t("inhalar") : t("exhalar")}
           </Text>
           <TouchableOpacity
             style={[globalStyles.pillButton, styles.resetButton]}
             onPress={reset}
             activeOpacity={0.85}
           >
-            <Text style={globalStyles.pillButtonText}>Reiniciar</Text>
+            <Text style={globalStyles.pillButtonText}>{t("reiniciar")}</Text>
           </TouchableOpacity>
         </>
       ) : (
@@ -121,7 +128,7 @@ export default function BreathingExercise() {
           onPress={start}
           activeOpacity={0.85}
         >
-          <Text style={globalStyles.pillButtonText}>Empezar</Text>
+          <Text style={globalStyles.pillButtonText}>{t("empezar")}</Text>
         </TouchableOpacity>
       )}
     </View>

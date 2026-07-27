@@ -4,6 +4,7 @@
 // heart widget in your real index.tsx. Not meant to appear as its own
 // bottom tab — see the _layout.tsx note at the end of this message.
 
+import { useLanguage } from "@/contexts/LanguageContext";
 import { trimesterOf, WEEK_DATA } from "@/data/embarazoSemanas";
 import { colors, globalStyles } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,6 +18,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
+import SpeakableText from "@/components/SpeakableText";
 
 // NOTE: I mapped your three icon pairs to the trimesters by "energy level"
 // (calm -> content -> excited), matching the faces in your mockup:
@@ -51,6 +54,7 @@ const TRIMESTERS: {
 ];
 
 export default function ViajeEmbarazoScreen() {
+  const { t } = useLanguage();
   const { semana } = useLocalSearchParams<{ semana?: string }>();
   const initialWeek = Number(semana) || 2;
   const [currentWeek, setCurrentWeek] = useState(initialWeek);
@@ -64,25 +68,25 @@ export default function ViajeEmbarazoScreen() {
         <TouchableOpacity style={globalStyles.backButton} onPress={() => router.back()}>
           <Ionicons name="chevron-back" size={24} color={colors.text} />
         </TouchableOpacity>
-        <Text style={globalStyles.pinkHeaderTitle}>Tu Viaje De Embarazo</Text>
+        <SpeakableText text={t("viajeEmbarazo")} style={globalStyles.pinkHeaderTitle} iconSize={20} />
       </View>
 
       <View style={styles.body}>
         <View style={styles.trimesterRow}>
-          {TRIMESTERS.map((t) => (
+          {TRIMESTERS.map((tri) => (
             <TouchableOpacity
-              key={t.n}
+              key={tri.n}
               style={styles.trimesterItem}
-              onPress={() => setCurrentWeek(t.n === 1 ? 1 : t.n === 2 ? 14 : 28)}
+              onPress={() => setCurrentWeek(tri.n === 1 ? 1 : tri.n === 2 ? 14 : 28)}
             >
               <View
                 style={[
                   styles.trimesterCircle,
-                  trimester === t.n && styles.trimesterCircleActive,
+                  trimester === tri.n && styles.trimesterCircleActive,
                 ]}
               >
                 <Image
-                  source={trimester === t.n ? t.activeIcon : t.inactiveIcon}
+                  source={trimester === tri.n ? tri.activeIcon : tri.inactiveIcon}
                   style={styles.trimesterIcon}
                   resizeMode="contain"
                 />
@@ -90,10 +94,10 @@ export default function ViajeEmbarazoScreen() {
               <Text
                 style={[
                   styles.trimesterLabel,
-                  trimester === t.n && styles.trimesterLabelActive,
+                  trimester === tri.n && styles.trimesterLabelActive,
                 ]}
               >
-                {t.label}
+                {tri.label}
               </Text>
             </TouchableOpacity>
           ))}
@@ -129,7 +133,9 @@ export default function ViajeEmbarazoScreen() {
           >
             <Text style={styles.navButtonText}>‹ Antes</Text>
           </TouchableOpacity>
-          <Text style={globalStyles.label}>Semana {currentWeek}</Text>
+          <Text style={globalStyles.label}>
+            {t("semana")} {currentWeek}
+          </Text>
           <TouchableOpacity
             style={[styles.navButton, currentWeek >= 40 && styles.navButtonDisabled]}
             disabled={currentWeek >= 40}
@@ -141,7 +147,9 @@ export default function ViajeEmbarazoScreen() {
 
         <View style={styles.detailCard}>
           <View style={styles.badge}>
-            <Text style={styles.badgeText}>SEMANA {currentWeek}</Text>
+            <Text style={styles.badgeText}>
+              {t("semana").toUpperCase()} {currentWeek}
+            </Text>
           </View>
           <Text style={globalStyles.cardHighlight}>{week.title}</Text>
 

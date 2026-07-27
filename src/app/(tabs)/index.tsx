@@ -1,6 +1,7 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { colors, globalStyles } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { useCallback, useEffect, useState } from "react";
 
@@ -14,6 +15,7 @@ import { getTodaysQuote } from "@/services/quoteService";
 import ButtonInfo from "@/components/buttonesInfo";
 import CicloInfoCard from "@/components/cicloInfo";
 import { getHealthStage, HealthStage } from "@/storage/healthStageStorage";
+import { TranslationKey } from "@/translations";
 import { router, useFocusEffect } from "expo-router";
 
 import MoodTracker from "@/components/moodTracker";
@@ -26,27 +28,50 @@ import ExerciseStreakCard from "@/components/ExerciseStreakCard";
 
 import SponsorshipAd from "@/components/sponsorshipAd";
 
+import SpeakableText from "@/components/SpeakableText";
 import WelcomeBanner from "@/components/welcomeBanner";
 
 const ALL_ITEMS: {
   key: HealthStage | "ejercicio" | "educacion";
-  title: string;
-  subtitle: string;
+  titleKey: TranslationKey;
+  subtitleKey: TranslationKey;
   icon: keyof typeof import("@expo/vector-icons").Ionicons.glyphMap;
 }[] = [
   {
     key: "menstruacion",
-    title: "Menstruación",
-    subtitle: "Aprender más: irregularidades y síntomas",
+    titleKey: "Menstruación",
+    subtitleKey: "aprenderMasIrregularidades",
     icon: "call",
   },
-  { key: "ejercicio", title: "Ejercicios y cuido", subtitle: "Aprender más", icon: "call" },
-  { key: "educacion", title: "Educación Sexual", subtitle: "Aprender más", icon: "call" },
-  { key: "embarazo", title: "Embarazo", subtitle: "Aprender más", icon: "call" },
-  { key: "menopausia", title: "Menopausia", subtitle: "Aprender más", icon: "call" },
+  {
+    key: "ejercicio",
+    titleKey: "ejercicio",
+    subtitleKey: "aprenderMas",
+    icon: "call",
+  },
+  {
+    key: "educacion",
+    titleKey: "educacionSexual",
+    subtitleKey: "aprenderMas",
+    icon: "call",
+  },
+  {
+    key: "embarazo",
+    titleKey: "Embarazo",
+    subtitleKey: "aprenderMas",
+    icon: "call",
+  },
+  {
+    key: "menopausia",
+    titleKey: "Menopausia",
+    subtitleKey: "aprenderMas",
+    icon: "call",
+  },
 ];
 
 function BreathingButton() {
+  const { t } = useLanguage();
+
   return (
     <TouchableOpacity
       style={styles.breathingButton}
@@ -54,13 +79,18 @@ function BreathingButton() {
       activeOpacity={0.85}
     >
       <Ionicons name="leaf-outline" size={26} color={colors.text} />
-      <Text style={[globalStyles.label, styles.breathingButtonText]}>Respira conmigo</Text>
+      <SpeakableText
+        text={t("respiraConmigo")}
+        style={[globalStyles.label, styles.breathingButtonText]}
+        iconSize={16}
+      />
       <Ionicons name="chevron-forward" size={20} color={colors.text} />
     </TouchableOpacity>
   );
 }
 
 function InfoCenter() {
+  const { t } = useLanguage();
   const [stage, setStage] = useState<HealthStage>("menstruacion");
 
   useFocusEffect(
@@ -93,10 +123,10 @@ function InfoCenter() {
       <PregnancySizeCard />
 
       <View>
-        <Text style={styles.sectionTitle}>Centro De Información</Text>
+        <SpeakableText text={t("centroInformacion")} style={styles.sectionTitle} iconSize={18} />
         <ButtonInfo
-          title={bigItem.title}
-          subtitle={bigItem.subtitle}
+          title={t(bigItem.titleKey)}
+          subtitle={t(bigItem.subtitleKey)}
           icon={bigItem.icon}
           size="big"
           onPress={() => handleItemPress(bigItem.key)}
@@ -106,8 +136,8 @@ function InfoCenter() {
           {smallItems.map((item) => (
             <ButtonInfo
               key={item.key}
-              title={item.title}
-              subtitle={item.subtitle}
+              title={t(item.titleKey)}
+              subtitle={t(item.subtitleKey)}
               icon={item.icon}
               size="small"
               onPress={() => handleItemPress(item.key)}
@@ -138,8 +168,8 @@ export default function Homescreen() {
         <BreathingButton />
         <QuoteCard quote={todaysQuote.quote} />
         <CicloInfoCard />
-                <InfoCenter />
-                      <MoodTracker />
+        <InfoCenter />
+        <MoodTracker />
 
         {question && <Flashcard data={question} />}
       </View>
@@ -160,8 +190,8 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   sectionTitle: {
+    fontFamily: "LeagueSpartan_700Bold",
     fontSize: 20,
-    fontWeight: "bold",
     color: colors.text,
     marginBottom: 14,
   },
@@ -178,6 +208,7 @@ const styles = StyleSheet.create({
   },
   breathingButtonText: {
     flex: 1,
+    minWidth: 0,
     marginTop: 0,
     marginBottom: 0,
   },

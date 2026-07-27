@@ -9,15 +9,18 @@
 // It reads the saved health stage every time the tab gains focus, and
 // renders nothing unless the stage is "embarazo".
 
+import { useLanguage } from "@/contexts/LanguageContext";
 import { getHealthStage } from "@/storage/healthStageStorage";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+import SpeakableText from "@/components/SpeakableText";
 import { colors, globalStyles } from "@/styles/global";
 
 export function PregnancySizeCard() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
 
   useFocusEffect(
@@ -34,16 +37,18 @@ export function PregnancySizeCard() {
 
   return (
     <View style={styles.wrapper}>
-      <Text style={[globalStyles.titleBig, {textAlign: "left"}]}>Tamaño De Tu Bebé</Text>
+      <SpeakableText
+        text={t("tamanoBebe")}
+        style={[globalStyles.titleBig, { textAlign: "left" }]}
+        iconSize={18}
+      />
       <TouchableOpacity
         style={styles.card}
         onPress={() => router.push("/tamano-bebe")}
         activeOpacity={0.8}
       >
         <MaterialCommunityIcons name="baby-face-outline" size={44} color={colors.text} />
-        <Text style={[globalStyles.label, styles.cardText]}>
-          Quiero ver cómo está{"\n"}creciendo mi bebé
-        </Text>
+        <Text style={[globalStyles.label, styles.cardText]}>{t("crecimientoBebe")}</Text>
         <Ionicons name="chevron-forward" size={22} color={colors.text} />
       </TouchableOpacity>
     </View>
