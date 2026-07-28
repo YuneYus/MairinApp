@@ -21,7 +21,7 @@ export default function SponsorshipAd() {
 
       <View style={styles.logosRow}>
         <Image
-          source={require("@/app/assets/images/vivianPellas.png")}
+          source={require("@/app/assets/images/hackathon.png")}
           style={styles.logoWide}
           resizeMode="contain"
         />

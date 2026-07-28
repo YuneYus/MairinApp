@@ -1,7 +1,19 @@
 // utils/reminderScheduler.ts
 
 import { ReminderOffset } from "@/storage/pregnancyStorage";
-import * as Notifications from "expo-notifications";
+import Constants from 'expo-constants';
+import { Platform } from 'react-native';
+
+// Same guard as utils/notifications.ts — keep both in sync.
+const isExpoGo = Constants.appOwnership === 'expo';
+const skipNotifications = isExpoGo && Platform.OS === 'android';
+
+type NotificationsModule = typeof import('expo-notifications');
+let Notifications: NotificationsModule | null = null;
+
+if (!skipNotifications) {
+  Notifications = require('expo-notifications') as NotificationsModule;
+}
 
 const OFFSET_MINUTES: Record<ReminderOffset, number> = {
   "5min": 5,
@@ -26,7 +38,7 @@ export const REMINDER_OPTIONS: { key: ReminderOffset; label: string }[] = [
 ];
 
 export async function cancelReminder(notificationId?: string) {
-  if (!notificationId) return;
+  if (!notificationId || !Notifications) return;
   try {
     await Notifications.cancelScheduledNotificationAsync(notificationId);
   } catch (error) {
@@ -40,7 +52,7 @@ export async function scheduleReminder(
   eventTimeISO: string,
   offset: ReminderOffset
 ): Promise<string | undefined> {
-  if (offset === "none") return undefined;
+  if (offset === "none" || !Notifications) return undefined;
 
   const eventTime = new Date(eventTimeISO);
   const minutesBefore = OFFSET_MINUTES[offset];

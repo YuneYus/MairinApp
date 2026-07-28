@@ -32,6 +32,7 @@ export default function PerfilScreen() {
     { labelKey: "menuPerfil" as const, icon: "person-outline", route: "/(tabs)/perfil/personal" },
     { labelKey: "menuInfoMedica" as const, icon: "document-text-outline", route: "/(tabs)/perfil/medical" },
     { labelKey: "menuAjustes" as const, icon: "settings-outline", route: "/(tabs)/perfil/settings" },
+    { labelKey: "quienesSomosTitulo" as const, icon: "help-circle-outline", route: "/(tabs)/perfil/aboutUs" },
     { labelKey: "menuAsistencia" as const, icon: "help-circle-outline", route: "/(tabs)/perfil/support" },
     { labelKey: "menuEtapaSalud" as const, icon: "heart-outline", route: "/(tabs)/perfil/health-stage" },
   ];
@@ -44,7 +45,7 @@ export default function PerfilScreen() {
 
         const info = await getProfileInfo();
         const name = `${info.firstName} ${info.lastName}`.trim();
-        setFullName(name || t("usuaria"));
+        setFullName(name || "usuaria");
 
         const accountType = await getAccountType();
         setIsGuest(accountType === "guest");
@@ -54,7 +55,7 @@ export default function PerfilScreen() {
   );
 
   const handleLogout = () => {
-    Alert.alert(t("cerrarSesion"), t("cerrarSesionPregunta"), [
+    Alert.alert(t("cerrarSesion"), "cerrarSesionPregunta", [
       { text: t("cancelar"), style: "cancel" },
       {
         text: t("cerrarSesion"),

@@ -1,27 +1,42 @@
 // utils/notifications.ts
 
+import { getTodaysQuote } from "@/services/quoteService";
 import { getHealthStage } from '@/storage/healthStageStorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
+import { Platform } from 'react-native';
 import { predictNextPeriodDate } from './cyclePrediction';
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowBanner: true,
-    shouldShowList: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
+// Push/local notifications are unavailable in Expo Go on Android from SDK 53+.
+// Guard every use of expo-notifications so the app doesn't crash there.
+const isExpoGo = Constants.appOwnership === 'expo';
+const skipNotifications = isExpoGo && Platform.OS === 'android';
 
-import { getTodaysQuote } from "@/services/quoteService";
+type NotificationsModule = typeof import('expo-notifications');
+let Notifications: NotificationsModule | null = null;
+
+if (!skipNotifications) {
+  Notifications = require('expo-notifications') as NotificationsModule;
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowBanner: true,
+      shouldShowList: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+}
 
 export const requestPermissions = async (): Promise<boolean> => {
+  if (!Notifications) return false;
   const { status } = await Notifications.requestPermissionsAsync();
   return status === 'granted';
 };
 
 export const scheduleQuoteReminders = async () => {
+  if (!Notifications) return;
+
   const todaysQuote = getTodaysQuote();
 
   await Notifications.scheduleNotificationAsync({
@@ -42,6 +57,8 @@ export const scheduleQuoteReminders = async () => {
 const PERIOD_REMINDER_ID_KEY = 'period_reminder_notification_id';
 
 export const schedulePeriodReminder = async () => {
+  if (!Notifications) return;
+
   const stage = await getHealthStage();
   if (stage !== 'menstruacion') return;
 
@@ -74,11 +91,14 @@ export const schedulePeriodReminder = async () => {
 export const cancelPeriodReminder = async () => {
   const id = await AsyncStorage.getItem(PERIOD_REMINDER_ID_KEY);
   if (id) {
-    await Notifications.cancelScheduledNotificationAsync(id);
+    if (Notifications) {
+      await Notifications.cancelScheduledNotificationAsync(id);
+    }
     await AsyncStorage.removeItem(PERIOD_REMINDER_ID_KEY);
   }
 };
 
 export const cancelQuoteReminders = async () => {
+  if (!Notifications) return;
   await Notifications.cancelAllScheduledNotificationsAsync();
 };

@@ -354,6 +354,26 @@ BienvenidaTextoEmbarazo: "viaje de embarazo",
 BienvenidaTextoMenopausia: "etapa de menopausia",
 
 
+//about us:
+  sloganTitulo: "MAIRIN",
+  slogan:
+    "La primera amiga digital de salud para las mujeres de Nicaragua.",
+  quienesSomosTitulo: "¿Quiénes somos?",
+  quienesSomos:
+    "Nosotros creemos que el saber no debe depender de dónde naciste, qué idioma hablas o qué oportunidades has tenido. Creemos que toda mujer merece que la escuchen, la entiendan y la acompañen con respeto.",
+  misionTitulo: "Misión",
+  mision:
+    "Acompañar a cada mujer en cada momento de su vida, dándole información confiable, herramientas fáciles de usar y apoyo cercano, para que pueda decidir bien sobre su salud, cuidarse con confianza y dejar atrás los mitos falsos. Creemos que toda mujer merece sentirse escuchada y acompañada, sin importar dónde vive, qué idioma habla o en qué momento de su vida está.",
+  visionTitulo: "Visión",
+  vision:
+    "Ser la app de salud de mujeres más confiable e influyente de Latinoamérica, cambiando la forma en que las mujeres cuidan y entienden su salud. Queremos construir un grupo de apoyo donde el saber reemplace a los mitos, el autocuidado sea parte de todos los días y ninguna mujer tenga que pasar sola los cambios de su vida.",
+  corazonMairinTitulo: "El corazón de MAIRIN",
+  corazonMairin:
+    "Caminar junto a cada mujer, para que nunca tenga que enfrentar sola los cambios de su vida.",
+  contenidoVerificadoTitulo: "Contenido verificado",
+  contenidoVerificado:
+    "El contenido está verificado por médicos y traducido al miskito por hablantes nativos.",
+
 //mere
     //calendar:
 //calendar:
@@ -1141,6 +1161,28 @@ BienvenidaTexto:
 BienvenidaTextoMenstruacion: "Mestruación ba ciclo",
 BienvenidaTextoEmbarazo: "Embarazo viaje",
 BienvenidaTextoMenopausia: "Menopausia etapa",
+
+
+
+// about us:
+sloganTitulo: "MAIRIN",
+  slogan:
+    "Aplicación ka nina ba MAIRIN an dia dukiara paskan? Balika pas mairin nani internet panika kum sa, Nicaragua ul merka nani dukiara luki paskansa, mairin wina men kaikaya dukiara.",
+  quienesSomosTitulo: "¿Yang nani wan sa?",
+  quienesSomos:
+    "Yawan nani mapara man sins laka brikayaba tawan tarara pauran wisi apia, dia bila aisisma wisi apia dia sat skul nani dimram. Baku apiasa, mairin ulba derecho brisa dia lukiba aisayaan bara witin ra walbia an sin respek munbia.",
+  misionTitulo: "Misión",
+  mision:
+    "Wan misión ka ba: Mairin ulra yulaba kahbaya ani anira kabia sin, hilp muni an dia dia nutakaya want ba ai mihta kat brikaya dukiara sem book ai mihtara bri baku. Baku witin aiwinara trabil kum takbia kaka ai winara, pat nu kaya dia daukayaba confianza ulwan. Almuk nani mito y crencia nani mai win ba ulba man sip raitka yabras.",
+  visionTitulo: "Visión",
+  vision:
+    "Yawan kainara lukan ka ba: Mairin wina men kaikaya aplicación ka kau pain, kau isi an confiable kaya want sa. Yawan grupo kum paski mairin nani dukiara diara rait ba kau lantaki waya, baku lika mito an creencia nani ba suih waya.",
+  corazonMairinTitulo: "Naja MAIRIN BA",
+  corazonMairin:
+    "Mairin nani ul ba dukiarasa baku lika sip mairin winara dia dia chenstaki wabia ba pat witin nukaya, samplika naniba sipsa: kuihra baku, mairin talia baiwiteim dia daukayaba man pat nukaya.",
+  contenidoVerificadoTitulo: "Contenido Verificado",
+  contenidoVerificado:
+    "Naha aplicación ka na. Daktar lan nani ta brisa an upla miskito nani ulbi bila lakan ispel wina miskitora.",
 //here
 
 //calendar:

@@ -1,5 +1,6 @@
 // components/cicloInfo.tsx
 
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   getCycleResetDate,
   setCycleResetDate,
@@ -11,6 +12,7 @@ import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+import SpeakableText from "@/components/SpeakableText";
 import { colors, globalStyles } from "@/styles/global";
 
 type CycleStatus = {
@@ -74,12 +76,11 @@ function analyzeCycle(starts: string[]): CycleStatus {
   const todayString = new Date().toISOString().split("T")[0];
   const lastStart = starts[starts.length - 1];
 
+  // NOTE: this flag ("irregular") is now purely boolean — the actual
+  // display text is built with translation keys in the component,
+  // not hardcoded here, so it can switch language.
   if (daysBetween(lastStart, todayString) > MAX_CYCLE_DAYS) {
-    return {
-      regular: false,
-      reason:
-        "Tu período no sigue un patrón regular y puede adelantarse, retrasarse o cambiar en duración.\n¿Será que se te olvidó apuntar la fecha en el calendario?",
-    };
+    return { regular: false, reason: "irregular" };
   }
 
   for (let i = 1; i < starts.length; i++) {
@@ -88,11 +89,7 @@ function analyzeCycle(starts: string[]): CycleStatus {
     const gap = daysBetween(prevStart, currStart);
 
     if (gap < MIN_CYCLE_DAYS || gap > MAX_CYCLE_DAYS || sameMonth(prevStart, currStart)) {
-      return {
-        regular: false,
-        reason:
-          "Tu período no sigue un patrón regular y puede adelantarse, retrasarse o cambiar en duración.\n¿Será que se te olvidó apuntar la fecha en el calendario?",
-      };
+      return { regular: false, reason: "irregular" };
     }
   }
 
@@ -100,6 +97,8 @@ function analyzeCycle(starts: string[]): CycleStatus {
 }
 
 export default function CicloInfoCard() {
+  const { t } = useLanguage();
+
   const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState<CycleStatus>({ regular: true });
   const [expanded, setExpanded] = useState(false);
@@ -144,7 +143,7 @@ export default function CicloInfoCard() {
     const label = formatMonthLabel(nextMonthStart);
 
     Alert.alert(
-      "Reiniciar Historial Del Ciclo",
+      t("reiniciarHistorialCiclo"),
       `El seguimiento se reiniciará a partir de ${label}. Este mes seguirá registrándose normalmente y tu historial anterior no se perderá.`,
       [
         { text: "Cancelar", style: "cancel" },
@@ -165,15 +164,23 @@ export default function CicloInfoCard() {
 
   if (!visible) return null;
 
+  // Regular-cycle message: "queBien" is just the exclamation ("¡Que bien!"),
+  // the rest of the sentence has no translation key yet — left hardcoded.
+  const regularBodyText = `${t("queBien")} Tu período llega a tiempo cada mes.`;
+
+  // Irregular-cycle reason: reconstructed from the two matching keys
+  // instead of the old hardcoded string.
+  const irregularBodyText = `${t("descripcionMenstruacionIrregular")}\n${t("olvidoFechaCalendario")}`;
+
   return (
     <View style={styles.wrapper}>
-      <Text style={globalStyles.label}>Información De Tu Ciclo</Text>
+      <SpeakableText text={t("InformacionCiclo")} style={globalStyles.label} iconSize={16} />
 
       <View style={styles.card}>
         {!status.regular && (
           <TouchableOpacity style={styles.reiniciarButton} onPress={handleReiniciar}>
             <Ionicons name="refresh" size={16} color="white" />
-            <Text style={styles.reiniciarText}>Reiniciar Historial Del Ciclo</Text>
+            <Text style={styles.reiniciarText}>{t("reiniciarHistorialCiclo")}</Text>
           </TouchableOpacity>
         )}
 
@@ -197,17 +204,17 @@ export default function CicloInfoCard() {
           </View>
 
           <View style={styles.messageBox}>
-            <Text style={styles.messageTitle}>
-              {status.regular
-                ? "Tu menstruación está regular"
-                : "Tu menstruación está irregular"}
-            </Text>
+            <SpeakableText
+              text={status.regular ? t("menstruacionRegular") : t("menstruacionIrregular")}
+              style={styles.messageTitle}
+              iconSize={14}
+            />
 
-            <Text style={[globalStyles.textNormal, styles.messageBody]}>
-              {status.regular
-                ? "¡Que bien! Tu período llega a tiempo cada mes."
-                : status.reason}
-            </Text>
+            <SpeakableText
+              text={status.regular ? regularBodyText : irregularBodyText}
+              style={[globalStyles.textNormal, styles.messageBody]}
+              iconSize={14}
+            />
 
             <View style={styles.actionsRow}>
               {!status.regular && (
@@ -215,7 +222,7 @@ export default function CicloInfoCard() {
                   style={styles.actualizarButton}
                   onPress={handleActualizarFecha}
                 >
-                  <Text style={styles.actualizarText}>Actualizar fecha</Text>
+                  <Text style={styles.actualizarText}>{t("actualizarFecha")}</Text>
                 </TouchableOpacity>
               )}
               <TouchableOpacity
@@ -228,7 +235,7 @@ export default function CicloInfoCard() {
                   }
                 }}
               >
-                <Text style={styles.leerMasText}>Leer más</Text>
+                <Text style={styles.leerMasText}>{t("LeerMas")}</Text>
                 <Ionicons name="chevron-forward" size={16} color={colors.text} />
               </TouchableOpacity>
             </View>
