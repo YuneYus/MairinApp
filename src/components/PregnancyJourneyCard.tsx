@@ -20,13 +20,13 @@
 // not here — see the note I sent with it.
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { WEEK_DATA } from "@/data/embarazoSemanas";
 import { getHealthStage } from "@/storage/healthStageStorage";
 import {
   getPregnancyWeek,
   setPregnancyWeek,
 } from "@/storage/pregnancyWeekStorage";
 import { colors, globalStyles } from "@/styles/global";
+import { TranslationKey } from "@/translations";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router, useFocusEffect } from "expo-router";
@@ -181,7 +181,7 @@ export function PregnancyJourneyCard() {
   }
 
   // --- Answered: show the heart, tied to the saved week ---
-  const week = WEEK_DATA[savedWeek];
+  const weekTitle = t(`viajeSemana${savedWeek}Title` as TranslationKey);
 
   return (
     <View style={styles.wrapper}>
@@ -193,7 +193,7 @@ export function PregnancyJourneyCard() {
 
       <View style={styles.card}>
         <Text style={globalStyles.cardTitle}>
-          {t("semana").toUpperCase()} {savedWeek} ({week.title})
+          {t("semana").toUpperCase()} {savedWeek} ({weekTitle})
         </Text>
 
         <TouchableOpacity activeOpacity={0.85} onPress={handleHeartPress}>

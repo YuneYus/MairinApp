@@ -10,6 +10,7 @@ const ACTIVE_PILL_COLOR = "#FFFF"; // pink highlight behind active tab
 const ACTIVE_COLOR = "#A4195B"; // icon/label color when active
 const INACTIVE_COLOR = "#FFFF"; // icon/label color when inactive
 
+
 function TabIcon({
   focused,
   iconName,
@@ -134,7 +135,20 @@ export default function TabLayout() {
       <Tabs.Screen name="detalle-semana" options={{ href: null }} />
       <Tabs.Screen name="viaje-embarazo" options={{ href: null }} />
       <Tabs.Screen name="BreathingExercise" options={{ href: null }} />
+      <Tabs.Screen name="embarazo-alimentacion" options={{ href: null }} />
+      <Tabs.Screen name="embarazo-factoresRiesgo" options={{ href: null }} />
+      <Tabs.Screen name="embarazo-info" options={{ href: null }} />
+      <Tabs.Screen name="embarazo-serMama" options={{ href: null }} />
+      <Tabs.Screen name="embarazo-prepParto" options={{ href: null }} />
+      <Tabs.Screen name="mens-alimento" options={{ href: null }} />
+      <Tabs.Screen name="mens-info" options={{ href: null }} />
+      <Tabs.Screen name="mens-ejercicio" options={{ href: null }} />
+      <Tabs.Screen name="mens-prevencion" options={{ href: null }} />
+      <Tabs.Screen name="mens-recomendacion" options={{ href: null }} />
+      <Tabs.Screen name="mens-sabiasq" options={{ href: null }} />
+      <Tabs.Screen name="mens-educacion" options={{ href: null }} />
 
     </Tabs>
   );
 }
+

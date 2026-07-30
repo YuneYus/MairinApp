@@ -7,10 +7,12 @@ import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 import { predictNextPeriodDate } from './cyclePrediction';
 
-// Push/local notifications are unavailable in Expo Go on Android from SDK 53+.
+// Push/local notifications are unavailable in Expo Go on Android from SDK 53+,
+// and are not available on web at all (no native notification module exists there).
 // Guard every use of expo-notifications so the app doesn't crash there.
 const isExpoGo = Constants.appOwnership === 'expo';
-const skipNotifications = isExpoGo && Platform.OS === 'android';
+const skipNotifications =
+  Platform.OS === 'web' || (isExpoGo && Platform.OS === 'android');
 
 type NotificationsModule = typeof import('expo-notifications');
 let Notifications: NotificationsModule | null = null;

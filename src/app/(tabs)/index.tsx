@@ -1,3 +1,5 @@
+// app/(tabs)/index.tsx
+
 import { useLanguage } from "@/contexts/LanguageContext";
 import { colors, globalStyles } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
@@ -31,42 +33,87 @@ import SponsorshipAd from "@/components/sponsorshipAd";
 import SpeakableText from "@/components/SpeakableText";
 import WelcomeBanner from "@/components/welcomeBanner";
 
-const ALL_ITEMS: {
-  key: HealthStage | "ejercicio" | "educacion";
+type IonIcon = keyof typeof import("@expo/vector-icons").Ionicons.glyphMap;
+
+type InfoItem = {
   titleKey: TranslationKey;
   subtitleKey: TranslationKey;
-  icon: keyof typeof import("@expo/vector-icons").Ionicons.glyphMap;
-}[] = [
-  {
-    key: "menstruacion",
-    titleKey: "Menstruación",
-    subtitleKey: "aprenderMasIrregularidades",
-    icon: "call",
+  icon: IonIcon;
+  route?: string;
+};
+
+// Big card (top) + the stage-specific sub-items, per health stage.
+const STAGE_CONFIG: Record<HealthStage, { big: InfoItem; items: InfoItem[] }> = {
+  menstruacion: {
+    big: {
+      titleKey: "Menstruación",
+      subtitleKey: "aprenderMasIrregularidades",
+      icon: "water-outline",
+      route: "/mens-info",
+    },
+    items: [
+      { titleKey: "ejercicio", subtitleKey: "aprenderMas", icon: "walk-outline", route: "/mens-ejercicio" },
+      { titleKey: "alimentacionTitulo", subtitleKey: "aprenderMas", icon: "nutrition-outline", route: "/mens-alimento" },
+      { titleKey: "educacionSexualTitulo", subtitleKey: "aprenderMas", icon: "book-outline", route: "/mens-educacion" },
+      { titleKey: "prevencionTitulo", subtitleKey: "aprenderMas", icon: "shield-checkmark-outline", route: "/mens-prevencion" },
+      { titleKey: "recomendacionesTitulo", subtitleKey: "aprenderMas", icon: "clipboard-outline", route: "/mens-recomendacion" },
+      { titleKey: "sabiasQueTitulo", subtitleKey: "aprenderMas", icon: "help-circle-outline", route: "/mens-sabiasq" },
+    ],
   },
-  {
-    key: "ejercicio",
-    titleKey: "ejercicio",
-    subtitleKey: "aprenderMas",
-    icon: "call",
+  embarazo: {
+    big: {
+      titleKey: "Embarazo",
+      subtitleKey: "aprenderMas",
+      icon: "body-outline",
+      route: "/embarazo-info",
+    },
+    items: [
+      {
+        titleKey: "alimentacion",
+        subtitleKey: "aprenderMas",
+        icon: "nutrition-outline",
+        route: "/embarazo-alimentacion",
+      },
+      {
+        titleKey: "factoresRiesgo",
+        subtitleKey: "aprenderMas",
+        icon: "shield-checkmark-outline",
+        route: "/embarazo-factoresRiesgo",
+      },
+      {
+        titleKey: "serMama",
+        subtitleKey: "aprenderMas",
+        icon: "heart-outline",
+        route: "/embarazo-serMama",
+      },
+      {
+        titleKey: "prepararParto",
+        subtitleKey: "aprenderMas",
+        icon: "medkit-outline",
+        route: "/embarazo-prepParto",
+      },
+    ],
   },
-  {
-    key: "educacion",
-    titleKey: "educacionSexual",
-    subtitleKey: "aprenderMas",
-    icon: "call",
+  menopausia: {
+    big: {
+      titleKey: "Menopausia",
+      subtitleKey: "aprenderMas",
+      icon: "person-outline",
+    },
+    items: [
+      { titleKey: "Perimenopausia", subtitleKey: "aprenderMas", icon: "trending-up-outline" },
+      { titleKey: "PostMenopausia", subtitleKey: "aprenderMas", icon: "checkmark-circle-outline" },
+      { titleKey: "PrevenciónEnfermedades", subtitleKey: "aprenderMas", icon: "call-outline" },
+      { titleKey: "ejercicio", subtitleKey: "aprenderMas", icon: "walk-outline" },
+    ],
   },
-  {
-    key: "embarazo",
-    titleKey: "Embarazo",
-    subtitleKey: "aprenderMas",
-    icon: "call",
-  },
-  {
-    key: "menopausia",
-    titleKey: "Menopausia",
-    subtitleKey: "aprenderMas",
-    icon: "call",
-  },
+};
+
+// "Aprender De Otros Temas" — always the other two stages, linking out.
+const ALL_STAGES: { key: HealthStage; titleKey: TranslationKey; icon: IonIcon }[] = [
+  { key: "menstruacion", titleKey: "Menstruación", icon: "water-outline" },
+  { key: "embarazo", titleKey: "Embarazo", icon: "body-outline" },
+  { key: "menopausia", titleKey: "Menopausia", icon: "person-outline" },
 ];
 
 function BreathingButton() {
@@ -104,15 +151,27 @@ function InfoCenter() {
     }, [])
   );
 
-  const bigItem = ALL_ITEMS.find((item) => item.key === stage)!;
-  const smallItems = ALL_ITEMS.filter((item) => item.key !== stage);
+  const config = STAGE_CONFIG[stage];
+  const otherStages = ALL_STAGES.filter((s) => s.key !== stage);
 
-  const handleItemPress = (key: (typeof ALL_ITEMS)[number]["key"]) => {
-    if (key === "embarazo") {
-      router.push("/viaje-embarazo");
+  const goTo = (route?: string) => {
+    if (route) {
+      router.push(route as any);
+    }
+    // TODO: destinations not yet built (menopausia sub-items) fall through
+    // here silently until their screens exist.
+  };
+
+  const handleOtherStagePress = (targetStage: HealthStage) => {
+    if (targetStage === "embarazo") {
+      router.push("/embarazo-info");
       return;
     }
-    // TODO: navigate to the relevant info screen for the other categories
+    if (targetStage === "menstruacion") {
+      router.push("/mens-info");
+      return;
+    }
+    // TODO: navigate to the relevant preview/info screen for menopausia
   };
 
   return (
@@ -124,23 +183,43 @@ function InfoCenter() {
 
       <View>
         <SpeakableText text={t("centroInformacion")} style={styles.sectionTitle} iconSize={18} />
+
         <ButtonInfo
-          title={t(bigItem.titleKey)}
-          subtitle={t(bigItem.subtitleKey)}
-          icon={bigItem.icon}
+          title={t(config.big.titleKey)}
+          subtitle={t(config.big.subtitleKey)}
+          icon={config.big.icon}
           size="big"
-          onPress={() => handleItemPress(bigItem.key)}
+          onPress={() => goTo(config.big.route)}
         />
 
         <View style={styles.grid}>
-          {smallItems.map((item) => (
+          {config.items.map((item) => (
             <ButtonInfo
-              key={item.key}
-              title={t(item.titleKey)}
+              key={item.titleKey}
+              title={t(item.titleKey).trim()}
               subtitle={t(item.subtitleKey)}
               icon={item.icon}
               size="small"
-              onPress={() => handleItemPress(item.key)}
+              onPress={() => goTo(item.route)}
+            />
+          ))}
+        </View>
+
+        <SpeakableText
+          text={t("aprenderOtrosTemas")}
+          style={[styles.sectionTitle, { fontSize: 16, marginTop: 20 }]}
+          iconSize={14}
+        />
+
+        <View style={styles.grid}>
+          {otherStages.map((s) => (
+            <ButtonInfo
+              key={s.key}
+              title={t(s.titleKey)}
+              subtitle={t("aprenderMas")}
+              icon={s.icon}
+              size="small"
+              onPress={() => handleOtherStagePress(s.key)}
             />
           ))}
         </View>

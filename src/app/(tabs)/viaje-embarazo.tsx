@@ -5,8 +5,9 @@
 // bottom tab — see the _layout.tsx note at the end of this message.
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { trimesterOf, WEEK_DATA } from "@/data/embarazoSemanas";
+import { trimesterOf } from "@/data/embarazoSemanas";
 import { colors, globalStyles } from "@/styles/global";
+import { TranslationKey } from "@/translations";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
@@ -60,7 +61,11 @@ export default function ViajeEmbarazoScreen() {
   const [currentWeek, setCurrentWeek] = useState(initialWeek);
 
   const trimester = trimesterOf(currentWeek);
-  const week = WEEK_DATA[currentWeek];
+
+  const weekTitle = t(`viajeSemana${currentWeek}Title` as TranslationKey);
+  const weekFact = t(`viajeSemana${currentWeek}Fact` as TranslationKey);
+  const weekFeel = t(`viajeSemana${currentWeek}Feel` as TranslationKey);
+  const weekTip = t(`viajeSemana${currentWeek}Tip` as TranslationKey);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
@@ -151,19 +156,23 @@ export default function ViajeEmbarazoScreen() {
               {t("semana").toUpperCase()} {currentWeek}
             </Text>
           </View>
-          <Text style={globalStyles.cardHighlight}>{week.title}</Text>
+          <SpeakableText text={weekTitle} style={globalStyles.cardHighlight} iconSize={16} />
 
           <View style={styles.infoBox}>
-            <Text style={globalStyles.label}>Dato fascinante:</Text>
-            <Text style={globalStyles.textNormal}>{week.fact}</Text>
+            <SpeakableText text={t("viajeFactTitle")} style={globalStyles.label} iconSize={14} />
+            <SpeakableText text={weekFact} style={globalStyles.textNormal} iconSize={14} />
           </View>
           <View style={[styles.infoBox, styles.infoBoxFeel]}>
-            <Text style={[globalStyles.label, styles.infoLabelFeel]}>¿Cómo te sentirás?</Text>
-            <Text style={globalStyles.textNormal}>{week.feel}</Text>
+            <SpeakableText
+              text={t("viajeFeelTitle")}
+              style={[globalStyles.label, styles.infoLabelFeel]}
+              iconSize={14}
+            />
+            <SpeakableText text={weekFeel} style={globalStyles.textNormal} iconSize={14} />
           </View>
           <View style={[styles.infoBox, styles.infoBoxTip]}>
-            <Text style={globalStyles.label}>Consejo</Text>
-            <Text style={globalStyles.textNormal}>{week.tip}</Text>
+            <SpeakableText text={t("viajeTipTitle")} style={globalStyles.label} iconSize={14} />
+            <SpeakableText text={weekTip} style={globalStyles.textNormal} iconSize={14} />
           </View>
         </View>
       </View>

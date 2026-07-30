@@ -1,8 +1,10 @@
-
 // components/buttonInfo.tsx
 
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+import SpeakableText from "@/components/SpeakableText";
+import { colors } from "@/styles/global";
 
 type ButtonInfoProps = {
   title: string;
@@ -27,18 +29,20 @@ export default function ButtonInfo({
       <View
         style={size === "big" ? styles.iconCircleBig : styles.iconCircleSmall}
       >
-        <Ionicons name={icon} size={size === "big" ? 22 : 18} color="#B0195B" />
+        <Ionicons name={icon} size={size === "big" ? 22 : 18} color={colors.text} />
       </View>
 
-      <Text style={size === "big" ? styles.bigTitle : styles.smallTitle}>
-        {title}
-      </Text>
+      <SpeakableText
+        text={title}
+        style={size === "big" ? styles.bigTitle : styles.smallTitle}
+        iconSize={size === "big" ? 15 : 13}
+      />
 
       <View style={styles.linkRow}>
         <Text style={styles.link} numberOfLines={1}>
           {subtitle}
         </Text>
-        <Ionicons name="chevron-forward" size={14} color="#B0195B" />
+        <Ionicons name="chevron-forward" size={14} color={colors.text} />
       </View>
     </TouchableOpacity>
   );
@@ -47,9 +51,9 @@ export default function ButtonInfo({
 const styles = StyleSheet.create({
   bigCard: {
     width: "100%",
-    backgroundColor: "white",
+    backgroundColor: colors.background,
     borderWidth: 1,
-    borderColor: "#F0DCE4",
+    borderColor: colors.surface,
     borderRadius: 16,
     padding: 18,
     marginBottom: 14,
@@ -57,9 +61,9 @@ const styles = StyleSheet.create({
 
   smallCard: {
     flexBasis: "48%",
-    backgroundColor: "white",
+    backgroundColor: colors.background,
     borderWidth: 1,
-    borderColor: "#F0DCE4",
+    borderColor: colors.surface,
     borderRadius: 16,
     padding: 14,
     marginBottom: 14,
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: "#FBDCE7",
+    backgroundColor: colors.surface,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 10,
@@ -79,23 +83,23 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "#FBDCE7",
+    backgroundColor: colors.surface,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 8,
   },
 
   bigTitle: {
+    fontFamily: "LeagueSpartan_700Bold",
     fontSize: 17,
-    fontWeight: "bold",
-    color: "#222",
+    color: colors.textSecondary,
     marginBottom: 6,
   },
 
   smallTitle: {
+    fontFamily: "LeagueSpartan_700Bold",
     fontSize: 14,
-    fontWeight: "bold",
-    color: "#222",
+    color: colors.textSecondary,
     marginBottom: 6,
   },
 
@@ -106,8 +110,9 @@ const styles = StyleSheet.create({
   },
 
   link: {
+    fontFamily: "LeagueSpartan_400Regular",
     fontSize: 12,
-    color: "#B0195B",
+    color: colors.text,
     textDecorationLine: "underline",
     flexShrink: 1,
   },
