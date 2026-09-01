@@ -1,19 +1,17 @@
-
-
+import { registerUser } from "@/services/authService";
 import { setAccountType } from "@/storage/accountTypeStorage";
 import { getProfileInfo, saveProfileInfo } from "@/storage/profilenameStorage";
-import { addRegisteredUser } from "@/storage/registeredUsersStorage";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import {
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function CrearCuentaDesdeInvitadoScreen() {
@@ -22,6 +20,8 @@ export default function CrearCuentaDesdeInvitadoScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+const [birthDate, setBirthDate] = useState(""); // 👈 add this
 
   useFocusEffect(
     useCallback(() => {
@@ -29,6 +29,7 @@ export default function CrearCuentaDesdeInvitadoScreen() {
         const info = await getProfileInfo();
         setFirstName(info.firstName);
         setLastName(info.lastName);
+          setBirthDate(info.birthDate); // 👈 add this
       };
       load();
     }, [])
@@ -44,15 +45,24 @@ export default function CrearCuentaDesdeInvitadoScreen() {
       return;
     }
 
-    // Preserve everything already saved — just add email to the existing profile
-    const currentInfo = await getProfileInfo();
-    await saveProfileInfo({ ...currentInfo, email });
+    setLoading(true);
 
-    await addRegisteredUser({ email, firstName, lastName });
-    await setAccountType("registered");
+    try {
+await registerUser(email, password, firstName, lastName, birthDate);
+      // Preserve everything already saved locally — just add email to the profile
+      const currentInfo = await getProfileInfo();
+      await saveProfileInfo({ ...currentInfo, email });
 
-    Alert.alert("¡Listo!", "Tu cuenta ha sido creada. Toda tu información se ha guardado.");
-    router.replace("/(tabs)/perfil");
+      await setAccountType("registered");
+
+      Alert.alert("¡Listo!", "Tu cuenta ha sido creada. Toda tu información se ha guardado.");
+      router.replace("/(tabs)/perfil");
+    } catch (error) {
+      console.log("Register error:", error);
+      Alert.alert("Error", "No se pudo crear la cuenta. Verifica tu correo o intenta con otro.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -99,8 +109,10 @@ export default function CrearCuentaDesdeInvitadoScreen() {
         secureTextEntry
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleCreate}>
-        <Text style={styles.buttonText}>Crear Mi Cuenta</Text>
+      <TouchableOpacity style={styles.button} onPress={handleCreate} disabled={loading}>
+        <Text style={styles.buttonText}>
+          {loading ? "Creando cuenta..." : "Crear Mi Cuenta"}
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );

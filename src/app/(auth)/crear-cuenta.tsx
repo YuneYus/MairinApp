@@ -1,7 +1,7 @@
 // app/(auth)/crear-cuenta.tsx
 
 import BirthDateInputs from "@/components/birthDateInputs";
-import { addRegisteredUser } from "@/storage/registeredUsersStorage";
+import { registerUser } from "@/services/authService";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -27,6 +27,7 @@ export default function CrearCuentaScreen() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleNext = async () => {
     if (!firstName || !lastName || !day || !month || !year || !email || !password) {
@@ -47,16 +48,24 @@ export default function CrearCuentaScreen() {
 
     const birthDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
 
-await addRegisteredUser({ email, firstName, lastName, password });
-      await setAccountType("registered");
+    setLoading(true);
 
-    router.push({
-      pathname: "/(auth)/embarazada-selector",
-      params: { firstName, lastName, birthDate, email },
-    } as any);
+    try {
+await registerUser(email, password, firstName, lastName, birthDate);      await setAccountType("registered");
+
+      router.push({
+        pathname: "/(auth)/embarazada-selector",
+        params: { firstName, lastName, birthDate, email },
+      } as any);
+    } catch (error) {
+      console.log("Register error:", error);
+      Alert.alert("Error", "No se pudo crear la cuenta. Verifica tu correo o intenta con otro.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const canContinue = acceptedTerms;
+  const canContinue = acceptedTerms && !loading;
 
   return (
     <ScrollView
@@ -155,7 +164,9 @@ await addRegisteredUser({ email, firstName, lastName, password });
         onPress={handleNext}
         disabled={!canContinue}
       >
-        <Text style={styles.buttonText}>Crear una cuenta nueva</Text>
+        <Text style={styles.buttonText}>
+          {loading ? "Creando cuenta..." : "Crear una cuenta nueva"}
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );

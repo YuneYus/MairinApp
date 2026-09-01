@@ -1,6 +1,6 @@
 // src/app/(auth)/login.tsx
 
-import { findRegisteredUser } from "@/storage/registeredUsersStorage";
+import { loginUser } from "@/services/authService";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -11,44 +11,25 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  /*
   const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Error", "Por favor ingresa tu correo y contraseña.");
       return;
     }
 
-    const onboarded = await getOnboardingComplete();
-    const profile = await getProfileInfo();
-
-    if (onboarded && profile.email && profile.email.toLowerCase() === email.toLowerCase()) {
+    try {
+      // NOTE: Django's default auth uses "username", but our register flow
+      // sends the email as the username too — see registerUser in authService.ts
+      await loginUser(email, password);
       router.replace("/(tabs)");
-    } else {
+    } catch (error) {
+      console.log("Login error:", error);
       Alert.alert(
         "No encontramos tu cuenta",
-        "No hay ninguna cuenta guardada en este dispositivo con ese correo. ¿Deseas crear una cuenta nueva?"
+        "El correo o la contraseña son incorrectos."
       );
     }
-  };*/
-
-
-const handleLogin = async () => {
-  if (!email || !password) {
-    Alert.alert("Error", "Por favor ingresa tu correo y contraseña.");
-    return;
-  }
-
-  const existingUser = await findRegisteredUser(email);
-
-if (existingUser && existingUser.password === password) {
-  router.replace("/(tabs)");
-} else {
-    Alert.alert(
-      "No encontramos tu cuenta",
-      "No hay ninguna cuenta guardada en este dispositivo con ese correo. ¿Deseas crear una cuenta nueva?"
-    );
-  }
-};
+  };
 
   return (
     <View style={styles.container}>

@@ -1,24 +1,25 @@
 // app/(tabs)/Apoyanos/index.tsx
 
+import SponsorshipAd from "@/components/sponsorshipAd";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakIfEnabled } from "@/hooks/useSpeak";
 import { colors, globalStyles } from "@/styles/global";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function ApoyanosScreen() {
   const { t, language } = useLanguage();
   const showSpeakerIcons = language === "es";
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={globalStyles.pinkHeader}>
         <TouchableOpacity
           style={styles.titleRow}
           onPress={() => speakIfEnabled(t("apoyanos"), language)}
           disabled={!showSpeakerIcons}
-        >
+        >          
           <Text style={globalStyles.pinkHeaderTitle}>{t("apoyanos")}</Text>
           {showSpeakerIcons && (
             <Ionicons
@@ -107,8 +108,10 @@ export default function ApoyanosScreen() {
             </TouchableOpacity>
           )}
         </TouchableOpacity>
+                          <SponsorshipAd />
+
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

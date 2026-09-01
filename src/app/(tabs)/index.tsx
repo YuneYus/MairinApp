@@ -28,7 +28,6 @@ import { PregnancySizeCard } from "@/components/PregnancySizeCard";
 import ChatSummaryCard from "@/components/chatSummaryCard";
 import ExerciseStreakCard from "@/components/ExerciseStreakCard";
 
-import SponsorshipAd from "@/components/sponsorshipAd";
 
 import SpeakableText from "@/components/SpeakableText";
 import WelcomeBanner from "@/components/welcomeBanner";
@@ -99,12 +98,33 @@ const STAGE_CONFIG: Record<HealthStage, { big: InfoItem; items: InfoItem[] }> = 
       titleKey: "Menopausia",
       subtitleKey: "aprenderMas",
       icon: "person-outline",
+      route: "/meno-menopausia",
     },
     items: [
-      { titleKey: "Perimenopausia", subtitleKey: "aprenderMas", icon: "trending-up-outline" },
-      { titleKey: "PostMenopausia", subtitleKey: "aprenderMas", icon: "checkmark-circle-outline" },
-      { titleKey: "PrevenciónEnfermedades", subtitleKey: "aprenderMas", icon: "call-outline" },
-      { titleKey: "ejercicio", subtitleKey: "aprenderMas", icon: "walk-outline" },
+      {
+        titleKey: "Perimenopausia",
+        subtitleKey: "aprenderMas",
+        icon: "trending-up-outline",
+        route: "/meno-perimenopausia",
+      },
+      {
+        titleKey: "PostMenopausia",
+        subtitleKey: "aprenderMas",
+        icon: "checkmark-circle-outline",
+        route: "/meno-posmenopausia",
+      },
+      {
+        titleKey: "PrevenciónEnfermedades",
+        subtitleKey: "aprenderMas",
+        icon: "call-outline",
+        route: "/meno-prevencion",
+      },
+      {
+        titleKey: "ejercicio",
+        subtitleKey: "aprenderMas",
+        icon: "walk-outline",
+        route: "/meno-ejercicio",
+      },
     ],
   },
 };
@@ -158,8 +178,6 @@ function InfoCenter() {
     if (route) {
       router.push(route as any);
     }
-    // TODO: destinations not yet built (menopausia sub-items) fall through
-    // here silently until their screens exist.
   };
 
   const handleOtherStagePress = (targetStage: HealthStage) => {
@@ -171,7 +189,10 @@ function InfoCenter() {
       router.push("/mens-info");
       return;
     }
-    // TODO: navigate to the relevant preview/info screen for menopausia
+    if (targetStage === "menopausia") {
+      router.push("/meno-menopausia");
+      return;
+    }
   };
 
   return (
@@ -243,7 +264,6 @@ export default function Homescreen() {
       <WelcomeBanner />
 
       <View style={styles.content}>
-        <SponsorshipAd />
         <BreathingButton />
         <QuoteCard quote={todaysQuote.quote} />
         <CicloInfoCard />

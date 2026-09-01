@@ -1,13 +1,4 @@
 // components/PregnancySizeCard.tsx
-//
-// Drop this into app/(tabs)/index.tsx, e.g.:
-//
-//   import { PregnancySizeCard } from "@/components/PregnancySizeCard";
-//   ...
-//   <PregnancySizeCard />
-//
-// It reads the saved health stage every time the tab gains focus, and
-// renders nothing unless the stage is "embarazo".
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getHealthStage } from "@/storage/healthStageStorage";

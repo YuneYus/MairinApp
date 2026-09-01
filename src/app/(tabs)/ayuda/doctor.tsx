@@ -8,6 +8,7 @@ import { useCallback, useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import PinkHeader from "@/components/PinkHeader";
+import { fetchDoctors } from "@/services/doctorService";
 import { Ionicons } from "@expo/vector-icons";
 import {
   DoctorProfile,
@@ -22,8 +23,14 @@ export default function DoctorsScreen() {
   const [searchText, setSearchText] = useState("");
 
   const loadDoctors = async () => {
-    const data = await getDoctors();
-    setDoctors(data);
+    try {
+      const data = await fetchDoctors();
+      setDoctors(data);
+    } catch (error) {
+      console.log("Failed to load remote doctors, falling back to local storage:", error);
+      const data = await getDoctors();
+      setDoctors(data);
+    }
   };
 
   useFocusEffect(

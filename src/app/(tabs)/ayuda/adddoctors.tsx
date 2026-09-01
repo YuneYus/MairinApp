@@ -18,6 +18,11 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 
 import {
+  createDoctor,
+  fetchDoctorById,
+  updateDoctorRemote,
+} from "@/services/doctorService";
+import {
   addDoctor,
   deleteDoctor,
   getDoctorById,
@@ -41,9 +46,16 @@ export default function AddDoctors() {
     if (!editing) return;
 
     const loadDoctor = async () => {
-      const doctor = await getDoctorById(id as string);
+      let doctor = await getDoctorById(id as string);
 
-      if (!doctor) return;
+      if (!doctor) {
+        try {
+          doctor = await fetchDoctorById(id as string);
+        } catch (error) {
+          console.log("Failed to load remote doctor:", error);
+          return;
+        }
+      }
 
       setName(doctor.name);
       setProfessionalism(doctor.professionalism);
@@ -64,28 +76,40 @@ export default function AddDoctors() {
       return;
     }
 
-    if (editing) {
-      const doctor = await getDoctorById(id as string);
+    const payload = {
+      name,
+      professionalism,
+      phonenumber,
+      details,
+    };
 
-      if (!doctor) {
-        Alert.alert("Error", "No se encontró el doctor.");
-        return;
+    try {
+      if (editing) {
+        await updateDoctorRemote(id as string, payload);
+
+        const doctor = await getDoctorById(id as string);
+        if (!doctor) {
+          Alert.alert("Error", "No se encontró el doctor.");
+          return;
+        }
+
+        await updateDoctor({
+          ...doctor,
+          ...payload,
+        });
+      } else {
+        await createDoctor(payload);
+        await addDoctor(payload);
       }
-
-      await updateDoctor({
-        ...doctor,
-        name,
-        professionalism,
-        phonenumber,
-        details,
-      });
-    } else {
-      await addDoctor({
-        name,
-        professionalism,
-        phonenumber,
-        details,
-      });
+    } catch (error: any) {
+      console.log("Doctor API error:", error);
+      Alert.alert(
+        "Error",
+        error?.message?.includes("No auth token")
+          ? "No se encontró el token de sesión. Inicia sesión de nuevo."
+          : "No se pudo guardar el doctor. Verifica tu sesión o intenta de nuevo."
+      );
+      return;
     }
 
     // Haptic feedback
