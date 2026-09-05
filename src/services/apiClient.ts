@@ -4,9 +4,10 @@ import { getRefreshToken, saveAccessToken, saveTokens } from "@/storage/authToke
 import { Platform } from "react-native";
 
 const API_ROOT = Platform.select({
-  ios: "http://127.0.0.1:8000",
-  android: "http://10.0.2.2:8000",
-  default: "http://192.168.1.5:8000",
+  ios: "http://192.168.1.20:8000",
+  android: "http://192.168.1.20:8000",
+  default: "http://192.168.1.20:8000",
+
 });
 
 function normalizeHeaders(headers: RequestInit["headers"]) {

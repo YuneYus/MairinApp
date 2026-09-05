@@ -1,14 +1,22 @@
-// hooks/useSpeak.ts
-
 import { speakText } from "@/services/voiceService";
 import { getAudioLanguage } from "@/storage/audioLanguageStorage";
 import { AppLanguage } from "@/storage/languageStorage";
 
-export async function speakIfEnabled(text: string, currentLanguage: AppLanguage) {
-  if (currentLanguage !== "es") return;
-
+export async function speakIfEnabled(
+  text: string,
+  currentLanguage: AppLanguage
+) {
   const audioPref = await getAudioLanguage();
-  if (audioPref !== "none") {
-    speakText(text);
+
+  if (audioPref === "none") return;
+
+  if (currentLanguage === "es") {
+    speakText(text, "es-ES");
+    return;
+  }
+
+  if (currentLanguage === "mis") {
+    speakText(text, "es-ES");
+    return;
   }
 }

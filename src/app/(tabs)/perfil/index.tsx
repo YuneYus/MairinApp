@@ -19,6 +19,7 @@ import {
 import { getAccountType } from "@/storage/accountTypeStorage";
 import { getProfileInfo } from "@/storage/profilenameStorage";
 import { getProfilePhoto } from "@/storage/profileStorage";
+import { clearTokens } from "@/storage/authTokenStorage";
 
 export default function PerfilScreen() {
   const { t, language } = useLanguage();
@@ -54,16 +55,21 @@ export default function PerfilScreen() {
     }, [t])
   );
 
-  const handleLogout = () => {
-    Alert.alert(t("cerrarSesion"), "cerrarSesionPregunta", [
-      { text: t("cancelar"), style: "cancel" },
-      {
-        text: t("cerrarSesion"),
-        style: "destructive",
-        onPress: () => router.replace("/(auth)/login"),
-      },
-    ]);
-  };
+const handleLogout = async () => {
+  console.log("CERRANDO SESIÓN...");
+
+  try {
+    await clearTokens();
+
+    console.log("TOKENS ELIMINADOS");
+
+    router.replace("/(auth)/login");
+
+    console.log("REDIRIGIDO AL LOGIN");
+  } catch (error) {
+    console.error("ERROR AL CERRAR SESIÓN:", error);
+  }
+};
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
