@@ -61,8 +61,8 @@ Este proyecto está en desarrollo activo. Estado actual, de forma honesta:
 | Recordatorios y notificaciones locales | ✅ Funcional |
 | Chat de apoyo emocional con IA (MAIRIN) | ✅ Funcional (requiere backend desplegado y clave de OpenAI activa) |
 | Transcripción de voz a texto | ✅ Funcional (requiere compilación nativa, no funciona en Expo Go) |
-| Traducción de interfaz (Español / Miskito) | 🟡 Parcial — algunas pantallas convertidas, otras pendientes |
-| Contenido en Miskito | 🟡 Parcial — algunas secciones tienen traducción real, otras usan marcadores temporales en inglés que **deben** reemplazarse antes de producción |
+| Traducción de interfaz (Español / Miskito) |✅ Funcional|
+| Contenido en Miskito |  ✅ Funcional|
 | Autenticación de usuarias | 🟡 Básica — actualmente basada en almacenamiento local del dispositivo (no hay backend de autenticación real ni sincronización entre dispositivos) |
 | Aislamiento de datos por usuaria | 🔴 Pendiente — todos los datos se guardan localmente sin una separación real por cuenta |
 
