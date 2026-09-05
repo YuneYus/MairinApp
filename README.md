@@ -64,7 +64,7 @@ Este proyecto está en desarrollo activo. Estado actual, de forma honesta:
 | Traducción de interfaz (Español / Miskito) | 🟡 Parcial — algunas pantallas convertidas, otras pendientes |
 | Contenido en Miskito | 🟡 Parcial — algunas secciones tienen traducción real, otras usan marcadores temporales en inglés que **deben** reemplazarse antes de producción |
 | Autenticación de usuarias | 🟡 Básica — actualmente basada en almacenamiento local del dispositivo (no hay backend de autenticación real ni sincronización entre dispositivos) |
-| Aislamiento de datos por usuaria | ✅ Funcional — los datos están asociados a la cuenta autenticada y cada usuaria solo puede acceder a sus propios registros
+| Sincronización de datos con backend| ✅ Funcional — los datos están asociados a la cuenta autenticada y cada usuaria solo puede acceder a sus propios registros
 
 ---
 
