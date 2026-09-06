@@ -63,7 +63,7 @@ Este proyecto está en desarrollo activo. Estado actual, de forma honesta:
 | Transcripción de voz a texto | ✅ Funcional (requiere compilación nativa, no funciona en Expo Go) |
 | Traducción de interfaz (Español / Miskito) |✅ Funcional|
 | Contenido en Miskito |  ✅ Funcional|
-| Autenticación de usuarias | 🟡 Básica — actualmente basada en almacenamiento local del dispositivo (no hay backend de autenticación real ni sincronización entre dispositivos) |
+| Autenticación de usuarias | ✅ Funcional — Integrada con el backend mediante autenticación JWT|
 | Sincronización de datos con backend| ✅ Funcional — los datos están asociados a la cuenta autenticada y cada usuaria solo puede acceder a sus propios registros
 
 ---
