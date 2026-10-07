@@ -1,5 +1,5 @@
 
-
+//components/quotecard.tsx
 import { globalStyles } from "@/styles/global";
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text } from "react-native";

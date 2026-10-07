@@ -38,7 +38,7 @@ export default function WelcomeBanner() {
 
   const displayName = firstName || "Usuaria";
 
-  const titleText = `¡${t("Bienvenida")} ${displayName}!`;
+  const titleText = `${t("Bienvenida")} ${displayName}!`;
   const subtitleText = `${t("BienvenidaTexto")} ${t(STAGE_MESSAGE_KEYS[stage])}`;
 
   return (
