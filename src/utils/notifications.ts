@@ -2,6 +2,7 @@
 
 import { getTodaysQuote } from "@/services/quoteService";
 import { getHealthStage } from '@/storage/healthStageStorage';
+import { getAppLanguage } from '@/storage/languageStorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
@@ -39,7 +40,8 @@ export const requestPermissions = async (): Promise<boolean> => {
 export const scheduleQuoteReminders = async () => {
   if (!Notifications) return;
 
-  const todaysQuote = getTodaysQuote();
+  const language = await getAppLanguage();
+  const todaysQuote = getTodaysQuote(language);
 
   await Notifications.scheduleNotificationAsync({
     content: {

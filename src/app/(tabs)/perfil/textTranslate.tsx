@@ -10,8 +10,9 @@ import { colors, globalStyles } from "@/styles/global";
 export default function TextTranslateScreen() {
   const { language, changeLanguage, t } = useLanguage();
 
-  const options: { key: "es" | "mis"; label: string }[] = [
+  const options: { key: "es" | "en" | "mis"; label: string }[] = [
     { key: "es", label: t("audioEspanol") },
+    { key: "en", label: "Criollo" },
     { key: "mis", label: "Miskito" },
   ];
 

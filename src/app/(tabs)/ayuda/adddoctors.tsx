@@ -19,15 +19,11 @@ import * as Haptics from "expo-haptics";
 
 import {
   createDoctor,
+  deleteDoctorForSync,
   fetchDoctorById,
   updateDoctorRemote,
 } from "@/services/doctorService";
-import {
-  addDoctor,
-  deleteDoctor,
-  getDoctorById,
-  updateDoctor,
-} from "@/storage/doctorStorage";
+import { getDoctorById } from "@/storage/doctorStorage";
 
 export default function AddDoctors() {
   const { t, language } = useLanguage();
@@ -84,39 +80,29 @@ export default function AddDoctors() {
     };
 
     try {
+      let synced: boolean;
       if (editing) {
-        await updateDoctorRemote(id as string, payload);
-
-        const doctor = await getDoctorById(id as string);
-        if (!doctor) {
-          Alert.alert("Error", "No se encontró el doctor.");
-          return;
-        }
-
-        await updateDoctor({
-          ...doctor,
-          ...payload,
-        });
+        ({ synced } = await updateDoctorRemote(id as string, payload));
       } else {
-        await createDoctor(payload);
-        await addDoctor(payload);
+        ({ synced } = await createDoctor(payload));
       }
+
+      Alert.alert(
+        synced ? "Éxito" : "Guardado en este dispositivo",
+        synced
+          ? "Doctor guardado correctamente"
+          : "Doctor guardado localmente. Se sincronizará con el servidor cuando haya conexión."
+      );
     } catch (error: any) {
       console.log("Doctor API error:", error);
       Alert.alert(
-        "Error",
-        error?.message?.includes("No auth token")
-          ? "No se encontró el token de sesión. Inicia sesión de nuevo."
-          : "No se pudo guardar el doctor. Verifica tu sesión o intenta de nuevo."
+        "Guardado localmente",
+        `El doctor quedó guardado en este dispositivo, pero no se pudo sincronizar. ${error?.message ?? "Intenta de nuevo más tarde."}`
       );
-      return;
     }
 
     // Haptic feedback
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-
-    // Show success message
-    Alert.alert("Éxito", "Doctor guardado correctamente");
 
     // Go back to the doctors list
     router.back();
@@ -229,7 +215,21 @@ export default function AddDoctors() {
                   text: "Eliminar",
                   style: "destructive",
                   onPress: async () => {
-                    await deleteDoctor(id as string);
+                    try {
+                      const synced = await deleteDoctorForSync(id as string);
+                      Alert.alert(
+                        synced ? "Eliminado" : "Eliminado de este dispositivo",
+                        synced
+                          ? "Doctor eliminado correctamente"
+                          : "La eliminación se sincronizará con el servidor cuando haya conexión."
+                      );
+                    } catch (error) {
+                      console.error("Doctor delete sync failed:", error);
+                      Alert.alert(
+                        "Eliminado de este dispositivo",
+                        "La eliminación quedó pendiente de sincronización."
+                      );
+                    }
                     router.back();
                   },
                 },

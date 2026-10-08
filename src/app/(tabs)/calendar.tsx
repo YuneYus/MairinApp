@@ -5,6 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { speakIfEnabled } from "@/hooks/useSpeak";
 import { colors, globalStyles } from "@/styles/global";
 import { TranslationKey, translations } from "@/translations";
+import type { AppLanguage } from "@/storage/languageStorage";
 import { useCallback, useState } from "react";
 import {
   Alert,
@@ -909,7 +910,7 @@ function SymptomsCard({
   labelFor: (symptom: string) => string;
   t: (key: TranslationKey) => string;
   showSpeakerIcons: boolean;
-  language: "es" | "mis";
+  language: AppLanguage;
 }) {
   return (
     <View style={styles.card}>

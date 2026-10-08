@@ -28,7 +28,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   };
 
   const t = (key: TranslationKey): string => {
-    return translations[language][key] ?? translations.es[key] ?? key;
+    const dict: Partial<Record<TranslationKey, string>> =
+      language === "mis"
+        ? translations.mis
+        : language === "en"
+          ? translations.en
+          : translations.es;
+    return dict[key] ?? translations.es[key] ?? key;
   };
 
   return (

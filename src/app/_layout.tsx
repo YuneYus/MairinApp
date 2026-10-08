@@ -19,6 +19,8 @@ import {
   schedulePeriodReminder,
   scheduleQuoteReminders,
 } from "@/utils/notifications";
+import NetInfo from "@react-native-community/netinfo";
+import { syncPendingDoctorChanges } from "@/services/doctorService";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -42,6 +44,16 @@ export default function RootLayout() {
     };
 
     setupNotifications();
+  }, []);
+
+  useEffect(() => {
+    return NetInfo.addEventListener((state) => {
+      if (state.isConnected && state.isInternetReachable !== false) {
+        void syncPendingDoctorChanges().catch((error) => {
+          console.error("Failed to sync pending doctor changes:", error);
+        });
+      }
+    });
   }, []);
 
   if (!fontsLoaded) {

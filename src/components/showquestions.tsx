@@ -6,6 +6,7 @@ import {
   View,
 } from "react-native";
 
+import { useLanguage } from "@/contexts/LanguageContext";
 import { speakText } from "@/services/voiceService";
 import { colors, globalStyles } from "@/styles/global"; // adjust path if needed
 import { useState } from "react";
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export default function Flashcard({ data }: Props) {
+  const { t } = useLanguage();
   const [result, setResult] = useState<"correct" | "incorrect" | null>(null);
 
   function checkAnswer(userAnswer: boolean) {
@@ -33,7 +35,7 @@ export default function Flashcard({ data }: Props) {
 
   return (
     <View style={styles.card}>
-      <Text style={globalStyles.label}>Mitos</Text>
+      <Text style={globalStyles.label}>{t("mitosTitulo")}</Text>
 
       <View style={styles.iconWrapper}>
         {result === null && (
@@ -77,7 +79,7 @@ export default function Flashcard({ data }: Props) {
           onPress={() => checkAnswer(true)}
           disabled={result !== null}
         >
-          <Text style={styles.buttonText}>Verdadero</Text>
+          <Text style={styles.buttonText}>{t("mitoVerdadero")}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -85,7 +87,7 @@ export default function Flashcard({ data }: Props) {
           onPress={() => checkAnswer(false)}
           disabled={result !== null}
         >
-          <Text style={styles.buttonText}>Falso</Text>
+          <Text style={styles.buttonText}>{t("mitoFalso")}</Text>
         </TouchableOpacity>
       </View>
 

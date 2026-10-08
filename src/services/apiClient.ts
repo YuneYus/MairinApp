@@ -4,7 +4,7 @@ import { getRefreshToken, saveAccessToken, saveTokens } from "@/storage/authToke
 import { Platform } from "react-native";
 
 const API_ROOT = Platform.select({
-  ios: "http://192.168.1.20:8000",
+  ios: "http://127.0.0.1:8000",
   android: "http://192.168.1.20:8000",
   default: "http://192.168.1.20:8000",
 
@@ -59,7 +59,7 @@ export async function apiRequest(endpoint: string, options: RequestInit = {}) {
     (options.body instanceof FormData || options.body?.constructor?.name === "FormData");
 
   const headers = normalizeHeaders(options.headers);
-  const requestHeaders = {
+  const requestHeaders: Record<string, string> = {
     ...(isFormData ? {} : { "Content-Type": "application/json" }),
     ...headers,
   };
@@ -90,6 +90,10 @@ export async function apiRequest(endpoint: string, options: RequestInit = {}) {
   if (!response.ok) {
     const errorBody = await response.json().catch(() => ({}));
     throw new Error(JSON.stringify(errorBody) || `Request failed: ${response.status}`);
+  }
+
+  if (response.status === 204) {
+    return undefined;
   }
 
   return response.json();

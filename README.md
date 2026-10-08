@@ -134,6 +134,14 @@ npx expo start -c
 
 El flag `-c` limpia la caché de Metro; es recomendable usarlo después de instalar dependencias nuevas o cambiar rutas.
 
+La app espera que el backend de autenticación esté disponible en el puerto `8000`. En iOS Simulator, la app usa `http://127.0.0.1:8000`, por lo que el backend debe estar ejecutándose en la misma Mac.
+
+### Uso sin conexión y sincronización de doctores
+
+La lista de doctores se guarda en el dispositivo. Si no hay conexión, crear, editar o eliminar un doctor actualiza primero el almacenamiento local y deja el cambio pendiente; la app intenta sincronizarlo cuando vuelve la conexión o al abrir la lista. El registro y el inicio de sesión siguen requiriendo acceso al servidor.
+
+En Android, la URL del backend está configurada para desarrollo en `src/services/apiClient.ts` (`http://192.168.1.20:8000`). Para que una APK instalada sincronice fuera de esa red, configura allí una dirección del backend accesible desde el teléfono.
+
 ### 4. Generar una compilación nativa (requerida para audio/voz)
 
 Algunas funciones (grabación de voz, ciertas notificaciones) no funcionan completamente dentro de **Expo Go** y requieren una compilación nativa personalizada:

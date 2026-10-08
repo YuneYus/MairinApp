@@ -147,12 +147,11 @@ export default function TabLayout() {
       <Tabs.Screen name="mens-recomendacion" options={{ href: null }} />
       <Tabs.Screen name="mens-sabiasq" options={{ href: null }} />
       <Tabs.Screen name="mens-educacion" options={{ href: null }} />
- <  Tabs.Screen name="meno-ejercicio" options={{ href: null }} />
-  <Tabs.Screen name="meno-menopausia" options={{ href: null }} />
-   <Tabs.Screen name="meno-prevencion" options={{ href: null }} />
-    <Tabs.Screen name="meno-posmenopausia" options={{ href: null }} />
-        <Tabs.Screen name="meno-perimenopausia" options={{ href: null }} />
-
+      <Tabs.Screen name="meno-ejercicio" options={{ href: null }} />
+      <Tabs.Screen name="meno-menopausia" options={{ href: null }} />
+      <Tabs.Screen name="meno-prevencion" options={{ href: null }} />
+      <Tabs.Screen name="meno-posmenopausia" options={{ href: null }} />
+      <Tabs.Screen name="meno-perimenopausia" options={{ href: null }} />
     </Tabs>
   );
 }

@@ -250,14 +250,9 @@ function InfoCenter() {
 }
 
 export default function Homescreen() {
-  const todaysQuote = getTodaysQuote();
-
-  const [question, setQuestion] = useState<any>(null);
-
-  useEffect(() => {
-    const dailyQuestion = getDailyFlashcard();
-    setQuestion(dailyQuestion);
-  }, []);
+  const { language } = useLanguage();
+  const todaysQuote = getTodaysQuote(language);
+  const question = getDailyFlashcard(language);
 
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 }}>
@@ -270,7 +265,7 @@ export default function Homescreen() {
         <InfoCenter />
         <MoodTracker />
 
-        {question && <Flashcard data={question} />}
+        {question && <Flashcard key={language} data={question} />}
       </View>
     </ScrollView>
   );
