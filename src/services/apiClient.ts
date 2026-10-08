@@ -3,12 +3,15 @@
 import { getRefreshToken, saveAccessToken, saveTokens } from "@/storage/authTokenStorage";
 import { Platform } from "react-native";
 
-const API_ROOT = Platform.select({
-  ios: "http://127.0.0.1:8000",
-  android: "http://192.168.1.20:8000",
-  default: "http://192.168.1.20:8000",
-
-});
+// En los builds de EAS (APK) la URL viene de EXPO_PUBLIC_API_URL, definida en eas.json.
+// En desarrollo local no se define y se usan estas direcciones.
+const API_ROOT =
+  process.env.EXPO_PUBLIC_API_URL ||
+  Platform.select({
+    ios: "http://127.0.0.1:8000",
+    android: "http://192.168.1.20:8000",
+    default: "http://192.168.1.20:8000",
+  });
 
 function normalizeHeaders(headers: RequestInit["headers"]) {
   if (headers instanceof Headers) {

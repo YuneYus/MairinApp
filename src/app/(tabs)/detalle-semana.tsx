@@ -12,7 +12,8 @@
 //   npx expo install expo-haptics
 // or delete the two Haptics.impactAsync lines below).
 
-import { WEEK_DATA } from "@/data/embarazoSemanas";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { TranslationKey } from "@/translations";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router, useLocalSearchParams } from "expo-router";
@@ -28,8 +29,14 @@ import {
 
 export default function DetalleSemanaScreen() {
   const { semana } = useLocalSearchParams<{ semana: string }>();
-  const weekNumber = Number(semana) || 1;
-  const week = WEEK_DATA[weekNumber];
+  const { t } = useLanguage();
+  const weekNumber = Math.min(Math.max(Number(semana) || 1, 1), 40);
+  const week = {
+    title: t(`viajeSemana${weekNumber}Title` as TranslationKey),
+    fact: t(`viajeSemana${weekNumber}Fact` as TranslationKey),
+    feel: t(`viajeSemana${weekNumber}Feel` as TranslationKey),
+    tip: t(`viajeSemana${weekNumber}Tip` as TranslationKey),
+  };
 
   const [revealed, setRevealed] = useState(false);
   const scale = useRef(new Animated.Value(1)).current;

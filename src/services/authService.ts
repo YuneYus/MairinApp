@@ -21,13 +21,18 @@ export async function registerUser(
     formData.append("birth_date", birthDate);
   }
 
-  return apiRequest("/register/", {
+  const user = await apiRequest("/register/", {
     method: "POST",
     body: formData,
   });
+
+  // /register/ no devuelve tokens: pedirlos para que la cuenta nueva quede con sesión iniciada.
+  await requestTokens(email, password);
+
+  return user;
 }
 
-export async function loginUser(email: string, password: string) {
+async function requestTokens(email: string, password: string) {
   const formData = new FormData();
   formData.append("email", email);
   formData.append("password", password);
@@ -38,6 +43,11 @@ export async function loginUser(email: string, password: string) {
   });
 
   await saveTokens(data.access, data.refresh);
+  return data;
+}
+
+export async function loginUser(email: string, password: string) {
+  const data = await requestTokens(email, password);
 
   const profile = await getProfile();
   await saveProfileInfo({
