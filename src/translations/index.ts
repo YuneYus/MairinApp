@@ -13,11 +13,6 @@ export const translations = {
     tabApoyanos: "Apóyanos",
     tabPerfil: "Perfil",
 
-    // showquestions.tsx (mitos)
-    mitosTitulo: "Mitos",
-    mitoVerdadero: "Verdadero",
-    mitoFalso: "Falso",
-
 //perfil Menu
     miPerfil: "Mi Perfil",
     menuPerfil: "Perfil",
@@ -2043,44 +2038,39 @@ semanaNLongitud: "Longitud",      // Longitud / Taura
     tabInicio: "Home",
     tabCalendario: "Calendar",
     tabAyuda: "Help",
-    tabApoyanos: "Support Us",
+    tabApoyanos: "Help wi",
     tabPerfil: "Profile",
 
-    // showquestions.tsx (mitos)
-    mitosTitulo: "Myths",
-    mitoVerdadero: "True",
-    mitoFalso: "False",
-
 //perfil Menu
-    miPerfil: "My Profile",
+    miPerfil: "Mi Profile",
     menuPerfil: "Profile",
-    menuInfoMedica: "My Medical Information",
+    menuInfoMedica: "Mi Medical Information",
     menuAjustes: "Settings",
-    menuAsistencia: "Support",
-    menuEtapaSalud: "Change My Health Stage",
-    cerrarSesion: "Log Out",
-    invitadoBanner: "You're using Mairin as a guest. Tap here to create your account so you don't lose your information.",
+    menuAsistencia: "Help",
+    menuEtapaSalud: "Change mi health stage",
+    cerrarSesion: "Log out",
+    invitadoBanner: "Yu de using Mairin as a guest. Tap here fi create yu account an keep yu information.",
 
 // personal.tsx
 nombre: "Name",
  telefono: "Phone number",
-  FechaNacimiento: "Date of birth",
+  FechaNacimiento: "Date a birth",
   ActualizarPerfil: "Update profile",
 
     //ajustes page:
     cambiarContrasena:   "Change password",
   PermitirNotificacion:  "Allow notifications",
-  EliminarCuenta: "Delete Account",
+  EliminarCuenta: "Delete account",
 
     // change text language text
-       cambiarIdiomaTexto: "Change Text Language",
+       cambiarIdiomaTexto: "Change text language",
  //change audio
     cambiarIdiomaAudio: "Audio",
     audioEspanol: "Spanish",
-    audioNinguno: "No Audio",
+    audioNinguno: "No audio",
 
 //change Health Stage:
-cambiarMiEtapaSalud: "Change My health stage",
+cambiarMiEtapaSalud: "Change my health stage",
 Menstruación: "Menstruation",
   Embarazo: "Pregnancy",
   Menopausia: "Menopause",
@@ -2091,75 +2081,75 @@ preguntasFrecuentes: "Frequently Asked Questions",
   buscar: "Search",
 
   informacionConfiablePregunta:
-    "Is the information in the app reliable?",
+    "De di information in di app reliable?",
   informacionConfiableRespuesta:
-    "Yes. The educational content is based on trustworthy sources and is reviewed to make sure it's clear and useful for users.",
+    "Yes. Di educational content de based on reliable sources an de reviewed fi mek sure it de clear an useful fi users.",
 
   contenidoAudioPregunta:
-    "Can I listen to the content in audio format?",
+    "Can mi listen di content as audio?",
   contenidoAudioRespuesta:
-    "Yes. Some educational resources will be available in audio format to make information easier to access.",
+    "Yes. Some educational resources wi be available in audio format fi make di information easier fi access.",
 
   olvideContrasenaPregunta:
-    "What do I do if I forgot my password?",
+    "Wah mi fi do if mi forget mi password?",
   olvideContrasenaRespuesta:
-    'You can select the "Forgot your password?" option and follow the instructions to reset it.',
+    'Yu can select di "Forgot yu password?" option an follow di instructions fi reset it.',
 
   cambiarContrasenaPregunta:
-    "What do I do if I want to change my password?",
+    "Wah mi fi do if mi wan change mi password?",
   cambiarContrasenaRespuesta:
-    'Go to "Profile", then to "Settings" and click the "Change password" button.',
+    'Go fi "Profile", then "Settings", an click di "Change password" button.',
 
   embarazoMenopausiaPregunta:
-    "Can I stop tracking my period if I'm pregnant or in menopause?",
+    "Can Mi stop logging my period if Mi de pregnant or in menopause?",
   embarazoMenopausiaRespuesta:
-    "Yes. The app will adjust the features available based on the health status or life stage you select.",
+    "Yes. Di app wi adjust di available features according fi di health status or life stage yu select.",
 
   informacionIncorrectaPregunta:
-    "What do I do if I entered my information incorrectly?",
+    "Wah do Mi do if Mi entered my information incorrectly?",
   informacionIncorrectaRespuesta:
-    'You can edit your personal and health information from the "Profile" section at any time.',
+    'Yu can edit yu personal an health details fram di "Profile" section at any time.',
 
   contactarMairinPregunta:
-    "How can I contact MAIRIN?",
+    "How can Mi contact MAIRIN?",
   contactarMairinRespuesta:
-    "Using the button located in the upper right corner.",
+    "Using di button at di top right.",
 
   actualizarEstadoPregunta:
-    "I'm pregnant — how do I update my health status?",
+    "Mi de pregnant. How do Mi update my health status?",
   actualizarEstadoRespuesta:
-    'Go to "Profile" and select the "Change my health status" option. There you can indicate that you\'re pregnant to receive information suited to your situation.',
+    'Go fi "Profile" an select di "Change my health status" option. There yu can indicate dat yu de pregnant fi receive information better suited fi yu situation.',
 
   aplicacionGratuitaPregunta:
-    "Is the app free?",
+    "Di app free?",
   aplicacionGratuitaRespuesta:
-    "Yes. The app offers free resources to help women learn about and care for their health at the different stages of life.",
+    "Yes. Di app offers free resources fi help woman understand an care fi dem health at di different stages of dem lives.",
 
   cambiarEtapaVidaPregunta:
-    "Can I change my life stage at any time?",
+    "Can Mi change my life stage at any time?",
   cambiarEtapaVidaRespuesta:
-    'Yes. You can update your information by going to "Profile" and selecting the "Change my health status" option.',
+    'Yes. Yu can update yu information by going fi "Profile" an selecting di "Change my health status" option.',
 
   reemplazaConsultaPregunta:
-    "Does the app replace a medical appointment?",
+    "Does di app replace a medical appointment?",
   reemplazaConsultaRespuesta:
-    "No. The app is meant for education and personal tracking. It does not replace a healthcare professional's diagnosis or guidance.",
+    "No. Di app de fi educational an personal tracking purposes. It no replace di diagnosis or guidance of a health professional.",
 
   etapasVidaPregunta:
-    "What life stages does the app cover?",
+    "Which life stages does di app cover?",
   etapasVidaRespuesta:
-    "The app provides information tailored to different stages of a woman's life, such as menstruation, pregnancy, and menopause.",
+    "Di app provides information tailored fi different stages of a woman's life, such as menstruation, pregnancy an menopause.",
 
 
 
     //contact us:
-     contactanos: "Contact Us",
+     contactanos: "Contact wi",
 
   noEncontrasteRespuesta:
-    "Didn't find your answer in the FAQ?",
+    "Didn't find yu answer in di frequently asked questions?",
 
   escribenos:
-    "Write to us and we'll get back to you shortly.",
+    "Write fi us an wi wi reply as soon as possible.",
 
   soporteEmail: "Soporte@mairin.com",
 
@@ -2167,39 +2157,39 @@ preguntasFrecuentes: "Frequently Asked Questions",
     "WhatsApp available, or send us a message",
 
   //nombre: "Name",
-  tuNombre: "Your name",
+  tuNombre: "Yu name",
 
   correoElectronico: "Email",
 
-  tipoConsulta: "Type of inquiry",
-  seleccionaNumero: "Select the number",
+  tipoConsulta: "Type a inquiry",
+  seleccionaNumero: "Select di number",
 
   problemaTecnico: "Technical problem",
-  dudaCuenta: "Question about my account",
-  reportarError: "Report an error",
+  dudaCuenta: "Question bout mi account",
+  reportarError: "Report a bug",
   sugerencia: "Suggestion",
   otro: "Other",
 
   mensaje: "Message",
 
   cuentanosNecesitas:
-    "Tell us what you need, with as much detail as possible…",
+    "Tell us wah yu need, wid as much detail as possible…",
 
   adjuntarArchivo:
-    "Attach an image or PDF (optional)",
+    "Attach image or PDF (optional)",
 
   subirArchivo:
-    "Click to upload a JPG, PNG, or PDF. Maximum 10 MB per file",
+    "Click fi upload JPG, PNG or PDF. Maximum 10 MB per file",
 
   enviarMensaje: "Send message",
 
   //My Medical Information (Part 1)
   miInformacionMedicaParte1: "My Medical Information (Part 1)",
 
-  misDatosPersonales: "My Personal Information",
+  misDatosPersonales: "My Personal Details",
 
-  nombreApellido: "First and last name",
-  fechaNacimiento: "Date of birth",
+  nombreApellido: "First an Last Name",
+  fechaNacimiento: "Date a birth",
   altura: "Height",
   peso: "Weight",
   tipoSangre: "Blood type",
@@ -2210,7 +2200,7 @@ preguntasFrecuentes: "Frequently Asked Questions",
   //correoElectronico: "Email",
 
   contactoEmergencia: "Emergency contact",
-  contactoEmergenciaNombre: "First and last name",
+  contactoEmergenciaNombre: "First an Last Name",
   contactoEmergenciaTelefono: "Phone",
 
   guardar: "Save",
@@ -2221,53 +2211,53 @@ preguntasFrecuentes: "Frequently Asked Questions",
 
   miInformacionMedicaParte2: "My Medical Information (Part 2)",
 
-  enfermedadesActualesPrevias: "Current or previous illnesses",
+  enfermedadesActualesPrevias: "Current or past illnesses",
 
   enfermedadesDiagnosticadas:
     "Any diagnosed illnesses? Write here...",
 
-  cuantasCirugiasPrevias: "How many previous surgeries?",
+  cuantasCirugiasPrevias: "How nuff previous surgeries?",
 
   cirugia: "Surgery",
-  razonCirugia: "Reason for the surgery",
-  fechaCirugia: "Date of the surgery",
+  razonCirugia: "Reason fi di surgery",
+  fechaCirugia: "Date of di surgery",
 
 
   //My Medical Information (Part 3)
     miInformacionMedicaParte3: "My Medical Information (Part 3)",
 
-  saludMujer: "Women's health",
+  saludMujer: "Woman health",
 
   edadPrimeraMenstruacion: "Age at first period",
   duracionCiclo: "Cycle length",
   duracionSangrado: "Bleeding duration",
 
-  nivelDolorMenstrual: "Level of menstrual pain",
+  nivelDolorMenstrual: "Menstrual pain level",
 
-  dolorMuyLeve: "1 - Very mild (You barely feel it)",
-  dolorLeve: "2 - Mild (A little bothersome)",
-  dolorModerado: "3 - Moderate (May require rest)",
-  dolorFuerte: "4 - Strong (Makes your activities difficult)",
-  dolorMuyFuerte: "5 - Very strong (Prevents your normal activities)",
+  dolorMuyLeve: "1 - Real mild (Yu barely feel it)",
+  dolorLeve: "2 - Mild (A likkle bothersome)",
+  dolorModerado: "3 - Moderate (Might require rest)",
+  dolorFuerte: "4 - Strong (Makes yu activities difficult)",
+  dolorMuyFuerte: "5 - Real strong (Prevents yu normal activities)",
 
   sintomasMenstruales: "Menstrual symptoms",
 
-  colicos: "Cramps (pain in the abdomen)",
+  colicos: "Cramps (pain in di abdomen)",
   dolorCabeza: "Headache",
-  cansancio: "Fatigue",
+  cansancio: "Tiredness",
   dolorEspalda: "Back pain",
   hinchazon: "Bloating (feeling of abdominal swelling)",
   nauseas: "Nausea",
-  mareos: "Dizziness",
+  mareos: "Dizzy",
   cambiosHumor: "Mood changes",
-  antojos: "Cravings (desire for certain foods)",
-  pocoSueno: "Poor sleep",
+  antojos: "Cravings (desire fi certain foods)",
+  pocoSueno: "Likkle sleep",
   diarrea: "Diarrhea",
   estrenimiento: "Constipation (difficulty passing stool)",
   dolorPiernas: "Leg pain",
-  sangreAbundante: "Heavy bleeding (a lot of blood)",
+  sangreAbundante: "Heavy bleeding (nuff blood)",
   manchado: "Spotting (light menstrual bleeding)",
-  otros: "Other",
+  otros: "Others",
 
   numeroEmbarazos: "Number of pregnancies (if applicable)",
   ejemploUno: "Example: 1",
@@ -2280,113 +2270,113 @@ preguntasFrecuentes: "Frequently Asked Questions",
   acidezEstomacal: "Heartburn",
   hinchazonPies: "Swollen feet",
   dolorEspaldaEmbarazo: "Back pain",
-  mareosEmbarazo: "Dizziness",
+  mareosEmbarazo: "Dizzy",
   cambiosHumorEmbarazo: "Mood changes",
-  otrosEmbarazo: "Other",
+  otrosEmbarazo: "Others",
 
   sintomasMenopausia: "Menopause symptoms (if applicable)",
 
-  sofocos: "Hot flashes (sudden feeling of heat in the body)",
+  sofocos: "Hot flashes (sudden feeling of heat in di body)",
   sudoresNocturnos: "Night sweats",
   cambiosHumorMenopausia: "Mood changes",
   problemasDormir: "Trouble sleeping",
   fatigaMenopausia: "Fatigue/tiredness",
   doloresCabeza: "Headaches",
-  mareosMenopausia: "Dizziness",
+  mareosMenopausia: "Dizzy",
   dolorArticular:
     "Joint pain (knees, wrists, shoulders, etc.)",
-  otrosMenopausia: "Other",
+  otrosMenopausia: "Others",
 
   //Medical Information part 4:
 miInformacionMedicaParte4: "My Medical Information (Part 4)",
 
-  medicamentosAlergias: "Medications and allergies",
+  medicamentosAlergias: "Medicine an allergies",
 
   medicamentosActuales:
-    "What medications are you taking?",
+    "Wah medicine de yu taking?",
 
   escribeMedicamentos:
-    "Write your medications...",
+    "Write yu medicine...",
 
   alergias:
-    "What allergies do you have?",
+    "Wah allergies do yu have?",
 
   escribeAlergias:
-    "Write your allergies...",
+    "Write yu allergies...",
 
 
   //exercise streak:
-HiceEjercicios: "I Exercised",
+HiceEjercicios: "Mi Exercised",
  diasRancha :"day streak",
 
 //Info about your cycle: Status
-InformacionCiclo: "About Your Cycle",
-menstruacionRegular: "Your period is regular",
- queBien:"That's great!",
+InformacionCiclo: "Yu Cycle Information",
+menstruacionRegular: "Yu period de regular",
+ queBien:"Dat's great!",
  LeerMas: "Read more",
    reiniciarHistorialCiclo: "Reset Cycle History",
-  menstruacionIrregular: "Your period is irregular",
+  menstruacionIrregular: "Yu period de irregular",
  descripcionMenstruacionIrregular:
-    "Your period doesn't follow a regular pattern and may come early, come late, or change in length.",
+    "Yu period no follow a regular pattern an might come early, come late or change in length.",
 olvidoFechaCalendario:
-    "Could it be that you forgot to mark the date on the calendar?",
+    "Could it be dat yu forgot fi note di date on di calendar?",
   actualizarFecha: "Update date",
 
 //mood
- estadoAnimo: "Your Mood",
-   comoTeSientesHoy: "How are you feeling today?",
+ estadoAnimo: "Yu Mood",
+   comoTeSientesHoy: "How do yu feel today?",
  hablarConMairin:
-    "Want to talk about how you feel? (with MAIRIN)",
- muyBien : "Very Good",
- contentoAnimo: "Amazing! You're happy. Keep it up",
+    "Yu wan fi talk bout how yu feel? (wid MAIRIN)",
+ muyBien : "Very good",
+ contentoAnimo: "Amazing! Yu de happy. Keep it up",
 
 // menstruation info center
   centroInformacion: "Information Center",
   aprenderMasIrregularidades:
-    "Learn more: irregularities and symptoms",
+    "Learn more: irregularities an symptoms",
    aprenderMas: "Learn more",
      alimentos: "Food",
       educacionSexual: "Sex Education",
        prevencionEnfermedades: "Disease Prevention",
-         recomendacionesConsejos: "Recommendations and Tips",
-sabiasQue: "Did you know...?",
-aprenderOtrosTemas: "Learn about other topics",
+         recomendacionesConsejos: "Recommendations an tips",
+sabiasQue: "Yu know seh...?",
+aprenderOtrosTemas: "Learn bout other topics",
 
 
 // pregnancy info center:
-  viajeEmbarazo: "Your Pregnancy Journey",
+  viajeEmbarazo: "Yu Pregnancy Journey",
 presionaCorazon:
-    "Press me! Tap the heart to feel the next beat of your journey",
-     tamanoBebe: "Your Baby's Size",
+    "Press me! Tap di heart fi feel di next heartbeat of yu journey",
+     tamanoBebe: "Yu Baby's Size",
   crecimientoBebe:
-    "I want to see how my baby is growing",
+    "Mi wan fi see how my baby de growing",
     alimentacion: "Nutrition",
-  factoresRiesgo: "Risk factors and care",
-  serMama: "Being a mom",
-  prepararParto: "Preparing for labor",
+  factoresRiesgo: "Risk factors an care",
+  serMama: "Being a mother",
+  prepararParto: "Getting ready fi birth",
 
   //menopause info center:
 Perimenopausia: "Perimenopause",
-PostMenopausia : "Postmenopause ",
+PostMenopausia : "Post-menopause",
 PrevenciónEnfermedades: "Disease prevention",
 
 
 //sponsors:
-unete: "Join Us",
-nuestroPatrocinador: "Our sponsor",
-gracias: "Thank you for your support — it helps us grow!",
+unete: "Join",
+nuestroPatrocinador: "Wi sponsor",
+gracias: "Tank yu fi yu support, which help wi grow!",
 
 //breathing exercise:
-respiraConmigo: "Breathe with me",
+respiraConmigo: "Breathe wid me",
 ejercicioRespiracion: "Breathing exercise",
-exhalar: "Exhale",
-inhalar: "Inhale",
+exhalar: "Breathe out",
+inhalar: "Breathe in",
 reiniciar: "Restart",
 empezar: "Start",
 
 //welcome welcomebanner:
 Bienvenida: "Welcome",
-BienvenidaTexto: "You're on the home screen — we invite you to learn more about your",
+BienvenidaTexto: "Yu de on di home screen. Wi invite yu fi learn more bout yu",
 BienvenidaTextoMenstruacion: "menstrual cycle",
 BienvenidaTextoEmbarazo: "pregnancy journey",
 BienvenidaTextoMenopausia: "menopause stage",
@@ -2395,328 +2385,328 @@ BienvenidaTextoMenopausia: "menopause stage",
 //about us:
   sloganTitulo: "MAIRIN",
   slogan:
-    "The first digital health friend for the women of Nicaragua.",
-  quienesSomosTitulo: "Who are we?",
+    "Di first digital health friend fi di woman of Nicaragua.",
+  quienesSomosTitulo: "Who wi de?",
   quienesSomos:
-    "We believe that knowledge shouldn't depend on where you were born, what language you speak, or what opportunities you've had. We believe every woman deserves to be heard, understood, and accompanied with respect.",
+    "Wi believe dat knowledge should no depend on weh yu were born, wah language yu speak or wah opportunities yu have had. Wi believe every woman deserves fi be heard, understood an accompanied wid respect.",
   misionTitulo: "Mission",
   mision:
-    "To accompany every woman at every moment of her life, giving her reliable information, easy-to-use tools, and close support, so she can make good decisions about her health, care for herself with confidence, and leave false myths behind. We believe every woman deserves to feel heard and accompanied, no matter where she lives, what language she speaks, or what point in her life she's at.",
+    "Fi accompany every woman at every moment of her life, giving her reliable information, easy-fi-use tools an close support, so dat she can make good decisions bout her health, care fi herself wid confidence an leave false myths behind. Wi believe every woman deserves fi feel heard an accompanied, no matter weh she lives, wah language she speaks or wah moment of her life she de in.",
   visionTitulo: "Vision",
   vision:
-    "To be the most trusted and influential women's health app in Latin America, changing the way women care for and understand their health. We want to build a support community where knowledge replaces myths, self-care is part of everyday life, and no woman has to go through the changes in her life alone.",
-  corazonMairinTitulo: "The heart of MAIRIN",
+    "Fi be di most trusted an influential woman's health app in Latin America, changing di way woman care fi an understand dem health. Wi wan fi build a support community weh knowledge replaces myths, self-care de part of every day an no woman haffi go through di changes in her life alone.",
+  corazonMairinTitulo: "Di heart of MAIRIN",
   corazonMairin:
-    "Walking alongside every woman, so she never has to face the changes in her life alone.",
+    "Fi walk alongside every woman, so dat she never haffi face di changes in her life alone.",
   contenidoVerificadoTitulo: "Verified content",
   contenidoVerificado:
-    "The content is verified by doctors and translated into Miskito by native speakers.",
+    "Di content de verified by doctors an translated into Miskito by native speakers.",
 
 //pregnancy journey the 40 weeks:
 // pregnancy journey — shared section headers
-  viajeFactTitle: "Fascinating fact",
-  viajeFeelTitle: "How will you feel?",
+  viajeFactTitle: "Interesting fact",
+  viajeFeelTitle: "How wi yu feel?",
   viajeTipTitle: "Tip",
 
   // pregnancy journey — per-week content (1–40)
-  viajeSemana1Title: "The start of the journey",
-  viajeSemana1Fact: "Pregnancy is counted from the first day of your last period, even though conception happens later.",
-  viajeSemana1Feel: "You probably won't notice any symptoms yet.",
-  viajeSemana1Tip: "Start taking folic acid if you haven't already.",
+  viajeSemana1Title: "Di start of di journey",
+  viajeSemana1Fact: "Pregnancy de counted fram di first day of yu last period, even though conception comes later.",
+  viajeSemana1Feel: "Yu probably won't notice any symptoms yet.",
+  viajeSemana1Tip: "Start taking folic acid if yu aren't already.",
 
   viajeSemana2Title: "Ovulation",
-  viajeSemana2Fact: "Toward the end of this week, ovulation happens — the moment an egg is released and can be fertilized.",
-  viajeSemana2Feel: "You may notice slight changes in your discharge, typical of ovulation.",
-  viajeSemana2Tip: "Stay well hydrated and keep taking your folic acid.",
+  viajeSemana2Fact: "Toward di end of dis week ovulation occurs, di moment when an egg de released an can be fertilized.",
+  viajeSemana2Feel: "Yu might notice slight changes in yu discharge, typical of ovulation.",
+  viajeSemana2Tip: "Stay well hydrated an keep taking yu folic acid.",
 
-  viajeSemana3Title: "The fertilized egg travels",
-  viajeSemana3Fact: "The fertilized egg divides into several cells as it travels toward the uterus.",
-  viajeSemana3Feel: "You might feel slight tenderness, though many women don't notice anything yet.",
-  viajeSemana3Tip: "Avoid alcohol and tobacco from now on.",
+  viajeSemana3Title: "Di fertilized egg travels",
+  viajeSemana3Fact: "Di fertilized egg divides into several cells as it travels toward di uterus.",
+  viajeSemana3Feel: "Yu might feel slight tenderness, although nuff woman notice nothing yet.",
+  viajeSemana3Tip: "Avoid alcohol an tobacco fram now on.",
 
   viajeSemana4Title: "Implantation",
-  viajeSemana4Fact: "The embryo implants in the uterus; this sometimes causes light spotting.",
-  viajeSemana4Feel: "The first symptoms may appear: tiredness or breast tenderness.",
-  viajeSemana4Tip: "Take a pregnancy test if your period is late.",
+  viajeSemana4Fact: "Di embryo implants in di uterus; sometimes dis causes light bleeding.",
+  viajeSemana4Feel: "Di first symptoms might appear: tiredness or breast tenderness.",
+  viajeSemana4Tip: "Take a pregnancy test if yu period de late.",
 
   viajeSemana5Title: "A tiny heart beats",
-  viajeSemana5Fact: "The embryo's heart begins to form this week.",
-  viajeSemana5Feel: "Morning sickness may start to appear.",
-  viajeSemana5Tip: "Schedule your first prenatal appointment.",
+  viajeSemana5Fact: "Di embryo's heart begins fi form dis week.",
+  viajeSemana5Feel: "Morning sickness might start fi appear.",
+  viajeSemana5Tip: "Schedule yu first prenatal appointment.",
 
-  viajeSemana6Title: "The heart starts beating",
-  viajeSemana6Fact: "The embryo's heart beats for the first time, though it's still hard to detect.",
-  viajeSemana6Feel: "Tiredness and nausea tend to get stronger.",
-  viajeSemana6Tip: "Eat small, frequent meals if you have nausea.",
+  viajeSemana6Title: "Di heart starts beating",
+  viajeSemana6Fact: "Di embryo's heart beats fi di first time, although it de still hard fi detect.",
+  viajeSemana6Feel: "Tiredness an nausea usually intensify.",
+  viajeSemana6Tip: "Nyam likkle, frequent portions if yu feel nauseous.",
 
-  viajeSemana7Title: "Arms and legs on the way",
-  viajeSemana7Fact: "Small buds appear that will later become arms and legs.",
-  viajeSemana7Feel: "Sensitivity to certain smells and tastes is common.",
-  viajeSemana7Tip: "Stay hydrated and rest when you need to.",
+  viajeSemana7Title: "Arms an legs on di way",
+  viajeSemana7Fact: "Likkle buds appear dat wi later become arms an legs.",
+  viajeSemana7Feel: "Sensitivity fi certain smells an tastes de common.",
+  viajeSemana7Tip: "Stay hydrated an rest when yu need fi.",
 
-  viajeSemana8Title: "The size of a bean",
-  viajeSemana8Fact: "The embryo now measures about 1.6 cm.",
-  viajeSemana8Feel: "Hormonal changes may affect your mood.",
-  viajeSemana8Tip: "Ask your doctor about the right prenatal vitamins.",
+  viajeSemana8Title: "Di size of a bean",
+  viajeSemana8Fact: "Di embryo now measures bout 1.6 cm.",
+  viajeSemana8Feel: "Hormonal changes can affect yu mood.",
+  viajeSemana8Tip: "Ask yu doctor bout di right prenatal vitamins.",
 
-  viajeSemana9Title: "Officially a fetus now",
-  viajeSemana9Fact: "Starting this week, the embryo is now called a fetus.",
-  viajeSemana9Feel: "Extreme tiredness is very common at this stage.",
-  viajeSemana9Tip: "Prioritize rest and avoid unnecessary stress.",
+  viajeSemana9Title: "Now officially a fetus",
+  viajeSemana9Fact: "Fram dis week on, di embryo de called a fetus.",
+  viajeSemana9Feel: "Extreme tiredness de real common at dis stage.",
+  viajeSemana9Tip: "Prioritize rest an avoid unnecessary stress.",
 
-  viajeSemana10Title: "Nails and hair are forming",
-  viajeSemana10Fact: "The fingers and toes are now separated and nails are starting to form.",
-  viajeSemana10Feel: "Nausea may be at its most intense point.",
-  viajeSemana10Tip: "Try ginger or saltine crackers if you have nausea.",
+  viajeSemana10Title: "Nails an hair de forming",
+  viajeSemana10Fact: "Di fingers an toes de now separated an di nails begin fi form.",
+  viajeSemana10Feel: "Nausea might be at its most intense.",
+  viajeSemana10Tip: "Try ginger or crackers if yu feel nauseous.",
 
   viajeSemana11Title: "First movements",
-  viajeSemana11Fact: "The fetus is already moving its arms and legs, though you can't feel it yet.",
-  viajeSemana11Feel: "You might notice your clothes starting to feel tight.",
-  viajeSemana11Tip: "Consider comfortable maternity clothes from now on.",
+  viajeSemana11Fact: "Di fetus de already moving its arms an legs, although yu caan feel it yet.",
+  viajeSemana11Feel: "Yu might notice dat yu clothes de starting fi feel tight.",
+  viajeSemana11Tip: "Consider comfortable maternity clothes fram now on.",
 
-  viajeSemana12Title: "End of the first trimester",
-  viajeSemana12Fact: "The baby's vocal cords are forming.",
-  viajeSemana12Feel: "Energy usually starts to come back little by little.",
-  viajeSemana12Tip: "The risk of miscarriage drops a lot from now on.",
+  viajeSemana12Title: "End of di first trimester",
+  viajeSemana12Fact: "Di baby's vocal cords de forming.",
+  viajeSemana12Feel: "Energy usually starts fi return likkle by likkle.",
+  viajeSemana12Tip: "Di risk of miscarriage drops a lot fram now on.",
 
-  viajeSemana13Title: "Little faces",
-  viajeSemana13Fact: "The fetus can now open and close its fingers and make facial expressions.",
-  viajeSemana13Feel: "Many women feel relief from nausea toward the end of the month.",
-  viajeSemana13Tip: "This is a good time for your first ultrasound.",
+  viajeSemana13Title: "Likkle facial expressions",
+  viajeSemana13Fact: "Di fetus can now open an close its fingers an make faces.",
+  viajeSemana13Feel: "Nuff woman feel relief fram nausea toward di end of di month.",
+  viajeSemana13Tip: "It's a good time fi yu first ultrasound.",
 
-  viajeSemana14Title: "A little voice on the way",
-  viajeSemana14Fact: "The vocal cords form and fine hair called lanugo grows.",
-  viajeSemana14Feel: "You may notice a slight bulge in your abdomen.",
-  viajeSemana14Tip: "Wear comfortable clothes that adapt to your changing body.",
+  viajeSemana14Title: "A likkle voice on di way",
+  viajeSemana14Fact: "Di vocal cords form an fine hair called lanugo grows.",
+  viajeSemana14Feel: "Yu might notice a slight bump in yu abdomen.",
+  viajeSemana14Tip: "Wear comfortable clothes dat adapt fi yu changing body.",
 
-  viajeSemana15Title: "The baby senses light",
-  viajeSemana15Fact: "Even though the eyelids are still closed, the baby can already sense light.",
-  viajeSemana15Feel: "Your belly starts to look rounder.",
-  viajeSemana15Tip: "Start moisturizing your skin to help prevent stretch marks.",
+  viajeSemana15Title: "Di baby senses light",
+  viajeSemana15Fact: "Although di eyelids de still closed, di baby can already sense light.",
+  viajeSemana15Feel: "Yu abdomen starts fi look rounder.",
+  viajeSemana15Tip: "Start moisturizing yu skin fi help prevent stretch marks.",
 
-  viajeSemana16Title: "First little flutters",
-  viajeSemana16Fact: "The baby already has taste buds and starts to sense flavors.",
-  viajeSemana16Feel: "You might feel the first movements, like little bubbles.",
-  viajeSemana16Tip: "Sleep on your left side to improve circulation.",
+  viajeSemana16Title: "First likkle bubbles",
+  viajeSemana16Fact: "Di baby now has taste buds an begins fi sense flavors.",
+  viajeSemana16Feel: "Yu might feel di first movements, like likkle bubbles.",
+  viajeSemana16Tip: "Sleep on yu left side fi improve circulation.",
 
-  viajeSemana17Title: "Building up fat",
-  viajeSemana17Fact: "The baby starts building up the fat that will regulate its temperature.",
+  viajeSemana17Title: "Building up likkle fat",
+  viajeSemana17Fact: "Di baby begins fi build up di fat dat wi regulate its temperature.",
   viajeSemana17Feel: "Appetite usually increases noticeably.",
   viajeSemana17Tip: "Choose nutritious snacks between meals.",
 
-  viajeSemana18Title: "The baby starts hearing",
-  viajeSemana18Fact: "The baby's ears are now developed enough to pick up sounds.",
-  viajeSemana18Feel: "You'll likely feel clearer and clearer movements.",
-  viajeSemana18Tip: "Talk or play soft music for your baby.",
+  viajeSemana18Title: "Di baby starts fi hear",
+  viajeSemana18Fact: "Di baby's ears de now developed enough fi perceive sounds.",
+  viajeSemana18Feel: "Yu wi probably feel clearer an clearer movements.",
+  viajeSemana18Tip: "Talk or play soft music fi yu baby.",
 
   viajeSemana19Title: "A protective layer",
-  viajeSemana19Fact: "A white substance called vernix covers and protects the baby's skin.",
-  viajeSemana19Feel: "Back pain may start from the extra weight.",
-  viajeSemana19Tip: "Wear comfortable footwear and watch your posture.",
+  viajeSemana19Fact: "A white substance, vernix, covers an protects di baby's skin.",
+  viajeSemana19Feel: "Back pain might begin cause of di extra weight.",
+  viajeSemana19Tip: "Wear comfortable shoes an mind yu posture.",
 
-  viajeSemana20Title: "Halfway through pregnancy",
-  viajeSemana20Fact: "You made it to the halfway point! The baby is about 25 cm long.",
-  viajeSemana20Feel: "You may notice more energy and a visible bump.",
-  viajeSemana20Tip: "This is a good time for the anatomy ultrasound.",
+  viajeSemana20Title: "Halfway point of pregnancy",
+  viajeSemana20Fact: "Yu've reached di halfway mark! Di baby measures bout 25 cm.",
+  viajeSemana20Feel: "Yu might notice more energy an a belly dat de now visible.",
+  viajeSemana20Tip: "It's a good time fi di anatomy scan.",
 
   viajeSemana21Title: "Practicing swallowing",
-  viajeSemana21Fact: "The baby swallows amniotic fluid, which helps its digestive system.",
-  viajeSemana21Feel: "The baby's movements are getting stronger.",
+  viajeSemana21Fact: "Di baby swallows amniotic fluid, which helps its digestive system.",
+  viajeSemana21Feel: "Di baby's movements de getting stronger an stronger.",
   viajeSemana21Tip: "Consider starting childbirth preparation classes.",
 
-  viajeSemana22Title: "Features becoming more defined",
-  viajeSemana22Fact: "The baby's eyebrows and eyelashes are forming.",
-  viajeSemana22Feel: "Mild swelling may appear in your feet and hands.",
-  viajeSemana22Tip: "Elevate your feet when you rest.",
+  viajeSemana22Title: "Increasingly defined features",
+  viajeSemana22Fact: "Di baby's eyebrows an eyelashes form.",
+  viajeSemana22Feel: "Mild swelling might appear in yu feet an hands.",
+  viajeSemana22Tip: "Elevate yu feet when yu rest.",
 
-  viajeSemana23Title: "Was that hiccups?",
-  viajeSemana23Fact: "The small rhythmic movements you feel could be your baby hiccupping.",
-  viajeSemana23Feel: "Stretch marks may start to show on your skin.",
-  viajeSemana23Tip: "Stay well hydrated throughout the day.",
+  viajeSemana23Title: "Was dat a hiccup?",
+  viajeSemana23Fact: "Di likkle rhythmic movements yu feel could be di baby's hiccups.",
+  viajeSemana23Feel: "Stretch marks might start fi show on yu skin.",
+  viajeSemana23Tip: "Stay well hydrated throughout di day.",
 
-  viajeSemana24Title: "The lungs keep maturing",
-  viajeSemana24Fact: "The baby's airways are forming, though they don't work on their own yet.",
-  viajeSemana24Feel: "You might feel mild, occasional contractions (Braxton Hicks).",
-  viajeSemana24Tip: "Get the glucose tolerance test if your doctor recommends it.",
+  viajeSemana24Title: "Di lungs keep maturing",
+  viajeSemana24Fact: "Di baby's airways form, although dem no yet work on dem own.",
+  viajeSemana24Feel: "Yu might feel mild, occasional contractions (Braxton Hicks).",
+  viajeSemana24Tip: "Take di glucose tolerance test if yu doctor orders it.",
 
-  viajeSemana25Title: "Recognizing your voice",
-  viajeSemana25Fact: "The baby now recognizes and reacts to familiar sounds, like your voice.",
-  viajeSemana25Feel: "Insomnia may become more frequent.",
-  viajeSemana25Tip: "Set up a relaxing bedtime routine.",
+  viajeSemana25Title: "Recognizes yu voice",
+  viajeSemana25Fact: "Di baby now recognizes an reacts fi familiar sounds, like yu voice.",
+  viajeSemana25Feel: "Insomnia might become more frequent.",
+  viajeSemana25Tip: "Set up a relaxing routine before bed.",
 
-  viajeSemana26Title: "The eyes open",
-  viajeSemana26Fact: "The baby starts opening its eyes for the first time.",
-  viajeSemana26Feel: "Shortness of breath may increase as the uterus grows.",
-  viajeSemana26Tip: "Practice deep breathing and keep good posture.",
+  viajeSemana26Title: "Di eyes open",
+  viajeSemana26Fact: "Di baby begins fi open its eyes fi di first time.",
+  viajeSemana26Feel: "Shortness of breath might increase as di uterus grows.",
+  viajeSemana26Tip: "Practice deep breathing an keep an upright posture.",
 
-  viajeSemana27Title: "End of the second trimester",
-  viajeSemana27Fact: "The baby's brain activity keeps increasing.",
-  viajeSemana27Feel: "You may notice more tiredness as the third trimester approaches.",
-  viajeSemana27Tip: "Start planning your maternity leave.",
+  viajeSemana27Title: "End of di second trimester",
+  viajeSemana27Fact: "Di baby's brain activity keeps increasing.",
+  viajeSemana27Feel: "Yu might notice more tiredness as yu approach di third trimester.",
+  viajeSemana27Tip: "Start planning yu maternity leave.",
 
-  viajeSemana28Title: "The third trimester begins",
-  viajeSemana28Fact: "The baby now blinks and has sleep and wake cycles.",
-  viajeSemana28Feel: "It's a good time to go back to check-ups every 2 weeks.",
-  viajeSemana28Tip: "Start thinking about your birth plan.",
+  viajeSemana28Title: "Di third trimester begins",
+  viajeSemana28Fact: "Di baby now blinks an has sleep an wake cycles.",
+  viajeSemana28Feel: "It's a good time fi move fi medical visits every 2 weeks.",
+  viajeSemana28Tip: "Start thinking bout yu birth plan.",
 
-  viajeSemana29Title: "Muscles are maturing",
-  viajeSemana29Fact: "The baby's brain grows fast and controls temperature better.",
-  viajeSemana29Feel: "You might feel more pressure in the pelvic area.",
-  viajeSemana29Tip: "Rest with your legs elevated when you can.",
+  viajeSemana29Title: "Di muscles mature",
+  viajeSemana29Fact: "Di baby's brain grows quickly an controls its temperature better.",
+  viajeSemana29Feel: "Yu might feel more pressure in di pelvic area.",
+  viajeSemana29Tip: "Rest wid yu legs elevated when yu can.",
 
-  viajeSemana30Title: "Gaining weight quickly",
-  viajeSemana30Fact: "The baby gains weight quickly, which helps regulate its temperature.",
-  viajeSemana30Feel: "More swelling may appear; report it if it's sudden.",
-  viajeSemana30Tip: "Pack your hospital bag at a relaxed pace.",
+  viajeSemana30Title: "Gaining weight fast",
+  viajeSemana30Fact: "Di baby gains weight quickly, which helps regulate its temperature.",
+  viajeSemana30Feel: "More swelling might appear; tell yu provider if it de sudden.",
+  viajeSemana30Tip: "Pack yu hospital bag calmly, widout rushing.",
 
-  viajeSemana31Title: "Fast brain development",
-  viajeSemana31Fact: "The baby processes more and more information and follows light with its eyes.",
-  viajeSemana31Feel: "It's common to feel more tired and less mobile.",
-  viajeSemana31Tip: "Start getting the baby's room ready.",
+  viajeSemana31Title: "Rapid brain development",
+  viajeSemana31Fact: "Di baby processes more an more information an follows light wid its eyes.",
+  viajeSemana31Feel: "It's common fi feel more tired an less mobile.",
+  viajeSemana31Tip: "Start preparing di baby's room.",
 
-  viajeSemana32Title: "Almost ready to meet you",
-  viajeSemana32Fact: "The lungs and brain keep maturing over these final weeks.",
-  viajeSemana32Feel: "Physical tiredness increases; rest when your body asks for it.",
-  viajeSemana32Tip: "Review the last details of your birth plan.",
+  viajeSemana32Title: "Almost ready fi meet yu",
+  viajeSemana32Fact: "Di lungs an brain keep maturing in dese final weeks.",
+  viajeSemana32Feel: "Physical tiredness increases; rest when yu body asks fi it.",
+  viajeSemana32Tip: "Review di final details of yu birth plan.",
 
-  viajeSemana33Title: "Almost complete on the inside",
-  viajeSemana33Fact: "The skull bones haven't fused yet, which makes birth easier.",
-  viajeSemana33Feel: "Shortness of breath may increase; the baby takes up more space.",
-  viajeSemana33Tip: "Pack your hospital bag at a relaxed pace.",
+  viajeSemana33Title: "Almost complete on di inside",
+  viajeSemana33Fact: "Di skull bones de no yet fused, fi make birth easier.",
+  viajeSemana33Feel: "Shortness of breath might increase; di baby takes up more space.",
+  viajeSemana33Tip: "Pack yu hospital bag calmly, widout rushing.",
 
   viajeSemana34Title: "Lungs almost ready",
-  viajeSemana34Fact: "The baby's central nervous system keeps maturing quickly.",
-  viajeSemana34Feel: "Movements feel different because there's less room.",
-  viajeSemana34Tip: "Learn to recognize the signs of labor.",
+  viajeSemana34Fact: "Di baby's central nervous system keeps maturing quickly.",
+  viajeSemana34Feel: "Movements feel different cause of di reduced space.",
+  viajeSemana34Tip: "Learn fi recognize di signs of labor.",
 
-  viajeSemana35Title: "Gaining weight fast",
-  viajeSemana35Fact: "The baby's kidneys are now fully developed.",
-  viajeSemana35Feel: "There may be more pelvic pressure as the baby drops lower.",
-  viajeSemana35Tip: "Talk with your doctor about your birth plan.",
+  viajeSemana35Title: "Gaining weight quickly",
+  viajeSemana35Fact: "Di baby's kidneys de now fully developed.",
+  viajeSemana35Feel: "There might be more pelvic pressure as di baby moves down.",
+  viajeSemana35Tip: "Talk fi yu doctor bout di birth plan.",
 
   viajeSemana36Title: "Almost full term",
-  viajeSemana36Fact: "The baby usually settles head-down by now.",
-  viajeSemana36Feel: "Braxton Hicks contractions may become more frequent.",
-  viajeSemana36Tip: "Have your hospital bag and emergency contacts ready.",
+  viajeSemana36Fact: "Di baby has usually settled head down by now.",
+  viajeSemana36Feel: "Braxton Hicks contractions might be more frequent.",
+  viajeSemana36Tip: "Have yu hospital an emergency contacts ready.",
 
   viajeSemana37Title: "Officially full term",
-  viajeSemana37Fact: "The baby keeps building up fat to regulate its temperature.",
-  viajeSemana37Feel: "You may notice the baby settling lower into the pelvis.",
-  viajeSemana37Tip: "Rest as much as you can and stay well hydrated.",
+  viajeSemana37Fact: "Di baby keeps building up fat fi regulate its temperature.",
+  viajeSemana37Feel: "Yu might notice di baby settling lower in yu pelvis.",
+  viajeSemana37Tip: "Rest as much as possible an stay well hydrated.",
 
-  viajeSemana38Title: "Getting ready to be born",
-  viajeSemana38Fact: "The baby's brain keeps growing very quickly, even after birth.",
-  viajeSemana38Feel: "Insomnia and anxiety about labor are common.",
-  viajeSemana38Tip: "Check your hospital bag and documents again.",
+  viajeSemana38Title: "Getting ready fi be born",
+  viajeSemana38Fact: "Di baby's brain keeps growing real fast, even after birth.",
+  viajeSemana38Feel: "Insomnia an anxiety bout di birth de common.",
+  viajeSemana38Tip: "Check yu hospital bag an yu documents again.",
 
   viajeSemana39Title: "Any day now",
-  viajeSemana39Fact: "The baby now has a functioning immune system thanks to your antibodies.",
-  viajeSemana39Feel: "Tiredness and discomfort may feel more intense.",
-  viajeSemana39Tip: "Watch for signs of labor: regular contractions or your water breaking.",
+  viajeSemana39Fact: "Di baby now has a working immune system thanks fi yu antibodies.",
+  viajeSemana39Feel: "Tiredness an discomfort might feel more intense.",
+  viajeSemana39Tip: "Watch fi signs of labor: regular contractions or yu water breaking.",
 
-  viajeSemana40Title: "Your due date!",
-  viajeSemana40Fact: "Only a small percentage of babies are born exactly on this date.",
-  viajeSemana40Feel: "Anticipation and anxiety may increase; that's completely normal.",
-  viajeSemana40Tip: "If there are still no signs of labor, your doctor will talk with you about next steps.",
+  viajeSemana40Title: "Estimated due date!",
+  viajeSemana40Fact: "Only a likkle percentage of babies de born exactly on dis date.",
+  viajeSemana40Feel: "Anticipation an anxiety might increase; dis de completely normal.",
+  viajeSemana40Tip: "If there de still no signs of labor, yu doctor wi talk wid yu bout next steps.",
 
   //Info center pages menstruation:
 introduccionMenstruacion:
-  "This section answers the basic questions every teenage girl tends to have when she starts menstruating.",
+  "Dis section answers di basic questions every teenage girl usually asks herself when she starts menstruating.",
 
-aprenderMenstruacion: "Learn about menstruation",
+aprenderMenstruacion: "Learn bout menstruation",
 
-queEsMenstruacionTitulo: "What is menstruation?",
+queEsMenstruacionTitulo: "Wah de menstruation?",
 queEsMenstruacionTexto:
-  "Menstruation is a normal biological process that happens when a pregnancy doesn't occur during the menstrual cycle. Each month, the uterus builds up a lining (the endometrium) to prepare for a possible pregnancy. If the egg isn't fertilized, that lining sheds and leaves the body as menstrual blood through the vagina. This process is regulated by hormonal changes and is part of the healthy functioning of the female reproductive system.",
+  "Menstruation de a normal biological process dat occurs when pregnancy no happen during di menstrual cycle. Each month, di uterus develops a lining (endometrium) fi prepare fi a possible pregnancy. If di egg de no fertilized, dat lining sheds an leaves di body as menstrual blood through di vagina. Dis process de regulated by hormonal changes an de part of di healthy functioning of di female reproductive system.",
 
 porqueOcurreTitulo: "Why does it happen?",
 porqueOcurre1:
-  "The brain releases hormones that regulate the menstrual cycle.",
+  "Di brain releases hormones dat regulate di menstrual cycle.",
 porqueOcurre2:
-  "The ovaries produce estrogen and progesterone.",
+  "Di ovaries produce estrogen an progesterone.",
 porqueOcurre3:
-  "The uterus prepares the endometrium for a possible pregnancy.",
+  "Di uterus prepares di endometrium fi a possible pregnancy.",
 porqueOcurre4:
-  "If there's no fertilization, hormone levels drop and the endometrium sheds, starting menstruation.",
+  "If there de no fertilization, hormone levels drop an di endometrium sheds, starting menstruation.",
 
 cuandoComienzaTitulo: "When does it start?",
 cuandoComienzaTexto:
-  "The first period, called menarche, usually appears between ages 10 and 15, with an average age of around 12. During the first two years it's normal for cycles to be irregular.",
+  "Di first period, called menarche, usually appears between ages 10 an 15, wid an average age of bout 12. During di first two years it de normal fi cycles fi be irregular.",
 
 sintomasNormalesTitulo: "Normal symptoms",
-sintoma1: "Mild to moderate cramps.",
+sintoma1: "Mild or moderate cramps.",
 sintoma2: "Back pain.",
 sintoma3: "Breast tenderness.",
-sintoma4: "Mood changes.",
+sintoma4: "Mood swings.",
 sintoma5: "Abdominal bloating.",
 sintoma6: "Fatigue.",
 sintoma7: "Cravings.",
 sintoma8: "Acne.",
 
-cuandoCambiaPeriodoTitulo: "When is it normal for my period to change?",
+cuandoCambiaPeriodoTitulo: "When de it normal fi my period fi change?",
 cambioPeriodo1:
-  "When it first starts: It's normal for your period to be irregular during the first few years. It may come early, come late, or even skip a few months.",
+  "When yu get it fi di first time: It de normal fi yu period fi be irregular during di first few years. It might come early, come late or even skip some months.",
 cambioPeriodo2:
-  "During adolescence: Your body is still adjusting to hormonal changes, so your cycle may vary.",
+  "During adolescence: Yu body de still adapting fi hormonal changes, so yu cycle might vary.",
 cambioPeriodo3:
-  "If you're stressed: Stress can make your period come earlier, later, or change temporarily.",
+  "If yu de stressed: Stress can make yu period come earlier, later or change temporarily.",
 cambioPeriodo4:
-  "If your weight changes: Gaining or losing weight quickly can affect your menstrual cycle.",
+  "If yu weight changes: Gaining or losing weight quickly can affect yu menstrual cycle.",
 cambioPeriodo5:
-  "If you exercise a lot: Intense exercise can make your period change or even stop for a while.",
+  "If yu exercise a lot: Intense exercise can make yu period change or even stop fi a while.",
 cambioPeriodo6:
-  "If you start using birth control: It's normal for your period to change during the first few months while your body adjusts.",
+  "If yu start using contraceptives: It de normal fi yu period fi change during di first months while yu body adapts.",
 cambioPeriodo7:
-  "After pregnancy: Your period may take a while to come back and may be different from before.",
+  "After pregnancy: Yu period might take time fi return an be different fram how it was before.",
 cambioPeriodo8:
-  "While breastfeeding: If you're breastfeeding your baby, it's normal for your period to take longer to return or to be irregular.",
+  "While breastfeeding: If yu de breastfeeding yu baby, it de normal fi yu period fi take time fi return or fi be irregular.",
 cambioPeriodo9:
-  "Before menopause: It's normal for your cycle to change. It may become shorter, longer, or irregular.",
+  "Before menopause: It de normal fi yu cycle fi change. It might be shorter, longer or become irregular.",
 
-cuandoIrDoctorTitulo: "When should you see a doctor?",
+cuandoIrDoctorTitulo: "When should yu see a doctor?",
 doctor1:
-  "Very heavy bleeding (soaking a pad every hour for several hours).",
+  "Real heavy bleeding (soaking one sanitary pad per hour fi several hours).",
 doctor2: "Disabling pain.",
-doctor3: "Periods lasting more than seven days.",
+doctor3: "A period lasting more than seven days.",
 doctor4:
   "No period by age 15, or more than three years after breast development.",
 doctor5:
-  "Fever, fainting, or intense pain.",
+  "Fever, fainting or severe pain.",
 
 //exercise and menstruation:
 introduccionEjercicio:
-  "Exercise during your period",
+  "Exercise during menstruation",
 
 ejercicioMenstruacionTexto:
-  "Regular physical activity can help reduce menstrual pain, improve mood, and increase your overall sense of well-being. You don't need to stop exercising during your period, although the intensity should be adjusted to how you feel. Aerobic exercise promotes the release of endorphins, substances that act as natural pain relievers and help reduce menstrual cramps. Exercise can also reduce the fatigue, bloating, and stress associated with the menstrual cycle.",
+  "Regular physical activity can help reduce menstrual pain, improve mood an increase di sense of well-being. There de no need fi stop exercising during menstruation, although di intensity should be adapted fi how each person feels. Aerobic exercise promotes di release of endorphins, substances dat act as natural painkillers an help reduce menstrual cramps. Exercise can also reduce di fatigue, bloating an stress associated wid di menstrual cycle.",
 
-ejerciciosRecomendadosTitulo: "Recommended exercises",
+ejerciciosRecomendadosTitulo: "Recommended exercise",
 
 ejercicio1Titulo: "Walking",
 ejercicio1Texto:
-  "A 20- to 30-minute walk at a comfortable pace improves blood flow, reduces muscle stiffness, and helps relieve cramps.",
+  "Wan 20 fi 30 minute walk at a comfortable pace promotes blood circulation, reduces muscle stiffness an helps relieve cramps.",
 
 ejercicio2Titulo: "Cycling",
 ejercicio2Texto:
-  "Riding a bike for fun or using a stationary bike for 20 to 30 minutes can reduce fatigue and improve mood.",
+  "Riding a bike fi leisure or using a stationary bike fi 20 fi 30 minutes can reduce di feeling of fatigue an improve mood.",
 
 ejercicio3Titulo: "Swimming",
 ejercicio3Texto:
-  "Swimming is a low-impact activity that helps relax the muscles and can be done using the right menstrual hygiene product.",
+  "Swimming de a low-impact activity dat helps relax di muscles an can be done using di appropriate menstrual hygiene product.",
 
 ejercicio4Titulo: "Yoga",
 ejercicio4Texto:
-  "Gentle yoga poses, especially those focused on breathing and pelvic mobility, can reduce muscle tension and promote relaxation.",
+  "Gentle yoga poses, especially dose focused on breathing an pelvic mobility, can reduce muscle tension an promote relaxation.",
 
 ejercicio5Titulo: "Pilates",
 ejercicio5Texto:
-  "Low-intensity Pilates strengthens the abdominal and lower back muscles, helping improve posture and reduce discomfort during your period.",
+  "Low-intensity Pilates strengthens di abdominal an lower back muscles, promoting better posture an reducing discomfort during menstruation.",
 
 ejerciciosPrecaucionTitulo:
-  "Exercises that may need extra caution",
+  "Exercise dat might require caution",
 
 ejerciciosPrecaucionTexto:
-  "There's no medical restriction on doing intense exercise during your period. However, if you have intense pain, dizziness, heavy bleeding, or significant fatigue, it may be a good idea to temporarily reduce the intensity of certain activities.",
+  "There de no medical prohibition on intense exercise during menstruation. However, if there de severe pain, dizziness, heavy bleeding or significant fatigue, it might be advisable fi temporarily reduce di intensity of certain activities.",
 
 precaucion1: "High-intensity weightlifting.",
 precaucion2: "Long-distance running.",
@@ -2724,15 +2714,15 @@ precaucion3: "High-intensity interval training (HIIT).",
 precaucion4: "Contact sports.",
 
 ejerciciosPrecaucionFinal:
-  "Intensity should be adjusted based on your symptoms and your healthcare provider's recommendation.",
+  "Intensity should be adjusted according fi symptoms an di recommendation of a health professional.",
 //food:
 alimentacionTitulo: "Nutrition",
 
 alimentacionMenstruacionTitulo:
-  "Nutrition during your period",
+  "Nutrition during menstruation",
 
 alimentacionMenstruacionTexto:
-  "A balanced diet can help reduce some symptoms associated with menstruation, such as tiredness, bloating, mood changes, and menstrual pain. There's no specific diet for your period, but there are foods that support overall well-being and help maintain healthy levels of iron, calcium, and other important nutrients.",
+  "A balanced diet can help reduce some symptoms associated wid menstruation, such as tiredness, bloating, mood swings an menstrual pain. There de no specific diet fi menstruation, but there de foods dat promote overall well-being an help maintain adequate levels of iron, calcium an other important nutrients.",
 
 alimentosRecomendadosTitulo:
   "Recommended foods",
@@ -2741,7 +2731,7 @@ hierroTitulo:
   "Iron-rich foods",
 
 hierroTexto:
-  "During your period you lose blood, and with it, iron. Eating foods rich in this mineral helps prevent anemia, especially in women with heavy periods.",
+  "During menstruation yu lose blood an, wid it, iron. Eating foods rich in dis mineral helps prevent anemia, especially in woman wid heavy periods.",
 
 hierroEjemploTitulo: "Examples:",
 hierro1: "Lean beef",
@@ -2756,28 +2746,28 @@ hierro9: "Swiss chard",
 hierro10: "Fortified cereals",
 
 vitaminaCTitulo:
-  "Vitamin C-rich foods",
+  "Foods rich in vitamin C",
 
 vitaminaCTexto:
-  "Vitamin C improves the absorption of iron from plant sources.",
+  "Vitamin C improves di absorption of plant-based iron.",
 
 vitaminaCEjemploTitulo: "Examples:",
 vitaminaC1: "Orange",
-vitaminaC2: "Tangerine",
+vitaminaC2: "Mandarin orange",
 vitaminaC3: "Lemon",
 vitaminaC4: "Kiwi",
 vitaminaC5: "Strawberries",
 vitaminaC6: "Pineapple",
 vitaminaC7: "Guava",
 vitaminaC8: "Papaya",
-vitaminaC9: "Bell pepper",
+vitaminaC9: "Sweet pepper",
 vitaminaC10: "Tomato",
 
 calcioTitulo:
   "Calcium-rich foods",
 
 calcioTexto:
-  "Calcium may help reduce some symptoms of premenstrual syndrome and support muscle function.",
+  "Calcium can help reduce some symptoms of premenstrual syndrome an support muscle function.",
 
 calcioEjemploTitulo: "Examples:",
 calcio1: "Milk",
@@ -2791,14 +2781,14 @@ magnesioTitulo:
   "Magnesium-rich foods",
 
 magnesioTexto:
-  "Magnesium supports muscle and nerve function and may help reduce some menstrual symptoms.",
+  "Magnesium plays a role in muscle an nerve function an might help reduce some menstrual symptoms.",
 
 magnesioEjemploTitulo: "Examples:",
 magnesio1: "Almonds",
 magnesio2: "Walnuts",
 magnesio3: "Pumpkin seeds",
 magnesio4: "Sunflower seeds",
-magnesio5: "Pure cacao",
+magnesio5: "Pure cocoa",
 magnesio6: "Oats",
 magnesio7: "Spinach",
 
@@ -2806,7 +2796,7 @@ omegaTitulo:
   "Omega-3 fatty acids",
 
 omegaTexto:
-  "Omega-3s have anti-inflammatory properties that may help reduce menstrual pain.",
+  "Omega-3s have anti-inflammatory properties dat can help reduce menstrual pain.",
 
 omegaEjemploTitulo: "Examples:",
 omega1: "Salmon",
@@ -2819,38 +2809,38 @@ omega6: "Walnuts",
 aguaTitulo: "Water",
 
 aguaTexto:
-  "It's recommended to drink about 1.5–2 liters a day, adjusting the amount based on physical activity, climate, and individual needs.",
+  "It de recommended fi drink approximately 1.5–2 liters a day, adjusting di amount according fi physical activity, climate an individual needs.",
 
 menosTitulo:
-  "Foods to eat less of",
+  "Foods yu should nyam less of",
 
 menosTexto:
-  "You don't need to eliminate them completely, but eating too much of them can worsen some symptoms.",
+  "Yu no need fi cut them out completely, but eating too much of them can make some symptoms worse.",
 
 sodioTitulo:
   "High-sodium foods",
 
 sodioTexto:
-  "Eating a lot of salt can increase fluid retention and the feeling of bloating.",
+  "High salt intake can increase fluid retention an di feeling of bloating.",
 
 sodioEjemplos:
-  "Cold cuts, instant soups, salty snacks, and fast food.",
+  "Processed meats, instant soups, salty snacks an fast food.",
 
 azucarTitulo:
   "Added sugars",
 
 azucarTexto:
-  "Too much sugar can cause sudden energy swings and increase cravings.",
+  "Too much sugar can cause sudden swings in energy an increase cravings.",
 
 cafeinaTitulo: "Caffeine",
 
 cafeinaTexto:
-  "In some people, drinking a lot of coffee, energy drinks, or caffeinated sodas can increase anxiety, irritability, or breast tenderness.",
+  "In some people, a high intake of coffee, energy drinks or caffeinated soft drinks can increase anxiety, irritability or breast tenderness.",
 
 alcoholTitulo: "Alcohol",
 
 alcoholTexto:
-  "Alcohol can worsen dehydration and increase some symptoms of premenstrual syndrome.",
+  "Alcohol can worsen dehydration an increase some symptoms of premenstrual syndrome.",
 
 consejosTitulo:
   "MAIRIN nutrition tips",
@@ -2862,19 +2852,19 @@ consejo2:
   "Don't skip breakfast.",
 
 consejo3:
-  "Include fruits and vegetables of different colors every day.",
+  "Include fruits an vegetables of different colors every day.",
 
 consejo4:
-  "Pair iron-rich foods with vitamin C-rich foods to improve absorption.",
+  "Combine iron-rich foods wid vitamin C-rich foods fi improve absorption.",
 
 consejo5:
-  "Stay hydrated throughout the day.",
+  "Stay hydrated throughout di day.",
 
 consejo6:
-  "Eat fresh foods and limit ultra-processed ones.",
+  "Nyam fresh foods an limit ultra-processed ones.",
 
 consejo7:
-  "If you have very heavy periods or persistent symptoms, talk to a healthcare professional to check for possible nutritional deficiencies.",
+  "If yu have real heavy periods or persistent symptoms, consult a health professional fi check fi possible nutritional deficiencies.",
 
 
   // SEX EDUCATION
@@ -2885,52 +2875,52 @@ educacionSexualTitulo: "Sex Education",
 pubertadTitulo: "Changes during puberty",
 
 pubertadTexto:
-  "During adolescence it's normal to experience physical and emotional changes. Knowing about these changes helps reduce anxiety and understand that every body develops at its own pace.",
+  "During adolescence it de normal fi experience physical an emotional changes. Knowing bout dese changes helps reduce anxiety an understand dat every body develops at a different pace.",
 
 pubertad1: "Breast growth.",
-pubertad2: "Growth of pubic and underarm hair.",
+pubertad2: "Appearance of pubic an underarm hair.",
 pubertad3: "Skin changes (acne).",
 pubertad4: "Increase in height.",
-pubertad5: "Emotional changes from hormonal activity.",
+pubertad5: "Emotional changes caused by hormones.",
 
-consentimientoTitulo: "Consent and bodily autonomy",
+consentimientoTitulo: "Consent an bodily autonomy",
 
 consentimientoTexto:
-  "Every adolescent girl has the right to:",
+  "Every teenage girl has di right fi:",
 
-consentimiento1: "Know her own body.",
-consentimiento2: "Ask questions about health without feeling embarrassed.",
-consentimiento3: "Say \"no\" when she doesn't want physical contact.",
-consentimiento4: "Receive respectful and confidential medical care.",
+consentimiento1: "Know her body.",
+consentimiento2: "Ask questions bout health widout feeling ashamed.",
+consentimiento3: "Say \"no\" when she no wan physical contact.",
+consentimiento4: "Receive respectful an confidential medical care.",
 
 educacionIntegralTexto:
-  "Comprehensive sex education promotes healthy relationships, mutual respect, and violence prevention.",
+  "Comprehensive sex education promotes healthy relationships, mutual respect an di prevention of violence.",
 
 higieneTitulo: "Menstrual hygiene recommendations",
 
 higiene1:
-  "Change pads, tampons, or a menstrual cup regularly.",
+  "Change sanitary pads, tampons or menstrual cup regularly.",
 higiene2:
-  "Wash only the vulva with water and a mild soap.",
+  "Wash only di vulva wid water an mild soap.",
 higiene3:
   "Avoid vaginal douching.",
 higiene4:
-  "Wash your hands before and after changing a menstrual product.",
+  "Wash yu hands before an after changing a menstrual product.",
 
-registroTitulo: "Why tracking your cycle matters",
+registroTitulo: "Importance of tracking yu cycle",
 
 registro1: "Start date.",
-registro2: "Length.",
+registro2: "Duration.",
 registro3: "Intensity.",
 registro4: "Symptoms.",
 
 registroTexto:
-  "This helps you spot important changes and makes it easier to talk with your doctor.",
+  "Dis helps identify important changes an makes medical appointments easier.",
 
-hablarTitulo: "Talking about menstruation",
+hablarTitulo: "Talking bout menstruation",
 
 hablarTexto:
-  "Menstruation shouldn't be something to be ashamed of. Talking with family members, teachers, or healthcare professionals helps answer questions and dispel myths.",
+  "Menstruation should no be experienced wid shame. Talking wid family members, teachers or health professionals helps answer questions an reduce myths.",
 
 // =========================
 // DISEASE PREVENTION
@@ -2938,37 +2928,37 @@ hablarTexto:
 
 prevencionTitulo: "Disease Prevention",
 
-infeccionesTitulo: "Infection prevention",
+infeccionesTitulo: "Preventing infections",
 
 infeccionesTexto:
-  "Good menstrual hygiene helps prevent infections and protect your health.",
+  "Good menstrual hygiene helps prevent infections an protect yu health.",
 
-infeccion1: "Change your pads regularly.",
-infeccion2: "Don't use a tampon for more than 8 hours.",
-infeccion3: "Wash the intimate area with just water or a mild soap.",
+infeccion1: "Change sanitary pads regularly.",
+infeccion2: "No use a tampon fi more than 8 hours.",
+infeccion3: "Wash di intimate area only wid water or a mild soap.",
 infeccion4:
-  "Avoid vaginal douching, since it disrupts the natural vaginal flora.",
+  "Avoid vaginal douching, as it disrupts di natural vaginal flora.",
 
 vacunacionTitulo: "Vaccination",
 
 vacunacionTexto:
-  "The WHO recommends getting vaccinated against human papillomavirus (HPV) before becoming sexually active in order to prevent most cases of cervical cancer.",
+  "Di WHO recommends vaccination against di human papillomavirus (HPV) before becoming sexually active fi prevent most cervical cancers.",
 
 itsTitulo: "Sexually Transmitted Infections",
 
 itsTexto:
-  "STIs are infections that are mainly spread through sexual contact. Many don't show symptoms at first, so a person can have an infection without knowing it.",
+  "STIs de infections transmitted mainly through sexual contact. Nuff have no symptoms at first, so a person can have an infection widout knowing it.",
 
-comoPrevenirTitulo: "How can you prevent them?",
+comoPrevenirTitulo: "How can dem be prevented?",
 
 its1:
-  "Use a condom correctly every time you have sex.",
+  "Use a condom correctly every time yu have sex.",
 its2:
-  "Get vaccinated against HPV and hepatitis B when recommended.",
+  "Get vaccinated against HPV an hepatitis B when recommended.",
 its3:
-  "Get tested if you've had unprotected sex or have symptoms.",
+  "Get tested if yu have had unprotected sex or have symptoms.",
 its4:
-  "See a healthcare professional about any change or discomfort.",
+  "See a health professional if yu notice any change or discomfort.",
 
 // =========================
 // RELATED CONDITIONS
@@ -2979,79 +2969,79 @@ enfermedadesRelacionadasTitulo: "Related conditions",
 sopTitulo: "Polycystic Ovary Syndrome (PCOS)",
 
 sopTexto:
-  "This is a common hormonal disorder that can cause irregular periods, acne, excess hair growth, and difficulty getting pregnant. With early diagnosis and proper treatment, its symptoms can be managed.",
+  "It de a common hormonal disorder dat can cause irregular periods, acne, excess hair an difficulty getting pregnant. Wid early diagnosis an proper treatment, its symptoms can be managed.",
 
 endometriosisTitulo: "Endometriosis",
 
 endometriosisTexto:
-  "This happens when tissue similar to the lining of the uterus grows outside of it. It can cause intense menstrual pain, pelvic pain, and infertility. If the pain during your period is very intense or affects your daily life, see a healthcare professional.",
+  "It occurs when tissue similar fi di lining of di uterus grows outside dis organ. It can cause severe menstrual pain, pelvic pain an infertility. If di pain during yu period de real strong or affects yu daily life, see a health professional.",
 
 spmTitulo: "Premenstrual Syndrome (PMS)",
 
 spmTexto:
-  "This is a group of physical and emotional symptoms that appear before your period, such as bloating, mood changes, tiredness, or breast tenderness. In most cases, it can be eased with healthy habits.",
+  "It de a set of physical an emotional symptoms dat appear before menstruation, such as bloating, mood swings, tiredness or breast tenderness. In most cases, dem can be relieved wid healthy habits.",
 
 tdpmTitulo: "Premenstrual Dysphoric Disorder (PMDD)",
 
 tdpmTexto:
-  "This is a more intense form of premenstrual syndrome that causes severe emotional changes, such as anxiety, irritability, or intense sadness, that affect daily life. If these symptoms are very intense or persistent, seek medical care.",
+  "It de a more intense form of premenstrual syndrome dat causes severe emotional changes, such as anxiety, irritability or intense sadness, affecting daily life. If dese symptoms de real strong or persistent, seek medical care.",
 
 // =========================
 // MAIRIN RECOMMENDATIONS
 // =========================
 
-recomendacionesTitulo: "MAIRIN Recommendations and Tips",
+recomendacionesTitulo: "MAIRIN Recommendations an Tips",
 
-recuerdaTitulo: "During your period, remember to:",
+recuerdaTitulo: "During yu period, remember fi:",
 
 recuerda1: "Stay hydrated.",
-recuerda2: "Sleep 8 to 10 hours.",
-recuerda3: "Eat iron-rich foods.",
+recuerda2: "Sleep between 8 an 10 hours.",
+recuerda3: "Nyam iron-rich foods.",
 recuerda4: "Do light physical activity.",
-recuerda5: "Use local heat to relieve cramps.",
-recuerda6: "Track your cycle.",
-recuerda7: "See a doctor if you notice significant changes.",
+recuerda5: "Use local heat fi relieve cramps.",
+recuerda6: "Track yu cycle.",
+recuerda7: "See a doctor if yu notice significant changes.",
 
 evitaTitulo: "Avoid:",
 
-evita1: "Changing your tampon too late.",
-evita2: "Self-medicating constantly.",
+evita1: "Changing yu tampon too late.",
+evita2: "Constantly self-medicating.",
 evita3: "Smoking.",
 evita4: "Drinking too much alcohol.",
 evita5: "Overdoing ultra-processed food.",
 evita6: "Vaginal douching.",
-evita7: "Ignoring intense pain.",
+evita7: "Ignoring severe pain.",
 
 
 // Did you know...?
-sabiasQueTitulo: "Did you know...?",
+sabiasQueTitulo: "Yu know seh...?",
 
 sabiasQue1:
-  "About 2.1 billion people menstruate around the world.",
+  "Approximately 2.1 billion people in di world menstruate.",
 
 sabiasQue2:
-  "Menstrual blood isn't just blood — it also contains endometrial tissue and cervical secretions.",
+  "Menstrual blood de no just blood; it also contains endometrial tissue an cervical secretions.",
 
 sabiasQue3:
-  "The menstrual cycle can last between 21 and 35 days in adults and still be completely normal.",
+  "Di menstrual cycle can last between 21 an 35 days in adults an still be completely normal.",
 
 sabiasQue4:
-  "Ovulation usually happens about 14 days before your next period — not necessarily on day 14 of your cycle.",
+  "Ovulation usually occurs bout 14 days before di next period, no necessarily on day 14 of di cycle.",
 
 sabiasQue5:
-  "The uterus weighs around 60 grams, but during pregnancy it can grow to many times that size.",
+  "Di uterus weighs around 60 grams, but during pregnancy it can grow fi several times its size.",
 
 sabiasQue6:
-  "Menstrual pain (dysmenorrhea) affects more than 50% of adolescent girls and young women.",
+  "Menstrual pain (dysmenorrhea) affects more than 50% of teenage girls an young woman.",
 
 sabiasQue7:
-  "Exercise can help reduce cramps by promoting the release of endorphins.",
+  "Exercise can help reduce cramps by promoting di release of endorphins.",
 
 sabiasQue8:
-  "Stress, significant weight loss, or intense exercise can temporarily disrupt the menstrual cycle.",
+  "Stress, significant weight loss or intense exercise can temporarily disrupt di menstrual cycle.",
 
 sabiasQue9:
-  "Menstruation doesn't eliminate toxins — it's the natural shedding of the endometrium when pregnancy doesn't occur.",
+  "Menstruation no remove toxins; it de di natural shedding of di endometrium when pregnancy no occur.",
 
 
   // Pregnancy
@@ -3059,70 +3049,70 @@ sabiasQue9:
 embarazoTitulo: "Pregnancy",
 
 embarazoDescripcion:
-  "Pregnancy doesn't happen the same way for every woman. Symptoms, physical changes, and the pace of development can vary.",
+  "Pregnancy no happen di same way fi every woman. Symptoms, physical changes an di pace of development can vary.",
 
 // First trimester
 
 primerTrimestreTitulo: "First trimester",
 
 primerTrimestreSemanas:
-  "Weeks 1 to 13 (about 1 to 3 months)",
+  "Weeks 1 fi 13 (approximately 1 fi 3 months)",
 
 primerTrimestreBebeTitulo:
-  "What's happening with your baby?",
+  "Wah de happening wid yu baby?",
 
 primerTrimestreBebe:
-  "Important structures and organs begin forming, including the nervous system, the heart, and the limbs.",
+  "Important structures an organs begin fi form, including di nervous system, di heart an di limbs.",
 
 primerTrimestreMamaTitulo:
-  "What might you experience?",
+  "Wah yu might experience?",
 
 primerTrimestreMama1: "Tiredness.",
 primerTrimestreMama2: "Nausea.",
 primerTrimestreMama3: "Breast tenderness.",
-primerTrimestreMama4: "Needing to urinate more.",
+primerTrimestreMama4: "Greater need fi urinate.",
 primerTrimestreMama5: "Emotional changes.",
 primerTrimestreMama6: "Changes in appetite.",
 
 primerTrimestreAtencionTitulo:
-  "What needs special attention?",
+  "Wah need special attention?",
 
 primerTrimestreAtencion1:
-  "Start prenatal care as soon as possible.",
+  "Start prenatal care as early as possible.",
 
 primerTrimestreAtencion2:
-  "Ask about recommended supplements.",
+  "Ask bout recommended supplements.",
 
 primerTrimestreAtencion3:
-  "Avoid alcohol, tobacco, and other harmful substances.",
+  "Avoid alcohol, tobacco an other harmful substances.",
 
 primerTrimestreAtencion4:
-  "Check with your doctor before taking medications or supplements.",
+  "Check wid a professional before taking medicine or supplements.",
 
 primerTrimestreAtencion5:
-  "Take care with your diet and food safety.",
+  "Take care wid yu diet an food safety.",
 
 primerTrimestreAtencion6:
-  "Early prenatal care makes it possible to identify risks and start any needed care in time.",
+  "Early prenatal care makes it possible fi identify risks an begin any necessary interventions in time.",
 
 // Second trimester
 
 segundoTrimestreTitulo: "Second trimester",
 
 segundoTrimestreSemanas:
-  "Weeks 14 to 27 (about 3 to 6 months)",
+  "Weeks 14 fi 27 (approximately 3 fi 6 months)",
 
 segundoTrimestreBebeTitulo:
-  "What's happening with your baby?",
+  "Wah de happening wid yu baby?",
 
 segundoTrimestreBebe:
-  "Their organs and systems keep maturing and their movements become more coordinated. Many women start to feel the baby's movements during this period.",
+  "Its organs an systems keep maturing an its movements become more coordinated. Nuff woman begin fi feel di baby's movements during dis period.",
 
 segundoTrimestreMamaTitulo:
-  "What might you experience?",
+  "Wah yu might experience?",
 
 segundoTrimestreMama1:
-  "A growing belly.",
+  "Growing abdomen.",
 
 segundoTrimestreMama2:
   "Skin changes.",
@@ -3137,25 +3127,25 @@ segundoTrimestreMama5:
   "Heartburn.",
 
 segundoTrimestreMama6:
-  "More energy compared to the first trimester.",
+  "More energy compared wid di first trimester.",
 
 segundoTrimestreAtencionTitulo:
-  "What needs special attention?",
+  "Wah need special attention?",
 
 segundoTrimestreAtencion:
-  "Your doctor can check on your health, how the pregnancy is progressing, the baby's growth, and the changes in your body.",
+  "Di doctor can assess yu health, di progress of di pregnancy, di baby's growth an di changes in yu body.",
 
 segundoTrimestreAtencion1:
-  "Your diet.",
+  "Yu diet.",
 
 segundoTrimestreAtencion2:
-  "The physical activity that's right for you.",
+  "Di physical activity dat de right fi yu.",
 
 segundoTrimestreAtencion3:
-  "Your medical check-ups.",
+  "Medical check-ups.",
 
 segundoTrimestreAtencion4:
-  "Your emotions.",
+  "Yu emotions.",
 
 segundoTrimestreAtencion5:
   "Any new or intense symptom.",
@@ -3165,52 +3155,52 @@ segundoTrimestreAtencion5:
 tercerTrimestreTitulo: "Third trimester",
 
 tercerTrimestreSemanas:
-  "Weeks 28 until birth (about 6 to 9 months)",
+  "Week 28 until birth (approximately 6 fi 9 months)",
 
 tercerTrimestreBebeTitulo:
-  "What's happening with your baby?",
+  "Wah de happening wid yu baby?",
 
 tercerTrimestreBebe:
-  "During this period the baby keeps growing and gaining weight. The brain, lungs, and other organs continue maturing. The baby also keeps building fat reserves and getting ready for life outside the womb.",
+  "During dis period di baby continues fi grow an gain weight. Di brain, lungs an other organs keep maturing. Di baby also continues building fat reserves an preparing fi life outside di uterus.",
 
 tercerTrimestreMamaTitulo:
-  "What might you experience?",
+  "Wah yu might experience?",
 
 tercerTrimestreMama1:
   "More tiredness.",
 
 tercerTrimestreMama2:
-  "Trouble sleeping.",
+  "Difficulty sleeping.",
 
 tercerTrimestreMama3:
-  "Pelvic pressure.",
+  "Pressure in di pelvis.",
 
 tercerTrimestreMama4:
   "Back pain.",
 
 tercerTrimestreMama5:
-  "Shortness of breath from the physical changes of pregnancy.",
+  "Shortness of breath due fi di physical changes of pregnancy.",
 
 tercerTrimestreMama6:
-  "Occasional contractions in some women.",
+  "Occasional contractions in some woman.",
 
 tercerTrimestreAtencionTitulo:
-  "What needs special attention?",
+  "Wah need special attention?",
 
 tercerTrimestreAtencion1:
-  "Know the signs that labor is starting.",
+  "Knowing di signs dat labor de starting.",
 
 tercerTrimestreAtencion2:
-  "Plan how you'll get to the health center.",
+  "Planning transportation fi di health facility.",
 
 tercerTrimestreAtencion3:
-  "Organize the documents and items you'll need.",
+  "Organizing di necessary documents an items.",
 
 tercerTrimestreAtencion4:
-  "Talk about your preferences for labor and delivery.",
+  "Talking bout yu preferences fi di birth.",
 
 tercerTrimestreNota:
-  "Preparation should be done ahead of time, especially when there are transportation barriers or the health center is far away.",
+  "Preparation should be done in advance, especially when there de transportation barriers or di distance fi di health center might be considerable.",
 
 
   // Nutrition
@@ -3218,55 +3208,55 @@ tercerTrimestreNota:
 //alimentacionTitulo: "Nutrition",
 
 alimentacionSubtitulo:
-  "Feeding yourself is also caring for yourself",
+  "Eating well de also taking care of yu self",
 
 alimentacionDescripcion1:
-  "During pregnancy, your body needs energy and nutrients to stay healthy and to support your baby's growth and development.",
+  "During pregnancy, yu body needs energy an nutrients fi maintain yu health an support di baby's growth an development.",
 
 alimentacionDescripcion2:
-  "You don't need to 'eat for two.' What matters is aiming for a varied, sufficient diet.",
+  "Yu no need fi 'nyam fi two'. Wah matters de aiming fi a varied an sufficient diet.",
 
 alimentacionDescripcion3:
-  "The WHO recommends a varied diet that includes foods like vegetables, fruits, meat, fish, beans, nuts, and pasteurized dairy. In populations with malnutrition, energy and protein needs may require special attention.",
+  "Di WHO recommends a varied diet dat includes foods such as vegetables, fruits, meats, fish, beans, nuts an pasteurized dairy. In undernourished populations, energy an protein needs might require special attention.",
 
 // Nutrient table
 
 nutrienteTitulo: "Nutrient",
-importanciaTitulo: "Why is it important?",
+importanciaTitulo: "Why de it important?",
 fuentesTitulo: "Food sources",
 nutriente1: "Folic acid",
 importancia1:
-  "Supports early development of the brain and spinal cord.",
+  "Helps di early development of di brain an spinal cord.",
 fuente1:
-  "Leafy green vegetables and beans.",
+  "Leafy green vegetables an beans.",
 
 nutriente2: "Iron",
 importancia2:
-  "Helps produce hemoglobin and carry oxygen.",
+  "Helps produce hemoglobin an carry oxygen.",
 fuente2:
-  "Meat, beans, lentils, and fortified foods.",
+  "Meats, beans, lentils an fortified foods.",
 
 nutriente3: "Calcium",
 importancia3:
-  "Supports the health of bones and teeth and other body functions.",
+  "Contributes fi healthy bones an teeth an fi other body functions.",
 fuente3:
-  "Milk, cheese, and other calcium-rich foods.",
+  "Milk, cheese an other calcium-rich foods.",
 
 nutriente4: "Iodine",
 importancia4:
-  "Important for thyroid hormones and neurological development.",
+  "It de important fi thyroid hormones an neurological development.",
 fuente4:
-  "Fish, egg yolk, and iodized salt.",
+  "Fish, egg yolk an iodized salt.",
 
 nutriente5: "Protein",
 importancia5:
-  "Helps growth and tissue maintenance.",
+  "Helps tissue growth an maintenance.",
 fuente5:
-  "Well-cooked eggs, meat, fish, beans, lentils, and dairy.",
+  "Well-cooked eggs, meats, fish, beans, lentils an dairy.",
 
 nutriente6: "Omega-3 (DHA)",
 importancia6:
-  "Plays a role in brain and vision development.",
+  "Plays a role in brain an vision development.",
 fuente6:
   "Fish.",
 
@@ -3275,97 +3265,97 @@ fuente6:
 //alcoholTitulo: "You shouldn't drink alcohol",
 
 alcoholDescripcion:
-  "There's no known amount of alcohol that's safe during pregnancy. There's also no safe time to drink alcohol during pregnancy.",
+  "There de no known amount of alcohol dat de safe during pregnancy. There de also no safe time fi drink alcohol during pregnancy.",
 
 alcoholPreguntaTitulo:
-  "Why is it bad to drink alcohol during pregnancy?",
+  "Why de drinking alcohol during pregnancy harmful?",
 
 alcoholRespuesta:
-  "Alcohol can affect the baby's development at any stage of pregnancy, including brain development. If you drank alcohol before knowing you were pregnant, the most important thing is to stop drinking now.",
+  "Alcohol can affect di baby's development at any stage of pregnancy, including brain development. If yu drank alcohol before knowing yu were pregnant, di most important thing de fi stop drinking it.",
 
 // Caffeine
   //cafeinaTitulo: "You shouldn't drink caffeine",
-  cafeinaRiesgo: "High caffeine intake has been linked to a higher risk of adverse pregnancy outcomes, including a greater risk of pregnancy loss and low birth weight.",
-  cafeinaFuentes: "Coffee, Tea, Some sodas, Energy drinks, Chocolate",
-  cafeinaConsejo: "You don't necessarily have to cut out all caffeine, but you should keep track of the total amount you consume during the day.",
+  cafeinaRiesgo: "High caffeine intake been associated wid a higher risk of adverse outcomes during pregnancy, including a higher risk of pregnancy loss an low birth weight.",
+  cafeinaFuentes: "Coffee, Tea, Some soft drinks, Energy drinks, Chocolate",
+  cafeinaConsejo: "Yu no necessarily haffi cut out all caffeine, but yu should keep track of di total amount yu consume during di day.",
 
   // Risk factors and care
-  escuchaCuerpoTitulo: "Listen to your body",
-  escuchaCuerpoTexto: "It's normal to experience changes during pregnancy. However, not all symptoms should be ignored.",
-  senalesAlarmaTitulo: "Seek medical care right away if you have",
+  escuchaCuerpoTitulo: "Listen fi yu body",
+  escuchaCuerpoTexto: "During pregnancy it de normal fi experience changes. However, no all symptoms should be ignored.",
+  senalesAlarmaTitulo: "Seek medical care immediately if yu have",
   senalSangradoVaginal: "Vaginal bleeding",
-  senalPerdidaLiquido: "Fluid leaking from the vagina",
-  senalDolorAbdominal: "Intense or persistent abdominal pain",
-  senalDolorCabeza: "Intense or worsening headache",
+  senalPerdidaLiquido: "Fluid leaking fram di vagina",
+  senalDolorAbdominal: "Severe or persistent abdominal pain",
+  senalDolorCabeza: "Severe or worsening headache",
   senalCambiosVision: "Significant changes in vision",
   senalDificultadRespirar: "Difficulty breathing",
   senalDolorPecho: "Chest pain",
   senalFiebre: "Fever",
-  senalHinchazon: "Sudden or significant swelling of the face or hands",
-  senalMovimientoBebe: "Decreased or absent baby movements when there's already an established movement pattern",
-  senalPensamientosDano: "Thoughts of harming yourself or of not wanting to keep living",
+  senalHinchazon: "Sudden or significant swelling of di face or hands",
+  senalMovimientoBebe: "Decreased or absent baby movements once there de already a usual pattern of movement",
+  senalPensamientosDano: "Thoughts of harming yu self or of no wanting fi go on living",
 
   // Take care of your body
-  cuidaCuerpoTitulo: "Take care of your body",
-  cuidaCuerpoTexto: "In an uncomplicated pregnancy, walking and other suitable activities can be part of a healthy routine.",
+  cuidaCuerpoTitulo: "Take care of yu body",
+  cuidaCuerpoTexto: "In an uncomplicated pregnancy, walking an other suitable activities can be part of a healthy routine.",
   actividadHidratada: "Stay hydrated",
   actividadEvitaCalor: "Avoid excessive heat",
-  actividadDetente: "Stop if concerning symptoms appear",
-  actividadAdvertencia: "If you have bleeding, dizziness, chest pain, weakness, calf pain or swelling, painful contractions, or fluid leaking, stop the activity and seek medical guidance.",
+  actividadDetente: "Stop if worrying symptoms appear",
+  actividadAdvertencia: "If yu have bleeding, dizziness, chest pain, weakness, calf pain or swelling, painful contractions or fluid leakage, stop di activity an seek medical advice.",
 
   // Preparing for labor
-  preparandoParto: "Preparing for labor",
-  preparandoPartoTexto: "Preparing doesn't mean knowing exactly how everything will happen. Every birth is different.",
-  etapasPartoTitulo: "Learn the stages of labor",
+  preparandoParto: "Getting ready fi birth",
+  preparandoPartoTexto: "Being ready nu mean yu know exactly how everything ago happen. Every birth different.",
+  etapasPartoTitulo: "Learn di stages a labor",
   etapa1Titulo: "First stage",
-  etapa1Texto: "Contractions begin and the cervix dilates (that is, it opens).",
+  etapa1Texto: "Contractions begin an di cervix dilates (dat de, it opens).",
   etapa2Titulo: "Second stage",
-  etapa2Texto: "The cervix is fully dilated and the baby is born.",
+  etapa2Texto: "Di cervix de fully dilated an di baby de born.",
   etapa3Titulo: "Third stage",
-  etapa3Texto: "After the baby is born, the placenta is delivered.",
+  etapa3Texto: "After di baby de born, di placenta de delivered.",
 
-  movimientoPosicionesTitulo: "Movement and positions",
-  movimientoPosicionesTexto: "Changing position and staying mobile during labor can improve comfort and let the woman actively take part in the process.",
+  movimientoPosicionesTitulo: "Movement an positions",
+  movimientoPosicionesTexto: "Changing position an staying mobile during labor can improve comfort an allow di woman fi take an active part in di process.",
 
-  comoPrepararmeTitulo: "How can I prepare?",
+  comoPrepararmeTitulo: "How can Mi prepare?",
   prepararOpcionesDolor: "Pain relief options",
   prepararPosicionesParto: "Positions during labor",
-  prepararAcompanante: "Who can be with you",
-  prepararCuandoAcudir: "When you should go to the health center",
-  prepararContracciones: "What to do if contractions start",
-  prepararDocumentos: "What documents and items to bring",
-  planPartoNota: "A birth plan can help you communicate your preferences, but it isn't a contract.",
+  prepararAcompanante: "Who can accompany yu",
+  prepararCuandoAcudir: "When yu should go fi di health center",
+  prepararContracciones: "Wah fi do if contractions start",
+  prepararDocumentos: "Which documents an items yu should bring",
+  planPartoNota: "A birth plan can help yu communicate yu preferences, but it de no a contract.",
 
   duranteTrabajoPartoTitulo: "During labor",
-  respiraTecnicas: "Breathe using the techniques you've learned",
-  cambiaPosicionSegura: "Change position if it's safe to do so",
-  escuchaIndicaciones: "Listen to the guidance from the healthcare staff",
-  comunicaComoTeSientes: "Communicate how you're feeling",
-  preguntaSiNoComprendes: "Ask if there's something you don't understand",
-  pideApoyo: "Ask for support when you need it",
+  respiraTecnicas: "Breathe using di techniques yu have learned",
+  cambiaPosicionSegura: "Change position if it de safe fi do so",
+  escuchaIndicaciones: "Listen fi di instructions of di health staff",
+  comunicaComoTeSientes: "Communicate how yu feel",
+  preguntaSiNoComprendes: "Ask if yu no understand something",
+  pideApoyo: "Ask fi support when yu need it",
 
   // Being a mom
-  serMamaTitulo: "Being a mom",
-  serMamaTexto: "The birth of a baby changes a lot of things: your routine, your rest, your responsibilities, and how you organize your life.",
-  cuerpoNecesitaTiempoTitulo: "Your body needs time too",
-  cuerpoNecesitaTiempoTexto: "You don't have to get your body back right away. Recovery is a process.",
-  pedirAyudaTitulo: "Asking for help is also self-care",
-  pedirAyudaTexto: "Accepting help from people you trust can let you rest, feed yourself, and take care of your own needs.",
-  bienestarEmocionalTitulo: "Pay attention to your emotional well-being",
-  bienestarEmocionalTexto: "If you have thoughts of hurting yourself or your baby, get help right away and tell someone you trust and a healthcare professional.",
-  identidadMamaTitulo: "Being a mother doesn't mean stopping being you",
-  identidadMamaTexto: "Your identity doesn't disappear when you become a mother. It changes, and you have the right to go through that process at your own pace.",
+  serMamaTitulo: "Being a mother",
+  serMamaTexto: "Di birth of a baby changes nuff things: yu routine, yu rest, yu responsibilities an di way yu organize yu life.",
+  cuerpoNecesitaTiempoTitulo: "Yu body needs time too",
+  cuerpoNecesitaTiempoTexto: "Yu no haffi get yu body back immediately. Recovery de a process.",
+  pedirAyudaTitulo: "Asking fi help de also a way of caring",
+  pedirAyudaTexto: "Accepting help fram people yu trust can allow yu fi rest, nyam an look after yu own needs.",
+  bienestarEmocionalTitulo: "Pay attention fi yu emotional well-being",
+  bienestarEmocionalTexto: "If yu have thoughts of harming yu self or yu baby, seek help immediately an tell a person yu trust an a health professional.",
+  identidadMamaTitulo: "Being a mother no mean yu stop being yu",
+  identidadMamaTexto: "Yu identity no disappear when yu become a mother. It transforms, an yu have di right fi go through dat process at yu own pace.",
 
  // Perimenopause
   perimenopausiaTitulo: "Perimenopause",
-  perimenopausiaIntro: "It can start between ages 40 and 45, or even earlier. It can last from 4 to 10 years. This is the stage where hormones (mainly estrogen and progesterone) start to fluctuate.",
+  perimenopausiaIntro: "It can begin between ages 40 an 45, or even earlier. It can last 4 fi 10 years. It de di stage when hormones (mainly estrogen an progesterone) begin fi fluctuate.",
 
   sintomasFisicosTitulo: "Physical symptoms",
   menstruacionTitulo: "Menstruation",
   menstruacionCiclosIrregulares: "Irregular cycles",
   menstruacionAbundanteLigera: "Heavier or lighter periods",
   menstruacionSangradosLargosCortos: "Longer or shorter bleeding",
-  menstruacionMesesSin: "Months without a period",
+  menstruacionMesesSin: "Months widout a period",
 
   vasomotoresTitulo: "Vasomotor",
   vasomotoresBochornos: "Hot flashes",
@@ -3383,72 +3373,72 @@ alcoholRespuesta:
   otrosSintomasDolorArticulaciones: "Joint pain",
   otrosSintomasSensibilidadSenos: "Breast tenderness",
   otrosSintomasMigranas: "Migraines or headaches",
-  otrosSintomasAumentoPeso: "Weight gain, especially around the abdomen",
+  otrosSintomasAumentoPeso: "Weight gain, especially around di abdomen",
 
   saludSexualTitulo: "Sexual health",
-  saludSexualDeseo: "Decreased sex drive",
+  saludSexualDeseo: "Decreased sexual desire",
   saludSexualSequedad: "Early vaginal dryness",
   saludSexualRelacionesIncomodas: "Uncomfortable sex",
 
   sintomasPsicologicosTitulo: "Psychological symptoms",
-  sintomasPsicologicosIntro: "Hormonal changes can affect your mood and emotions during menopause.",
+  sintomasPsicologicosIntro: "Hormonal changes can affect yu mood an emotions during menopause.",
   psicoAnsiedad: "Anxiety",
   psicoIrritabilidad: "Irritability",
   psicoCambiosHumor: "Sudden mood swings",
   psicoTristeza: "Sadness",
-  psicoSensibilidadEmocional: "Increased emotional sensitivity",
+  psicoSensibilidadEmocional: "Greater emotional sensitivity",
   psicoDificultadConcentrarse: "Difficulty concentrating",
   psicoNieblaMental: "Memory problems (\"brain fog\")",
-  psicoSensacionDiferente: "Feeling different than usual",
+  psicoSensacionDiferente: "A sense of feeling different",
   psicoEstres: "Stress",
 
-  perimenopausiaFrase: "Your body is starting a transition. It's normal for changes to appear, and every woman experiences them differently. Knowing about them will help you go through this stage with more peace of mind.",
+  perimenopausiaFrase: "Yu body de beginning a transition. It de normal fi changes fi appear, an every woman experiences them differently. Knowing bout them wi help yu go through dis stage wid more peace of mind.",
 
   //alimentacionTitulo: "Nutrition",
-  alimentacionCalcio: "Add calcium-rich foods, like milk, yogurt, cheese, or leafy greens",
-  alimentacionVitaminaD: "Eat foods with vitamin D to strengthen your bones",
-  alimentacionFrutasVerduras: "Include fruits, vegetables, and whole grains in your daily diet",
-  alimentacionReduceCafeina: "Cut back on caffeine, alcohol, and very spicy foods if they make hot flashes worse",
-  alimentacionHidratada: "Stay well hydrated throughout the day",
+  alimentacionCalcio: "Include calcium-rich foods, such as milk, yogurt, cheese or leafy green vegetables",
+  alimentacionVitaminaD: "Nyam foods wid vitamin D fi strengthen yu bones",
+  alimentacionFrutasVerduras: "Include fruits, vegetables an whole grains in yu daily diet",
+  alimentacionReduceCafeina: "Cut back on caffeine, alcohol an real spicy foods if dem make hot flashes worse",
+  alimentacionHidratada: "Stay well hydrated during di day",
 
   actividadFisicaTitulo: "Physical activity",
   actividadCaminaTitulo: "Walk at least 30 minutes a day",
-  actividadFuerza: "Do strength exercises two or three times a week to protect your muscles and bones",
-  actividadEstiramientos: "Practice stretching or yoga to improve flexibility and reduce stress",
+  actividadFuerza: "Do strength exercise two or three times a week fi protect yu muscles an bones",
+  actividadEstiramientos: "Practice stretching or yoga fi improve flexibility an reduce stress",
 
   //bienestarEmocionalTitulo: "Emotional well-being",
-  bienestarHabla: "Talk about how you feel with someone you trust",
-  bienestarRespiracion: "Practice breathing exercises when you feel anxious",
-  bienestarHormonas: "Remember that emotional changes can be related to hormones and don't mean you're losing control",
+  bienestarHabla: "Talk bout how yu feel wid someone yu trust",
+  bienestarRespiracion: "Practice breathing exercise when yu feel anxious",
+  bienestarHormonas: "Remember dat emotional changes might be related fi hormones an no mean yu de losing control",
 
   descansoTitulo: "Rest",
-  descansoHorario: "Try to go to bed and wake up at the same time every day",
+  descansoHorario: "Try fi go fi bed an get up at di same time every day",
   descansoPantallas: "Avoid screens before bed",
-  descansoHabitacionFresca: "Keep your room cool if you get night sweats",
+  descansoHabitacionFresca: "Keep yu bedroom cool if yu have night sweats",
 
   saludTitulo: "Health",
-  saludRegistro: "Keep a record of your cycles and symptoms",
-  saludChequeos: "Schedule your routine gynecological checkups",
-  saludConsultaSangrado: "See a professional if bleeding is very heavy, lasts many days, or shows up after several months without a period",
+  saludRegistro: "Keep a record of yu menstrual cycles an symptoms",
+  saludChequeos: "Schedule yu routine gynecological check-ups",
+  saludConsultaSangrado: "See a professional if bleeding de real heavy, lasts nuff days or appears after several months widout a period",
 
   // Menopause
   menopausiaTitulo: "Menopause",
-  menopausiaConfirmacion: "It's confirmed after 12 consecutive months without a period.",
-  menopausiaMomento: "It's a specific point in time, not a long stage.",
-  menopausiaSintomasIntro: "The symptoms are usually the same as in perimenopause, though for many women they reach their peak intensity.",
+  menopausiaConfirmacion: "It de confirmed when 12 consecutive months have passed widout a period.",
+  menopausiaMomento: "It de a specific point in time, no a long stage.",
+  menopausiaSintomasIntro: "Di symptoms de usually di same as in perimenopause, although fi nuff woman dem reach dem greatest intensity.",
 
   menopausiaFisicoBochornosIntensos: "Intense hot flashes",
   menopausiaFisicoSudoraciones: "Night sweats",
-  menopausiaFisicoPalpitaciones: "Heart palpitations",
+  menopausiaFisicoPalpitaciones: "Palpitations",
   menopausiaFisicoSequedadVaginal: "Vaginal dryness",
   menopausiaFisicoArdorVaginal: "Vaginal burning",
   menopausiaFisicoLubricacion: "Decreased lubrication",
   menopausiaFisicoDolorRelaciones: "Pain during sex",
-  menopausiaFisicoInfecciones: "Recurring urinary tract infections",
+  menopausiaFisicoInfecciones: "Recurrent urinary tract infections",
   menopausiaFisicoPiel: "Skin changes",
   menopausiaFisicoCabello: "Thinner hair",
   menopausiaFisicoUnas: "Brittle nails",
-  menopausiaFisicoPeso: "Weight gain",
+  menopausiaFisicoPeso: "Increase in body weight",
 
   menopausiaPsicoHumor: "Mood changes",
   menopausiaPsicoAnsiedad: "Anxiety",
@@ -3458,36 +3448,36 @@ alcoholRespuesta:
   menopausiaPsicoDormir: "Trouble sleeping",
   menopausiaPsicoConcentrarse: "Difficulty concentrating",
   menopausiaPsicoOlvidos: "Frequent forgetfulness",
-  menopausiaPsicoEnergia: "Feeling of lost energy",
+  menopausiaPsicoEnergia: "Feeling of low energy",
 
-  menopausiaFrase: "Menopause isn't an illness. It's a natural stage that marks the start of a new way of caring for your well-being.",
+  menopausiaFrase: "Menopause de no an illness. It de a natural stage dat marks di beginning of a new way of caring fi yu well-being.",
 
-  menopausiaAlimentacionCalcio: "Prioritize calcium- and vitamin D-rich foods",
-  menopausiaAlimentacionProteina: "Eat enough protein to protect your muscle mass",
-  menopausiaAlimentacionAzucar: "Limit excess sugar and ultra-processed foods",
-  menopausiaAlimentacionAgua: "Drink enough water to stay well hydrated",
+  menopausiaAlimentacionCalcio: "Prioritize foods rich in calcium an vitamin D",
+  menopausiaAlimentacionProteina: "Nyam enough protein fi protect yu muscle mass",
+  menopausiaAlimentacionAzucar: "Limit excess sugar an ultra-processed foods",
+  menopausiaAlimentacionAgua: "Drink enough water fi stay well hydrated",
 
-  menopausiaActividadFuerza: "Do strength exercises to protect your bones",
-  menopausiaActividadCaminar: "Walk often to take care of your heart",
-  menopausiaActividadEquilibrio: "Add balance exercises to help prevent falls",
+  menopausiaActividadFuerza: "Do strength exercise fi protect yu bones",
+  menopausiaActividadCaminar: "Walk often fi look after yu heart",
+  menopausiaActividadEquilibrio: "Add balance exercise fi prevent falls",
 
   saludIntimaTitulo: "Intimate health",
-  saludIntimaSequedad: "If you have vaginal dryness, ask a professional about the options available",
-  saludIntimaDolor: "Don't treat pain during sex as normal; there are treatments that can help",
-  saludIntimaHigiene: "Keep good intimate hygiene using gentle products",
+  saludIntimaSequedad: "If yu have vaginal dryness, ask a professional bout di available options",
+  saludIntimaDolor: "Don't accept pain during sex as normal; there de treatments dat can help yu",
+  saludIntimaHigiene: "Maintain good intimate hygiene using gentle products",
 
-  menopausiaBienestarDescanso: "Give yourself permission to rest when you need to",
-  menopausiaBienestarActividades: "Do activities you enjoy that reduce stress",
-  menopausiaBienestarApoyo: "Seek support if emotional changes are affecting your quality of life",
+  menopausiaBienestarDescanso: "Give yu self permission fi rest when yu need it",
+  menopausiaBienestarActividades: "Do activities dat yu enjoy an dat reduce stress",
+  menopausiaBienestarApoyo: "Seek support if emotional changes affect yu quality of life",
 
-  menopausiaSaludChequeos: "Keep up with your medical checkups",
-  menopausiaSaludHablaMedico: "Talk with your doctor about the changes you're experiencing and the options for managing them",
+  menopausiaSaludChequeos: "Keep up wid yu medical check-ups",
+  menopausiaSaludHablaMedico: "Talk fi yu doctor bout di changes yu de experiencing an di options fi managing them",
 
   // Postmenopause
-  posmenopausiaTitulo: "Postmenopause",
-  posmenopausiaComienzo: "It begins after a full year without a period and continues for the rest of your life.",
-  posmenopausiaNuevaEtapa: "Many women think that at this point \"it's all over,\" but a new stage of health care is really just beginning.",
-  posmenopausiaBochornos: "Hot flashes may decrease, though some women have them for several years.",
+  posmenopausiaTitulo: "Post-menopause",
+  posmenopausiaComienzo: "It begins after one full year widout a period an continues fi di rest of life.",
+  posmenopausiaNuevaEtapa: "At dis point nuff woman believe dat \"it's all over\", but really a new stage of health care begins.",
+  posmenopausiaBochornos: "Hot flashes might decrease, although some woman have them fi several years.",
 
   posFisicoSequedad: "Vaginal dryness",
   posFisicoLubricacion: "Decreased lubrication",
@@ -3498,7 +3488,7 @@ alcoholRespuesta:
 
   cambiosLargoPlazoTitulo: "Long-term changes",
   huesosTitulo: "Bones",
-  huesosPerdidaMasa: "Bone loss",
+  huesosPerdidaMasa: "Loss of bone mass",
   huesosOsteopenia: "Osteopenia",
   huesosOsteoporosis: "Osteoporosis",
   corazonTitulo: "Heart",
@@ -3508,129 +3498,129 @@ alcoholRespuesta:
   musculosDisminucion: "Loss of muscle mass",
   musculosDebilidad: "Weakness",
   metabolismoTitulo: "Metabolism",
-  metabolismoPeso: "Easier weight gain",
-  metabolismoGrasa: "Abdominal fat buildup",
+  metabolismoPeso: "Gaining weight more easily",
+  metabolismoGrasa: "Build-up of abdominal fat",
   pielTitulo: "Skin",
   pielColageno: "Lower collagen production",
   pielSeca: "Drier skin",
-  pielArrugas: "More noticeable wrinkles",
+  pielArrugas: "More pronounced wrinkles",
 
   posPsicoAnsiedad: "Anxiety",
   posPsicoDepresion: "Depression",
   posPsicoAutoestima: "Low self-esteem",
   posPsicoHumor: "Mood changes",
   posPsicoNiebla: "Occasional brain fog",
-  posPsicoConfianza: "Lower confidence",
-  posPsicoEnvejecimiento: "Worry about aging",
+  posPsicoConfianza: "Reduced confidence",
+  posPsicoEnvejecimiento: "Worry bout aging",
 
-  posmenopausiaFrase: "This stage can also be lived well. Now the goal is to protect your health so you can keep enjoying an active, full life.",
+  posmenopausiaFrase: "Dis stage can also be lived wid well-being. Di goal now de fi protect yu health so yu can keep enjoying an active an full life.",
 
-  posAlimentacionCalcio: "Maintain a diet rich in calcium, vitamin D, and protein",
-  posAlimentacionFibra: "Eat fiber-rich foods to support your digestive and cardiovascular health",
-  posAlimentacionSal: "Watch your salt intake to support heart health",
+  posAlimentacionCalcio: "Keep a diet rich in calcium, vitamin D an protein",
+  posAlimentacionFibra: "Nyam fiber-rich foods fi look after yu digestive an cardiovascular health",
+  posAlimentacionSal: "Watch yu salt intake fi support heart health",
 
-  posActividadFuerza: "Do strength exercises at least twice a week",
+  posActividadFuerza: "Do strength exercise at least twice a week",
   posActividadCaminar: "Walk every day",
-  posActividadEquilibrio: "Include balance and flexibility exercises to lower your risk of falls",
+  posActividadEquilibrio: "Include balance an flexibility exercise fi reduce di risk of falls",
 
   saludOseaTitulo: "Bone health",
-  saludOseaEvaluacion: "Ask your doctor if you need a bone density evaluation",
-  saludOseaTabaco: "Avoid smoking and limit alcohol",
+  saludOseaEvaluacion: "Ask yu doctor whether yu need a bone density test",
+  saludOseaTabaco: "Avoid smoking an limit alcohol",
 
   saludCardiovascularTitulo: "Cardiovascular health",
-  saludCardiovascularPresion: "Keep track of your blood pressure, cholesterol, and blood sugar",
+  saludCardiovascularPresion: "Monitor yu blood pressure, cholesterol an glucose",
   saludCardiovascularPeso: "Maintain a healthy weight",
-  saludCardiovascularConsulta: "Talk with your doctor about cardiovascular risk factors",
+  saludCardiovascularConsulta: "Ask yu doctor bout cardiovascular risk factors",
 
-  posBienestarSocial: "Stay socially active",
-  posBienestarTiempo: "Spend time on activities that make you feel good",
-  posBienestarApoyo: "If you notice persistent sadness, anxiety, or significant mood changes, seek professional support",
+  posBienestarSocial: "Keep an active social life",
+  posBienestarTiempo: "Make time fi activities dat make yu feel good",
+  posBienestarApoyo: "If yu notice persistent sadness, anxiety or significant changes in yu mood, seek professional support",
 
   // Disease prevention
   //prevencionTitulo: "Disease prevention",
   prevencionOseaTitulo: "Bone health (osteoporosis)",
-  prevencionOseaTexto: "Without estrogen, bones lose density quickly.",
-  prevencionOseaAccion: "Getting enough calcium and vitamin D, but above all doing strength/resistance exercise (bearing weight tells the bone it needs to stay strong)",
+  prevencionOseaTexto: "Widout estrogen, bones lose density quickly.",
+  prevencionOseaAccion: "Calcium an vitamin D intake, but above all strength/resistance exercise (bearing weight signals di bone dat it needs fi stay strong)",
 
   prevencionCardioTitulo: "Cardiovascular health",
-  prevencionCardioTexto: "The risk of heart attack becomes similar to men's after menopause.",
-  prevencionCardioAccion: "Monitoring blood pressure, managing cholesterol, and eating foods rich in healthy fats (Omega-3)",
+  prevencionCardioTexto: "After menopause, di risk of heart attack becomes equal fi dat of men.",
+  prevencionCardioAccion: "Blood pressure monitoring, cholesterol control an a diet rich in healthy fats (Omega 3)",
 
   prevencionPelvicoTitulo: "Pelvic floor health",
-  prevencionPelvicoTexto: "Loss of muscle tone can cause stress urinary incontinence (leaking when you cough or laugh).",
-  prevencionPelvicoAccion: "Kegel exercises and pelvic floor physical therapy",
+  prevencionPelvicoTexto: "Loss of muscle tone can cause stress urinary incontinence (when coughing or laughing).",
+  prevencionPelvicoAccion: "Kegel exercise an pelvic floor physical therapy",
 
   // Exercises
-  ejerciciosTitulo: "Exercises",
+  ejerciciosTitulo: "Exercise",
 
-  ejercicioFuerzaTitulo: "Strength exercises",
-  ejercicioFuerzaPregunta: "Why are they important?",
-  ejercicioFuerzaTexto: "During menopause, estrogen levels drop, which can lead to loss of muscle mass and bone density. Strength exercises help build muscle, protect your bones, and keep you independent in daily activities.",
-  ejercicioFuerzaBeneficios1: "Strengthen bones",
-  ejercicioFuerzaBeneficios2: "Reduce the risk of osteoporosis",
+  ejercicioFuerzaTitulo: "Strength exercise",
+  ejercicioFuerzaPregunta: "Why dem important?",
+  ejercicioFuerzaTexto: "During menopause estrogen levels drop, which can lead fi loss of muscle mass an bone density. Strength exercise help strengthen muscles, protect bones an maintain independence in daily activities.",
+  ejercicioFuerzaBeneficios1: "Make di bones stronger",
+  ejercicioFuerzaBeneficios2: "Reduce di risk of osteoporosis",
   ejercicioFuerzaBeneficios3: "Improve balance",
   ejercicioFuerzaBeneficios4: "Make everyday activities easier",
   ejercicioFuerzaBeneficios5: "Support a healthy metabolism",
-  ejercicioFuerzaEjemplo1: "Squats holding onto a chair for support",
+  ejercicioFuerzaEjemplo1: "Squats using a chair fi support",
   ejercicioFuerzaEjemplo2: "Lifting water bottles as weights",
-  ejercicioFuerzaEjemplo3: "Resistance band exercises",
+  ejercicioFuerzaEjemplo3: "Resistance band exercise",
   ejercicioFuerzaEjemplo4: "Wall push-ups",
-  ejercicioFuerzaFrecuencia: "2 to 3 times a week",
+  ejercicioFuerzaFrecuencia: "2 fi 3 times a week",
 
   ejercicioCaminataTitulo: "Walking",
-  ejercicioCaminataPregunta: "Why is it important?",
-  ejercicioCaminataTexto: "Walking is one of the safest and most complete exercises during menopause. It helps care for your heart, maintain a healthy weight, and improve your mood.",
+  ejercicioCaminataPregunta: "Why de it important?",
+  ejercicioCaminataTexto: "Walking de one of di safest an most complete exercise during menopause. It helps look after di heart, maintain a healthy weight an improve mood.",
   ejercicioCaminataBeneficios1: "Improves circulation",
   ejercicioCaminataBeneficios2: "Reduces cardiovascular risk",
   ejercicioCaminataBeneficios3: "Increases energy",
-  ejercicioCaminataBeneficios4: "Helps manage weight",
+  ejercicioCaminataBeneficios4: "Helps control weight",
   ejercicioCaminataBeneficios5: "Reduces stress",
   ejercicioCaminataMeta: "30 minutes a day, five times a week",
 
-  ejercicioYogaTitulo: "Yoga and stretching",
-  ejercicioYogaPregunta: "Why are they important?",
-  ejercicioYogaTexto: "Hormonal changes can cause muscle stiffness, stress, and trouble sleeping. Yoga and stretching help maintain flexibility and promote relaxation.",
+  ejercicioYogaTitulo: "Yoga an stretching",
+  ejercicioYogaPregunta: "Why dem important?",
+  ejercicioYogaTexto: "Hormonal changes can cause muscle stiffness, stress an trouble sleeping. Yoga an stretching help maintain flexibility an promote relaxation.",
   ejercicioYogaBeneficios1: "Improve flexibility",
-  ejercicioYogaBeneficios2: "Reduce muscle and joint pain",
-  ejercicioYogaBeneficios3: "Support better rest",
-  ejercicioYogaBeneficios4: "Reduce stress and anxiety",
+  ejercicioYogaBeneficios2: "Reduce muscle an joint pain",
+  ejercicioYogaBeneficios3: "Promote better rest",
+  ejercicioYogaBeneficios4: "Reduce stress an anxiety",
   ejercicioYogaVideo: "https://youtu.be/CFvvCLvF6lo?si=c5BQDdecDlt0k7dt",
-  ejercicioYogaFrecuencia: "Every day, or at least three times a week",
+  ejercicioYogaFrecuencia: "Every day or at least three times a week",
 
-  ejercicioEquilibrioTitulo: "Balance exercises",
-  ejercicioEquilibrioPregunta: "Why are they important?",
-  ejercicioEquilibrioTexto: "As the years go by, the risk of falls and fractures increases. Working on balance strengthens stability and improves coordination.",
+  ejercicioEquilibrioTitulo: "Balance exercise",
+  ejercicioEquilibrioPregunta: "Why dem important?",
+  ejercicioEquilibrioTexto: "As di years go by, di risk of falls an fractures increases. Working on balance strengthens stability an improves coordination.",
   ejercicioEquilibrioBeneficios1: "Prevent falls",
   ejercicioEquilibrioBeneficios2: "Improve coordination",
-  ejercicioEquilibrioBeneficios3: "Increase safety while walking",
+  ejercicioEquilibrioBeneficios3: "Increase steadiness when walking",
   ejercicioEquilibrioBeneficios4: "Complement muscle strengthening",
-  ejercicioEquilibrioEjemplo1: "Standing on one foot for a few seconds",
+  ejercicioEquilibrioEjemplo1: "Standing on one foot fi a few seconds",
   ejercicioEquilibrioEjemplo2: "Walking in a straight line",
   ejercicioEquilibrioEjemplo3: "Tai Chi",
   ejercicioEquilibrioVideo: "https://youtu.be/f3DDdUwOrZ4?si=49Ph2F0hByGeUdtl",
-  ejercicioEquilibrioFrecuencia: "Every day for 10–15 minutes",
+  ejercicioEquilibrioFrecuencia: "Every day fi 10–15 minutes",
 
   ejercicioCardioTitulo: "Cardiovascular exercise",
-  ejercicioCardioPregunta: "Why is it important?",
-  ejercicioCardioTexto: "After menopause, the risk of cardiovascular disease increases. Aerobic activity strengthens the heart and improves physical endurance.",
+  ejercicioCardioPregunta: "Why de it important?",
+  ejercicioCardioTexto: "After menopause di risk of cardiovascular disease increases. Aerobic activity strengthens di heart an improves physical endurance.",
   ejercicioCardioBeneficios1: "Protects heart health",
   ejercicioCardioBeneficios2: "Lowers blood pressure",
   ejercicioCardioBeneficios3: "Improves lung capacity",
-  ejercicioCardioBeneficios4: "Supports overall well-being",
+  ejercicioCardioBeneficios4: "Promotes overall well-being",
   ejercicioCardioOpcion1: "Cycling",
   ejercicioCardioOpcion2: "Swimming",
   ejercicioCardioOpcion3: "Dancing",
   ejercicioCardioOpcion4: "Brisk walking",
-  ejercicioCardioFrecuencia: "Spread across 5 days a week, with sessions of about 30 minutes",
+  ejercicioCardioFrecuencia: "Spread over 5 days a week, in sessions of bout 30 minutes",
 
-  ejercicioPelvicoTitulo: "Pelvic floor exercises",
-  ejercicioPelvicoPregunta: "Why are they important?",
-  ejercicioPelvicoTexto: "During menopause the pelvic floor muscles can weaken, which can lead to urine leaks and reduced support for the pelvic organs.",
-  ejercicioPelvicoBeneficios1: "Strengthen the pelvic floor",
+  ejercicioPelvicoTitulo: "Pelvic floor exercise",
+  ejercicioPelvicoPregunta: "Why dem important?",
+  ejercicioPelvicoTexto: "During menopause di pelvic floor muscles can weaken, which can lead fi urine leakage an reduces support fi di pelvic organs.",
+  ejercicioPelvicoBeneficios1: "Strengthen di pelvic floor",
   ejercicioPelvicoBeneficios2: "Help prevent urinary incontinence",
   ejercicioPelvicoBeneficios3: "Improve bladder control",
   ejercicioPelvicoBeneficios4: "Support intimate health",
-  ejercicioPelvicoEjemplo: "Kegel exercises: contract the pelvic floor muscles for 5 seconds and relax for another 5 seconds, repeating the sequence 10 times",
+  ejercicioPelvicoEjemplo: "Kegel exercise: contract di pelvic floor muscles fi 5 seconds an relax them fi another 5 seconds, repeating di sequence 10 times",
   ejercicioPelvicoVideo: "https://youtu.be/bMKPi0pIcG8?si=UX__VvGQ0IpquuSg",
   ejercicioPelvicoFrecuencia: "Every day",
 
@@ -3638,13 +3628,13 @@ alcoholRespuesta:
     //calendar:
 //calendar:
 calendario: "Calendar",
-hoytengoRegla: "I have my period today",
-hoyhiceEjercicio: "I exercised today",
+hoytengoRegla: "Mi have my period today",
+hoyhiceEjercicio: "Mi exercised today",
 EstadoAnimo: "My mood",
-quieroEscribir: "I want to write...",
+quieroEscribir: "Mi wan fi write...",
 guardarCalendario: "Save",
 //pregnancy
-MovBebe: "Baby's movements (kicks)",
+MovBebe: "Baby movements (likkle kicks)",
 citaMedica: "Medical appointment",
 nombreDoctorCalendario: "Doctor's name",
 horaCita: "Appointment time",
@@ -3655,12 +3645,12 @@ fatigaCansancio: "Fatigue/tiredness",
 aceidezEstomacal: "Heartburn",
 cambioHumor:"Mood changes",
 otrosSintomas: "Other symptoms",
-nota: "I want to write",
+nota: "Mi wan fi write",
 //menopause
-ejercicio: " Exercise",
-vitaminaSuplemento : "I should take vitamins/supplements",
+ejercicio: "Exercise",
+vitaminaSuplemento : "Mi need fi take vitamins/supplements",
 nombreSuplemento: "Supplement name",
-horaTomar:"Time to take it",
+horaTomar:"Time fi take it",
 sofoco: "Hot flashes",
 sudonesNocturno: "Night sweats",
 problemaDormir: "Trouble sleeping",
@@ -3671,7 +3661,7 @@ Enero:"January",
  Febrero: "February", 
  Marzo: "March", 
  abril: "April", 
- mayo: "May", 
+ mayo: "Might", 
  junio: "June",
 julio: "July", 
 agosto: "August", 
@@ -3691,63 +3681,63 @@ sat : "Saturday",
 
 
 //read more about your cycle:
-cuandoIrregular : "When is it considered irregular?",
-IrregularpuntoUno : "Your period comes before 21 days or after 35 days",
-Irregularpuntodos : "It changes a lot from one month to the next.",
-Irregularpuntotres : "It stops coming for several months.",
-Irregularpuntocuatro : "You have significant changes in your bleeding or the length of your period.",
+cuandoIrregular : "When dem consider it irregular?",
+IrregularpuntoUno : "Yu period comes sooner than 21 days or later than 35 days",
+Irregularpuntodos : "It changes a lot fram one month fi di next.",
+Irregularpuntotres : "It stops coming fi several months.",
+Irregularpuntocuatro : "Yu have significant changes in di bleeding or length of yu period.",
 posiblescausastitle: "Possible Causes",
-posibleCausastext: "An irregular cycle can be due to hormonal changes, lifestyle, medications, or structural factors in the uterus. Here's a summary to help guide you.",
+posibleCausastext: "An irregular cycle can be due fi hormonal changes, lifestyle changes, medicine or structural factors of di uterus. Here de a summary fi guide yu.",
 hormonalesTitle: "Hormonal",
-hormnalesText: " Changes in your hormones can make your period come earlier, later, or change over time.",
+hormnalesText: "Changes in yu hormones can make yu period come earlier, later or change over time.",
 estiloVida: "Lifestyle",
-estilovidatext: "Stress, not getting enough sleep, losing or gaining weight quickly, and exercising a lot can affect your menstrual cycle.",
-anticoncepctionMedicamento: "Birth control and medications",
-anticoncepcionMedicamentoText: "Starting, stopping, or switching a birth control method, as well as certain medications, can make your period different.",
-EstructuralesUtero: "Structural issues in the uterus",
-EstructuralesUteroText :" Some conditions of the uterus can cause changes in the length, amount of bleeding, or pain during your period.",
+estilovidatext: "Stress, too likkle sleep, losing or gaining weight quickly an exercising a lot can affect yu menstrual cycle.",
+anticoncepctionMedicamento: "Contraception an medicine",
+anticoncepcionMedicamentoText: "Starting, stopping or changing a contraceptive method, as well as some medicine, can make yu period different.",
+EstructuralesUtero: "Structural (uterus)",
+EstructuralesUteroText :"Some conditions of di uterus can cause changes in di length, di amount of bleeding or di pain during menstruation.",
 Otras:"Other",
-OtrasText: " Pregnancy, breastfeeding, or certain illnesses can also cause changes in your period.",
+OtrasText: "Pregnancy, breastfeeding or some illnesses can also cause changes in yu period.",
 Recuerda: "Remember",
-recuerdaText: "It's normal for your cycle to change sometimes. If you notice frequent or significant changes, it's a good idea to see a healthcare professional.",
-cuandoVerMedico:"When to see a doctor if...",
-cuandoVerMedicoText: "An irregular cycle can be due to hormonal changes, lifestyle, medications, or structural factors in the uterus. Here's a summary to help guide you.",
-SangrasMas: "You bleed more or less than before",
-SangrasMasText: "This happens because hormones (the messengers that control the cycle) rise and fall differently that month.",
-ManchasFueraPeriodo: "Spots of blood outside your period",
-ManchasFueraPeriodoText:"This happens because hormones (the messengers that control the cycle) rise and fall differently that month.",
-colicosFuertes:"Cramps stronger than usual",
-colicosFuertesText:"The uterus squeezes harder to push out the blood, or there may be growths or tissue growing where it shouldn't.",
+recuerdaText: "It de normal fi yu cycle fi change sometimes. If yu notice frequent or significant changes, it de advisable fi consult a health professional.",
+cuandoVerMedico:"See a doctor if...",
+cuandoVerMedicoText: "An irregular cycle can be due fi hormonal changes, lifestyle changes, medicine or structural factors of di uterus. Here de a summary fi guide yu.",
+SangrasMas: "Yu bleed more or less than before",
+SangrasMasText: "It happens cause di hormones (di messengers dat control di cycle) rise an fall differently dat month.",
+ManchasFueraPeriodo: "Blood spotting outside yu period",
+ManchasFueraPeriodoText:"It happens cause di hormones (di messengers dat control di cycle) rise an fall differently dat month.",
+colicosFuertes:"Stronger cramps than usual",
+colicosFuertesText:"Di uterus squeezes harder fi push out di blood, or there might be lumps or tissue growing weh it shouldn't.",
 senosHinchazonCambiosAnimo:"Tender breasts, bloating, mood changes",
-senosHinchazonCambiosAnimoText:"It's normal to feel this before your period, but it feels stronger when the cycle is out of balance.",
-AcneVelloCaePelo:"Acne, more hair growth, hair loss",
-AcneVelloCaePeloText:'It may be that the body has more "male-type" hormones than usual.',
-cansancioPesofrioCalor:'Tiredness, weight changes, feeling very cold or hot',
-cansancioPesofrioCalorText:"It could be the thyroid, a small gland in the neck that helps control the body and also the cycle.",
-CaloresSudorNocheSequedad: 'Sudden heat, night sweats, dryness',
-CaloresSudorNocheSequedadText:'If you are between 40 and 50 years old, this could mean you are getting closer to menopause, when your period gradually starts to end.',
+senosHinchazonCambiosAnimoText:"It de normal fi feel dis before yu period, but it feels stronger when di cycle de out of order.",
+AcneVelloCaePelo:"Acne, more body hair, hair loss",
+AcneVelloCaePeloText:'It might be dat di body has more "male-type" hormones than normal.',
+cansancioPesofrioCalor:'Tiredness, weight changes, feeling real cold or hot',
+cansancioPesofrioCalorText:"It might be di thyroid, a likkle gland in di neck dat helps control di body an also di cycle.",
+CaloresSudorNocheSequedad: 'Sudden hot flashes, night sweats, dryness',
+CaloresSudorNocheSequedadText:'If yu de between 40 an 50 years old, yu might be approaching menopause, when periods gradually come fi an end.',
 
 //Support Us tab
-    apoyanos: "Support Us!",
-    apoyanosText: "Every contribution helps us grow. Thanks to your support, we can improve the app for you, build new tools, and bring reliable, accessible information to more women who need it.",
-    quieroDonar:"I Want to Donate!",
-    quieroSerPatrocinardor: "I Want to Be a Sponsor!",
-    quieroAyudarOtraFormas: "I Want to Help in Other Ways!",
+    apoyanos: "Support us!",
+    apoyanosText: "Every contribution helps us grow. Thanks fi yu support, wi can improve di app fi yu, create new tools an bring reliable, accessible information fi more woman who need it.",
+    quieroDonar:"Mi Want fi Donate!",
+    quieroSerPatrocinardor: "Mi Want fi Be a Sponsor!",
+    quieroAyudarOtraFormas: "Mi Want fi Help in Other Ways!",
 
   //I want to donate page
-  quieroDonarTitle: "I Want to Donate",
-  donarTexto:"Your donation will help us improve the app and keep creating accessible resources and tools for you and for more women.",
-  EscribeElMonto: "Enter the amount",
+  quieroDonarTitle: "Mi Want fi Donate",
+  donarTexto:"Yu donation wi help us improve di app an keep creating accessible resources an tools fi yu an fi more woman.",
+  EscribeElMonto: "Enter di amount",
   formaDePago: "Payment method",
   pagarTarjeta: "Pay by card",
   donarAhora:"Donate now",
 
   //sponsor
-  patrocinarTitle: "I Want to Be a Sponsor",
-  enviaTuSolicitud: "Send in your request",
-  numeroDos: "We schedule a call and finalize the agreement",
-  numeroTres: "Your logo gets featured in the app",
-  patrocinarTexto: "As a thank you, your logo will appear at the top of our app's main page. Fill in your details and we'll contact you to work out the specifics.",
+  patrocinarTitle: "Mi Want fi Be a Sponsor",
+  enviaTuSolicitud: "Yu send yu request",
+  numeroDos: "Wi set up a call an finalize di agreement",
+  numeroTres: "Yu logo de published in di app",
+  patrocinarTexto: "As a thank-yu, yu logo wi appear at di top of wi app's home page. Fill in yu details an wi wi contact yu fi arrange di details.",
   nombreContacto: "Contact name",
   //nombreApellido: "First and last name",
   empresa: "Company",
@@ -3755,24 +3745,24 @@ CaloresSudorNocheSequedadText:'If you are between 40 and 50 years old, this coul
   //correoElectronico: "Email",
 //  telefono:"Phone",
   sitioWebEmpresa: "Company website",
-    cuentanosInteresEmpresa: "Tell us about your interest in sponsoring",
-    porEjemploPresupuesto: "For example: available budget, desired exposure time, questions…",
+    cuentanosInteresEmpresa: "Tell us bout yu interest in sponsoring",
+    porEjemploPresupuesto: "Fi example: available budget, desired exposure time, questions…",
     EnviarSolicitudContacot: "Send contact request",
 
     //I want to help in other ways:
-    otraformasTitle: "I Want to Help in Other Ways",
-  enviaTuSolicitudFormas: "Send in your request",
-  coordinamosLlamadas: "We schedule a call and finalize the agreement",
-  otraformasTexto: "Would you like to help us in another way? We'd love to have your support. You can help by sharing your knowledge, time, resources, or by helping us reach more women.",
+    otraformasTitle: "Mi Want fi Help in Other Ways",
+  enviaTuSolicitudFormas: "Yu send yu request",
+  coordinamosLlamadas: "Wi set up a call an finalize di agreement",
+  otraformasTexto: "Would yu like fi help us in another way? Wi would love fi have yu support. Yu can support us by sharing yu knowledge, time or resources, or by helping us reach more woman.",
   nombreContactoFormas: "Contact name",
-  nombreApellidoFormas: "First and last name",
+  nombreApellidoFormas: "First an last name",
   empresaFormas: "Company",
   nombreEmpresaFormas: "Company name",
   correoElectronicoFormas: "Email",
   telefonoFormas:"Phone",
   sitioWebEmpresaFormas: "Company website",
-    cuentanosInteresEmpresaFormas: "Tell us about your interest in supporting us",
-    porEjemploPresupuestoFormas: "For example: available budget, desired exposure time, questions…",
+    cuentanosInteresEmpresaFormas: "Tell us bout yu interest in supporting us",
+    porEjemploPresupuestoFormas: "Fi example: available budget, desired exposure time, questions…",
     EnviarSolicitudContactoFormas: "Send contact request",
 
 //pay-card: 
@@ -3790,10 +3780,10 @@ ListaDoctoresCentroSalud: "My List of Doctors/Health Centers",
 //adddoctor.tsx:
 ListaDoctoresCentroSaludAdddoctor: "My List of Doctors/Health Centers",
 //nombre: "Name",
-nombreDoctor: "Doctor's Name/Health Center",
-profesion: "Field of Specialty",
+nombreDoctor: "Name of Doctor/Health Center",
+profesion: "Area of Practice",
 telefonoadddoctor: "Phone Number",
-quieroAnotar: "I want to note…",
+quieroAnotar: "Mi wan fi note…",
 eliminar :"Delete",
 cancelar: "cancel",
 
@@ -3807,266 +3797,266 @@ verGrande: "View Larger",
 semanaNLongitud: "Length",      // Longitud / Taura
   semanaNPeso: "Weight",          // Peso / Peso
   semanaNDesarrollo: "Baby's development",    // Desarrollo del bebé / Luhpia Aiwanka
-  semanaNCambios: "Changes in you",       // Cambios maternos / Mairin Wina Chens
+  semanaNCambios: "Changes in di mother",       // Cambios maternos / Mairin Wina Chens
 
  // --- Week 4 (First trimester) ---
   semana4Comparacion: "Poppy seed", // Columna: Comparación
   semana4Longitud: "~0.2 cm", // Columna: Longitud
   semana4Peso: "~0.1 g", // Columna: Peso
-  semana4Desarrollo: "The embryo is just implanting and the layers that will form all the organs are starting to develop.", // Columna: Desarrollo del bebé
-  semana4Cambios: "You may not notice any symptoms yet, though your body has already started producing the pregnancy hormone.", // Columna: Cambios maternos
+  semana4Desarrollo: "Di embryo de just implanting an di layers dat wi give rise fi all di organs begin fi form.", // Columna: Desarrollo del bebé
+  semana4Cambios: "Yu might no notice any symptoms yet, although yu body has already started producing di pregnancy hormone.", // Columna: Cambios maternos
  
   // --- Week 5 (First trimester) ---
   semana5Comparacion: "Sesame seed",
   semana5Longitud: "~0.3 cm",
   semana5Peso: "~0.2 g",
-  semana5Desarrollo: "The neural tube begins to form, which will later become the brain and spinal cord.",
-  semana5Cambios: "The first symptoms may appear: tiredness, breast tenderness, or needing to urinate more often.",
+  semana5Desarrollo: "Di neural tube begins fi form, which wi later give rise fi di brain an spinal cord.",
+  semana5Cambios: "Di first symptoms might appear: tiredness, breast tenderness or needing fi urinate more often.",
  
   // --- Week 6 (First trimester) ---
   semana6Comparacion: "Lentil",
   semana6Longitud: "~0.6 cm",
   semana6Peso: "~0.5 g",
-  semana6Desarrollo: "The heart is already beating and the buds for arms and legs are starting to take shape.",
-  semana6Cambios: "Morning sickness tends to appear around this time, along with changes in your sense of smell.",
+  semana6Desarrollo: "Di heart de already beating an di arm an leg buds begin fi take shape.",
+  semana6Cambios: "Morning sickness usually appears around dese weeks, along wid changes in di sense of smell.",
  
   // --- Week 7 (First trimester) ---
   semana7Comparacion: "Blueberry",
   semana7Longitud: "~1.3 cm",
   semana7Peso: "~1 g",
-  semana7Desarrollo: "The brain develops rapidly and the nostrils, mouth, and ears are now taking shape.",
-  semana7Cambios: "Tiredness and nausea may intensify as hormone levels rise.",
+  semana7Desarrollo: "Di brain develops rapidly an di nostrils, mouth an forming ears can already be made out.",
+  semana7Cambios: "Tiredness an nausea might intensify as hormone levels rise.",
  
   // --- Week 8 (First trimester) ---
   semana8Comparacion: "Raspberry",
   semana8Longitud: "~1.6 cm",
   semana8Peso: "~1 g",
-  semana8Desarrollo: "Fingers and toes are starting to form, though they're still joined by a membrane.",
-  semana8Cambios: "Your clothes may start to feel a bit tighter at the waist, though your bump isn't showing yet.",
+  semana8Desarrollo: "Di fingers an toes begin fi form, although dem de still joined by a membrane.",
+  semana8Cambios: "Clothes might start fi feel likkle tighter at di waist, although di belly no show yet.",
  
   // --- Week 9 (First trimester) ---
   semana9Comparacion: "Grape",
   semana9Longitud: "~2.3 cm",
   semana9Peso: "~2 g",
-  semana9Desarrollo: "The embryo is already moving, though you can't feel it yet, and the eyelids are starting to cover the eyes.",
-  semana9Cambios: "Your breasts may still be tender, and you might notice more visible veins in them.",
+  semana9Desarrollo: "Di embryo de already moving, although it caan be felt yet, an di eyelids begin fi cover di eyes.",
+  semana9Cambios: "Di breasts might remain tender an it de common fi notice more visible veins on them.",
  
   // --- Week 10 (First trimester) ---
   semana10Comparacion: "Kumquat",
   semana10Longitud: "~3.1 cm",
   semana10Peso: "~4 g",
-  semana10Desarrollo: "All the vital organs have formed and from now on will focus on growing and maturing.",
-  semana10Cambios: "Nausea often starts to ease up little by little for some people, though for others it continues.",
+  semana10Desarrollo: "All di vital organs have now formed an fram here on dem wi focus on growing an maturing.",
+  semana10Cambios: "Nausea usually starts fi ease likkle by likkle fi some people, although fi others it continues.",
  
   // --- Week 11 (First trimester) ---
   semana11Comparacion: "Fig",
   semana11Longitud: "~4.1 cm",
   semana11Peso: "~7 g",
-  semana11Desarrollo: "The head makes up almost half of the total size, and you can now make out tiny fingers and toes.",
-  semana11Cambios: "You may start to notice a slight bulge in your lower abdomen.",
+  semana11Desarrollo: "Di head makes up almost half of di total size, an di tiny fingers an toes can now be made out.",
+  semana11Cambios: "A slight bump might start fi show in di lower abdomen.",
  
   // --- Week 12 (First trimester) ---
   semana12Comparacion: "Lime",
   semana12Longitud: "~5.4 cm",
   semana12Peso: "~14 g",
-  semana12Desarrollo: "Reflexes are starting to appear: tiny fingers can open and close.",
-  semana12Cambios: "The risk of pregnancy loss drops noticeably from this week on, which usually brings some relief.",
+  semana12Desarrollo: "Reflexes begin fi appear: di likkle fingers can open an close.",
+  semana12Cambios: "Di risk of loss drops considerably fram dis week on, which usually brings some relief.",
  
   // --- Week 13 (First trimester) ---
   semana13Comparacion: "Pea pod",
   semana13Longitud: "~7.4 cm",
   semana13Peso: "~23 g",
-  semana13Desarrollo: "Fingerprints have already formed, and the intestines, which developed outside the body, move into their permanent place.",
-  semana13Cambios: "The first trimester ends; for many people symptoms start easing up from here on.",
+  semana13Desarrollo: "Di fingerprints de now formed an di intestines, which developed outside di body, move into dem final place.",
+  semana13Cambios: "Di first trimester ends; fi nuff people symptoms begin fi ease fram here on.",
  
   // --- Week 14 (Second trimester) ---
   semana14Comparacion: "Peach",
   semana14Longitud: "~8.7 cm",
   semana14Peso: "~43 g",
-  semana14Desarrollo: "The baby starts producing urine and facial expressions, like frowning, can now be seen.",
-  semana14Cambios: "It's common to feel a boost of energy entering the second trimester.",
+  semana14Desarrollo: "It begins fi produce urine an facial expressions, such as frowning, can now be made out.",
+  semana14Cambios: "It de common fi feel a boost of energy on entering di second trimester.",
  
   // --- Week 15 (Second trimester) ---
   semana15Comparacion: "Apple",
   semana15Longitud: "~10.1 cm",
   semana15Peso: "~70 g",
-  semana15Desarrollo: "The baby may start to sense light, even though the eyelids are still closed, and the bones keep hardening.",
-  semana15Cambios: "Your appetite may increase as the nausea fades.",
+  semana15Desarrollo: "It might start fi sense light, although di eyelids de still closed, an di bones keep hardening.",
+  semana15Cambios: "Appetite might increase as nausea de left behind.",
  
   // --- Week 16 (Second trimester) ---
   semana16Comparacion: "Avocado",
   semana16Longitud: "~11.6 cm",
   semana16Peso: "~100 g",
-  semana16Desarrollo: "The ears keep developing and the baby may start to sense muffled sounds, including your voice.",
-  semana16Cambios: "You may feel the first light movements, like little bubbles.",
+  semana16Desarrollo: "Hearing keeps developing an di baby might start fi perceive muffled sounds, including yu voice.",
+  semana16Cambios: "Yu might feel di first slight movements, like likkle bubbles.",
  
   // --- Week 17 (Second trimester) ---
   semana17Comparacion: "Turnip",
   semana17Longitud: "~13 cm",
   semana17Peso: "~140 g",
-  semana17Desarrollo: "The baby starts storing body fat and the umbilical cord grows thicker and stronger.",
-  semana17Cambios: "Your center of gravity gradually shifts, so it's a good idea to be mindful of your balance.",
+  semana17Desarrollo: "It begins fi build up body fat an di umbilical cord becomes thicker an stronger.",
+  semana17Cambios: "Yu center of gravity gradually shifts, so it de a good idea fi mind yu balance.",
  
   // --- Week 18 (Second trimester) ---
   semana18Comparacion: "Bell pepper",
   semana18Longitud: "~14.2 cm",
   semana18Peso: "~190 g",
-  semana18Desarrollo: "The ears are now in their final position and the baby may start yawning and hiccupping.",
-  semana18Cambios: "If this is your first pregnancy, this is a common time to start noticing the baby's movements.",
+  semana18Desarrollo: "Di ears de now in dem final position an di baby might start fi yawn an hiccup.",
+  semana18Cambios: "If dis de yu first pregnancy, dis de a common time fi start noticing fetal movements.",
  
   // --- Week 19 (Second trimester) ---
   semana19Comparacion: "Large tomato",
   semana19Longitud: "~15.3 cm",
   semana19Peso: "~240 g",
-  semana19Desarrollo: "A protective layer forms on the skin (vernix caseosa) that shields it from the amniotic fluid.",
-  semana19Cambios: "You may notice discomfort in your lower back as your posture adjusts.",
+  semana19Desarrollo: "A protective coating forms on di skin (vernix caseosa) dat shields it fram di amniotic fluid.",
+  semana19Cambios: "Lower back discomfort might appear as yu posture adjusts.",
  
   // --- Week 20 (Second trimester) ---
   semana20Comparacion: "Banana",
   semana20Longitud: "~25.6 cm",
   semana20Peso: "~300 g",
-  semana20Desarrollo: "You've reached the halfway point of your pregnancy. The baby regularly swallows amniotic fluid, which helps its digestive system.",
-  semana20Cambios: "This is the typical time for the anatomy ultrasound, which checks how the organs are developing.",
+  semana20Desarrollo: "Yu've reached di halfway point of pregnancy. Di baby swallows amniotic fluid regularly, which helps its digestive system.",
+  semana20Cambios: "Dis de di usual time fi di anatomy scan, which checks di development of di organs.",
  
   // --- Week 21 (Second trimester) ---
   semana21Comparacion: "Carrot",
   semana21Longitud: "~26.7 cm",
   semana21Peso: "~360 g",
-  semana21Desarrollo: "The eyebrows and eyelids are fully formed and movements can be felt more clearly.",
-  semana21Cambios: "Your appetite usually increases noticeably during these weeks.",
+  semana21Desarrollo: "Di eyebrows an eyelids de fully formed an movements de felt more clearly.",
+  semana21Cambios: "Appetite usually increases noticeably during dese weeks.",
  
   // --- Week 22 (Second trimester) ---
-  semana22Comparacion: "Small papaya",
+  semana22Comparacion: "Likkle papaya",
   semana22Longitud: "~27.8 cm",
   semana22Peso: "~430 g",
-  semana22Desarrollo: "The lips, eyelids, and eyebrows are looking more and more defined, and the baby can now tell your voice apart from other sounds.",
-  semana22Cambios: "Stretch marks may appear as the skin on your abdomen stretches.",
+  semana22Desarrollo: "Di lips, eyelids an eyebrows look more an more defined, an di baby can now tell yu voice fram other sounds.",
+  semana22Cambios: "Stretch marks might appear as di skin of di abdomen stretches.",
  
   // --- Week 23 (Second trimester) ---
   semana23Comparacion: "Large mango",
   semana23Longitud: "~28.9 cm",
   semana23Peso: "~501 g",
-  semana23Desarrollo: "The skin is still thin and translucent, and the lines on the palms of the hands are starting to form.",
-  semana23Cambios: "Movements can be felt from the outside if you rest your hand on your abdomen.",
+  semana23Desarrollo: "Di skin de still thin an translucent, an di lines on di palms of di hands begin fi show.",
+  semana23Cambios: "Movements can be felt fram di outside if yu rest yu hand on yu abdomen.",
  
   // --- Week 24 (Second trimester) ---
-  semana24Comparacion: "Corn on the cob",
+  semana24Comparacion: "Ear of corn",
   semana24Longitud: "~30 cm",
   semana24Peso: "~600 g",
-  semana24Desarrollo: "The lungs keep maturing, developing the structures needed to breathe air.",
-  semana24Cambios: "It's common for the glucose tolerance test to be ordered around this week.",
+  semana24Desarrollo: "Di lungs keep maturing an developing di structures needed fi breathe air.",
+  semana24Cambios: "Di glucose tolerance test de commonly ordered around dis week.",
  
   // --- Week 25 (Second trimester) ---
   semana25Comparacion: "Rutabaga",
   semana25Longitud: "~34.6 cm",
   semana25Peso: "~660 g",
-  semana25Desarrollo: "The baby starts storing more fat under the skin, softening its features and giving it a rounder shape.",
-  semana25Cambios: "Leg cramps may appear, especially at night.",
+  semana25Desarrollo: "It begins fi build up more fat under di skin, which softens its features an gives it a rounder shape.",
+  semana25Cambios: "Leg cramps might appear, especially at night.",
  
   // --- Week 26 (Second trimester) ---
   semana26Comparacion: "Lettuce",
   semana26Longitud: "~35.6 cm",
   semana26Peso: "~760 g",
-  semana26Desarrollo: "The eyes start to open for the first time and the baby responds to light and sound.",
-  semana26Cambios: "Mild shortness of breath is common as the uterus presses on the diaphragm.",
+  semana26Desarrollo: "Di eyes begin fi open fi di first time an di baby responds fi light an sound.",
+  semana26Cambios: "Mild shortness of breath de common as di uterus presses on di diaphragm.",
  
   // --- Week 27 (Second trimester) ---
   semana27Comparacion: "Broccoli",
   semana27Longitud: "~36.6 cm",
   semana27Peso: "~875 g",
-  semana27Desarrollo: "The brain grows quickly and the baby's immune system is strengthened by your antibodies.",
-  semana27Cambios: "You may have the glucose tolerance test if your doctor scheduled it.",
+  semana27Desarrollo: "Di brain grows rapidly an di baby's immune system de strengthened by yu antibodies.",
+  semana27Cambios: "Yu might be due fi di glucose tolerance test, if yu doctor scheduled it.",
  
   // --- Week 28 (Third trimester) ---
   semana28Comparacion: "Eggplant",
   semana28Longitud: "~37.6 cm",
   semana28Peso: "~1005 g",
-  semana28Desarrollo: "The third trimester begins. The eyelids now open and close, and the eyelashes are fully formed.",
-  semana28Cambios: "Prenatal visits usually become more frequent starting at this stage.",
+  semana28Desarrollo: "Di third trimester begins. Di eyelids now open an close, an di eyelashes de fully formed.",
+  semana28Cambios: "Prenatal check-ups usually become more frequent fram dis stage on.",
  
   // --- Week 29 (Third trimester) ---
   semana29Comparacion: "Butternut squash",
   semana29Longitud: "~38.6 cm",
   semana29Peso: "~1153 g",
-  semana29Desarrollo: "The muscles and lungs keep maturing, and the head grows to keep up with brain development.",
-  semana29Cambios: "Tiredness may increase again as your body carries more weight.",
+  semana29Desarrollo: "Di muscles an lungs keep maturing, an di head grows fi keep up wid di brain's development.",
+  semana29Cambios: "Tiredness might increase again as yu body carries more weight.",
  
   // --- Week 30 (Third trimester) ---
   semana30Comparacion: "Cabbage",
   semana30Longitud: "~39.9 cm",
   semana30Peso: "~1319 g",
-  semana30Desarrollo: "The bone marrow now produces red blood cells on its own, without relying on other organs.",
-  semana30Cambios: "It's common to feel mild, irregular practice contractions during the day.",
+  semana30Desarrollo: "Di bone marrow now produces red blood cells on its own, widout relying on other organs.",
+  semana30Cambios: "It de common fi feel mild, irregular (practice) contractions during di day.",
  
   // --- Week 31 (Third trimester) ---
   semana31Comparacion: "Coconut",
   semana31Longitud: "~41.1 cm",
   semana31Peso: "~1502 g",
-  semana31Desarrollo: "All five senses are now working and the central nervous system keeps maturing.",
-  semana31Cambios: "Sleeping comfortably may get harder because of the size of your belly.",
+  semana31Desarrollo: "All five senses de now working an di central nervous system keeps maturing.",
+  semana31Cambios: "Sleeping comfortably might become harder cause of di size of yu abdomen.",
  
   // --- Week 32 (Third trimester) ---
   semana32Comparacion: "Jicama",
   semana32Longitud: "~42.4 cm",
   semana32Peso: "~1702 g",
-  semana32Desarrollo: "The nails now reach the tips of the fingers and the baby practices breathing movements with amniotic fluid.",
-  semana32Cambios: "Mild swelling in the feet and ankles is common toward the end of the day.",
+  semana32Desarrollo: "Di nails now reach di fingertips an di baby practices breathing movements wid amniotic fluid.",
+  semana32Cambios: "Mild swelling in di feet an ankles de common toward di end of di day.",
  
   // --- Week 33 (Third trimester) ---
   semana33Comparacion: "Pineapple",
   semana33Longitud: "~43.7 cm",
   semana33Peso: "~1918 g",
-  semana33Desarrollo: "The skull bones are still soft and flexible, which makes it easier to pass through the birth canal.",
-  semana33Cambios: "More practice contractions may appear as your body prepares.",
+  semana33Desarrollo: "Di skull bones de still soft an flexible, which makes passing through di birth canal easier.",
+  semana33Cambios: "More practice contractions might appear as yu body gets ready.",
  
   // --- Week 34 (Third trimester) ---
   semana34Comparacion: "Cantaloupe",
   semana34Longitud: "~45 cm",
   semana34Peso: "~2146 g",
-  semana34Desarrollo: "The central nervous system and lungs keep maturing ahead of birth.",
-  semana34Cambios: "Space gets tighter, so movements may feel different: slower but stronger.",
+  semana34Desarrollo: "Di central nervous system an di lungs keep maturing ahead of birth.",
+  semana34Cambios: "Space de getting tighter, so movements might feel different: slower but more pronounced.",
  
   // --- Week 35 (Third trimester) ---
   semana35Comparacion: "Honeydew melon",
   semana35Longitud: "~46.2 cm",
   semana35Peso: "~2383 g",
-  semana35Desarrollo: "The kidneys are now fully developed and the liver starts processing some waste.",
-  semana35Cambios: "Bathroom trips tend to become more frequent from the pressure on your bladder.",
+  semana35Desarrollo: "Di kidneys de now fully developed an di liver begins fi process some waste.",
+  semana35Cambios: "Trips fi di bathroom usually become more frequent cause of di pressure on di bladder.",
  
   // --- Week 36 (Third trimester) ---
   semana36Comparacion: "Romaine lettuce",
   semana36Longitud: "~47.4 cm",
   semana36Peso: "~2622 g",
-  semana36Desarrollo: "The protective vernix layer starts to shed and the baby usually settles head-down.",
-  semana36Cambios: "Shortness of breath may ease up if the baby drops lower into the pelvis.",
+  semana36Desarrollo: "Di protective vernix coating begins fi shed an di baby usually settles head down.",
+  semana36Cambios: "Shortness of breath might ease if di baby drops toward di pelvis.",
  
   // --- Week 37 (Third trimester) ---
   semana37Comparacion: "Swiss chard (bunch)",
   semana37Longitud: "~48.6 cm",
   semana37Peso: "~2859 g",
-  semana37Desarrollo: "This is considered late preterm. The baby keeps gaining weight and maturing its lungs day by day.",
-  semana37Cambios: "Signs that labor is getting closer may start to appear, like more pelvic pressure.",
+  semana37Desarrollo: "It de considered late preterm. Di baby keeps gaining weight an its lungs keep maturing day by day.",
+  semana37Cambios: "Yu might start fi notice signs dat labor de approaching, such as more pelvic pressure.",
  
   // --- Week 38 (Third trimester) ---
   semana38Comparacion: "Leek",
   semana38Longitud: "~49.8 cm",
   semana38Peso: "~3083 g",
-  semana38Desarrollo: "The organs, including the lungs, are now ready to work outside the womb.",
-  semana38Cambios: "The cervix may start gradually preparing for labor.",
+  semana38Desarrollo: "Di organs de now ready fi work outside di uterus, including di lungs.",
+  semana38Cambios: "Di cervix might gradually begin fi prepare fi labor.",
  
   // --- Week 39 (Third trimester) ---
-  semana39Comparacion: "Small watermelon",
+  semana39Comparacion: "Likkle watermelon",
   semana39Longitud: "~50.7 cm",
   semana39Peso: "~3288 g",
-  semana39Desarrollo: "This is considered full term. The baby keeps storing fat that will help it regulate temperature after birth.",
-  semana39Cambios: "Labor could start any day now; it's a good idea to have everything ready.",
+  semana39Desarrollo: "It de considered full term. Di baby keeps building up fat dat wi help regulate its temperature at birth.",
+  semana39Cambios: "Labor could begin any day; it de a good idea fi have everything ready.",
  
   // --- Week 40 (Third trimester) ---
   semana40Comparacion: "Watermelon",
   semana40Longitud: "~51.2 cm",
   semana40Peso: "~3462 g",
-  semana40Desarrollo: "Development is complete. All that's left is for the baby to decide when to arrive.",
-  semana40Cambios: "Your due date has arrived; birth can happen before or after this week.",
+  semana40Desarrollo: "Development de complete. All dat's left de fi di baby fi decide when fi arrive in di world.",
+  semana40Cambios: "Di estimated due date has arrived; birth might happen before or after dis week.",
 
   },
   // mishere
@@ -4077,12 +4067,6 @@ semanaNLongitud: "Length",      // Longitud / Taura
     tabAyuda: "Paya",
     tabApoyanos: "aporte",
     tabPerfil: "Ai ba wal",
-
-    // showquestions.tsx (mitos)
-    // TODO: pendiente traducción verificada al miskito (por ahora en español)
-    mitosTitulo: "Mitos",
-    mitoVerdadero: "Verdadero",
-    mitoFalso: "Falso",
 
  //perfil Menu
     miPerfil: "Man Perfil",

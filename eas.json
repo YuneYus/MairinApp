@@ -17,6 +17,12 @@
         "EXPO_PUBLIC_API_URL": "https://mairin-backend-production.up.railway.app"
       }
     },
+    "azure": {
+      "extends": "preview",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://68.211.89.151"
+      }
+    },
     "production": {
       "autoIncrement": true,
       "env": {
