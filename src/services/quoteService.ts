@@ -21,7 +21,7 @@ const DEFAULT_QUOTES: Record<AppLanguage, { id: number; quote: string; author: s
 };
 
 export const getTodaysQuote = (language: AppLanguage) => {
-  const quoteList = quotes[language];
+  const quoteList = language === "en" ? quotes.en : quotes.es;
   const defaultQuote = DEFAULT_QUOTES[language];
 
   if (!quoteList.length) {

@@ -1,5 +1,7 @@
 
 
+import type { AppLanguage } from "@/storage/languageStorage";
+
 export interface Flashcard {
   id: number;
   category: string;
@@ -1285,3 +1287,7 @@ export const flashcardsEn: Flashcard[] = [
     explanation: "Di mother sleep no decide di baby personality or future activity level. Feeling tired an need fi sleep more can be common during pregnancy.",
   },
 ];
+
+export function getFlashcards(language: AppLanguage): Flashcard[] {
+  return language === "en" ? flashcardsEn : flashcards;
+}
