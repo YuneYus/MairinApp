@@ -51,7 +51,7 @@ import {
   REMINDER_OPTIONS,
   scheduleReminder,
 } from "@/utils/reminderScheduler";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimeField from "@/components/DateTimeField";
 
 // --- react-native-calendars locale setup (both languages) ---
 
@@ -826,17 +826,7 @@ function AppointmentEditor({
   ) => void;
   t: (key: TranslationKey) => string;
 }) {
-  const [showPicker, setShowPicker] = useState(false);
   const [showReminderDropdown, setShowReminderDropdown] = useState(false);
-
-  const dateObj = new Date(item.time);
-
-  const formattedDateTime = dateObj.toLocaleString("es-ES", {
-    day: "numeric",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
 
   const reminderLabel =
     REMINDER_OPTIONS.find((r) => r.key === item.reminderOffset)?.label ??
@@ -851,23 +841,12 @@ function AppointmentEditor({
         placeholder={t("nombre")}
       />
 
-      <TouchableOpacity style={styles.fieldInput} onPress={() => setShowPicker(true)}>
-        <Text style={{ color: colors.text }}>{formattedDateTime}</Text>
-      </TouchableOpacity>
-
-      {showPicker && (
-        <DateTimePicker
-          value={dateObj}
-          mode="datetime"
-          display="default"
-          onChange={(event, selectedDate) => {
-            setShowPicker(false);
-            if (selectedDate) {
-              onUpdate("time", selectedDate.toISOString());
-            }
-          }}
-        />
-      )}
+      <DateTimeField
+        value={item.time}
+        onChange={(iso) => onUpdate("time", iso)}
+        style={styles.fieldInput}
+        textStyle={{ color: colors.text }}
+      />
 
       <TouchableOpacity
         style={styles.dropdownField}
