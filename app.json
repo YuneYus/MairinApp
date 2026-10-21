@@ -55,7 +55,7 @@
         "expo-notifications",
         {
           "icon": "./assets/images/notification-icon.png",
-          "color": "#A4195B"
+          "color": "#FCBBCB"
         }
       ],
       "./plugins/with-android-architectures"

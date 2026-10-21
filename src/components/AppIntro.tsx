@@ -67,7 +67,7 @@ export default function AppIntro({ onFinish }: Props) {
         ]}
       >
         <Image
-          source={require('@/app/assets/images/transRelaxPink.png')}
+          source={require('../../assets/images/logo.png')}
           style={styles.face}
           resizeMode="contain"
         />
