@@ -57,7 +57,8 @@
           "icon": "./assets/images/notification-icon.png",
           "color": "#A4195B"
         }
-      ]
+      ],
+      "./plugins/with-android-architectures"
     ],
     "experiments": {
       "typedRoutes": true,
