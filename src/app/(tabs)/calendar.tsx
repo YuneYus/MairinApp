@@ -47,6 +47,7 @@ import {
 import { schedulePeriodReminder } from "@/utils/notifications";
 import {
   cancelReminder,
+  ensureNotificationPermission,
   REMINDER_OPTIONS,
   scheduleReminder,
 } from "@/utils/reminderScheduler";
@@ -141,18 +142,24 @@ const MONTH_KEYS: TranslationKey[] = [
   "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
 ];
 
-const emptyAppointment: Appointment = {
+// Una cita o suplemento nuevo empieza a las 9:00 del día elegido
+// (antes empezaba a la hora en que se abrió la app, casi siempre ya pasada).
+const atNineOn = (date: string) => {
+  const [y, m, d] = date.split("-").map(Number);
+  return new Date(y, m - 1, d, 9, 0, 0).toISOString();
+};
+const emptyAppointment = (date: string): Appointment => ({
   name: "",
-  time: new Date().toISOString(),
+  time: atNineOn(date),
   description: "",
   reminderOffset: "1hour",
-};
-const emptySupplement: Supplement = {
+});
+const emptySupplement = (date: string): Supplement => ({
   name: "",
-  time: new Date().toISOString(),
+  time: atNineOn(date),
   description: "",
   reminderOffset: "1hour",
-};
+});
 
 type SearchResult = {
   date: string;
@@ -179,11 +186,11 @@ export default function CalendarScreen() {
 
   const [babyMovement, setBabyMovement] = useState(false);
   const [doctorAppointment, setDoctorAppointment] = useState(false);
-  const [appointments, setAppointments] = useState<Appointment[]>([emptyAppointment]);
+  const [appointments, setAppointments] = useState<Appointment[]>(() => [emptyAppointment(todayString)]);
 
   const [menopauseExercise, setMenopauseExercise] = useState(false);
   const [vitamins, setVitamins] = useState(false);
-  const [supplements, setSupplements] = useState<Supplement[]>([emptySupplement]);
+  const [supplements, setSupplements] = useState<Supplement[]>(() => [emptySupplement(todayString)]);
 
   const [symptoms, setSymptoms] = useState<string[]>([]);
   const [customSymptoms, setCustomSymptoms] = useState<string[]>([]);
@@ -193,16 +200,16 @@ export default function CalendarScreen() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
-  const resetFields = () => {
+  const resetFields = (date: string) => {
     setPeriod(false);
     setExercise(false);
     setMood("");
     setBabyMovement(false);
     setDoctorAppointment(false);
-    setAppointments([emptyAppointment]);
+    setAppointments([emptyAppointment(date)]);
     setMenopauseExercise(false);
     setVitamins(false);
-    setSupplements([emptySupplement]);
+    setSupplements([emptySupplement(date)]);
     setSymptoms([]);
     setCustomSymptoms([]);
     setOtherSymptom("");
@@ -210,7 +217,7 @@ export default function CalendarScreen() {
   };
 
   const loadEntry = useCallback(async (stage: HealthStage, date: string) => {
-    resetFields();
+    resetFields(date);
 
     if (stage === "menstruacion") {
       const data = await getMenstruationEntry(date);
@@ -229,7 +236,7 @@ export default function CalendarScreen() {
         setBabyMovement(data.babyMovement ?? false);
         setDoctorAppointment(data.doctorAppointment ?? false);
         setAppointments(
-          data.appointments?.length ? data.appointments : [emptyAppointment]
+          data.appointments?.length ? data.appointments : [emptyAppointment(date)]
         );
         const allSymptoms = data.symptoms ?? [];
         setSymptoms(allSymptoms.filter((s) => PREGNANCY_SYMPTOMS.includes(s)));
@@ -245,7 +252,7 @@ export default function CalendarScreen() {
         setMenopauseExercise(data.exercise ?? false);
         setVitamins(data.vitamins ?? false);
         setSupplements(
-          data.supplements?.length ? data.supplements : [emptySupplement]
+          data.supplements?.length ? data.supplements : [emptySupplement(date)]
         );
         const allSymptoms = data.symptoms ?? [];
         setSymptoms(allSymptoms.filter((s) => MENOPAUSE_SYMPTOMS.includes(s)));
@@ -345,7 +352,7 @@ export default function CalendarScreen() {
   };
 
   const addAppointment = () => {
-    setAppointments((prev) => [...prev, { ...emptyAppointment }]);
+    setAppointments((prev) => [...prev, emptyAppointment(selectedDate)]);
   };
 
   const updateSupplement = (
@@ -359,11 +366,18 @@ export default function CalendarScreen() {
   };
 
   const addSupplement = () => {
-    setSupplements((prev) => [...prev, { ...emptySupplement }]);
+    setSupplements((prev) => [...prev, emptySupplement(selectedDate)]);
   };
 
   const handleSave = async () => {
     const allSymptoms = [...symptoms, ...customSymptoms];
+    // Avisos que no se pudieron programar (sin permiso o con la hora ya pasada).
+    const notScheduled: string[] = [];
+    const wantsReminder = (item: { name: string; description: string; reminderOffset: ReminderOffset }) =>
+      (item.name || item.description) && item.reminderOffset !== "none";
+    const pending =
+      healthStage === "embarazo" ? appointments : healthStage === "menopausia" ? supplements : [];
+    const canNotify = pending.some(wantsReminder) ? await ensureNotificationPermission() : true;
 
     if (healthStage === "menstruacion") {
       await saveMenstruationEntry({ date: selectedDate, period, exercise, mood, notes });
@@ -381,12 +395,10 @@ export default function CalendarScreen() {
 
       const appointmentsWithReminders = await Promise.all(
         cleanedAppointments.map(async (appt) => {
-          const notificationId = await scheduleReminder(
-            "Recordatorio de cita médica",
-            `Tienes una cita con ${appt.name || "tu doctor(a)"} pronto.`,
-            appt.time,
-            appt.reminderOffset
-          );
+          const notificationId = canNotify
+            ? await scheduleReminder("appointment", appt.name, appt.time, appt.reminderOffset)
+            : undefined;
+          if (appt.reminderOffset !== "none" && !notificationId) notScheduled.push(appt.name || "Cita");
           return { ...appt, notificationId };
         })
       );
@@ -412,12 +424,10 @@ export default function CalendarScreen() {
 
       const supplementsWithReminders = await Promise.all(
         cleanedSupplements.map(async (sup) => {
-          const notificationId = await scheduleReminder(
-            "Recordatorio de suplemento",
-            `Es hora de tomar tu suplemento: ${sup.name || ""}.`,
-            sup.time,
-            sup.reminderOffset
-          );
+          const notificationId = canNotify
+            ? await scheduleReminder("supplement", sup.name, sup.time, sup.reminderOffset)
+            : undefined;
+          if (sup.reminderOffset !== "none" && !notificationId) notScheduled.push(sup.name || "Suplemento");
           return { ...sup, notificationId };
         })
       );
@@ -433,7 +443,16 @@ export default function CalendarScreen() {
     }
 
     await loadMarkedDates(healthStage, selectedDate);
-    Alert.alert("Guardado", "Tu día ha sido guardado.");
+    if (notScheduled.length) {
+      Alert.alert(
+        "Guardado, pero sin aviso",
+        canNotify
+          ? `No se programó el aviso de: ${notScheduled.join(", ")}. La hora del aviso ya pasó; revisa la fecha y la hora.`
+          : "Tu día se guardó, pero las notificaciones están desactivadas. Actívalas en los ajustes del teléfono para recibir los avisos de tus citas."
+      );
+    } else {
+      Alert.alert("Guardado", "Tu día ha sido guardado.");
+    }
   };
 
   const runSearch = useCallback(

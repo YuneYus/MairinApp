@@ -20,7 +20,8 @@ const DEFAULT_QUOTES: Record<AppLanguage, { id: number; quote: string; author: s
   },
 };
 
-export const getTodaysQuote = (language: AppLanguage) => {
+/** Frase del día `date` (hoy por defecto); las notificaciones programan la de cada día. */
+export const getTodaysQuote = (language: AppLanguage, date: Date = new Date()) => {
   const quoteList = language === "en" ? quotes.en : quotes.es;
   const defaultQuote = DEFAULT_QUOTES[language];
 
@@ -28,7 +29,7 @@ export const getTodaysQuote = (language: AppLanguage) => {
     return defaultQuote;
   }
 
-  const today = new Date();
+  const today = date;
   const dayOfYear = Math.floor(
     (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
       (1000 * 60 * 60 * 24)

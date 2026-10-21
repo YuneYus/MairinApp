@@ -1,18 +1,59 @@
 // utils/reminderScheduler.ts
+//
+// Avisos de citas médicas y suplementos (notificaciones locales del teléfono).
 
-import { ReminderOffset } from "@/storage/pregnancyStorage";
+import type { ReminderOffset } from "@/storage/pregnancyStorage";
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 
 // Same guard as utils/notifications.ts — keep both in sync.
 const isExpoGo = Constants.appOwnership === 'expo';
-const skipNotifications = isExpoGo && Platform.OS === 'android';
+const skipNotifications = Platform.OS === 'web' || (isExpoGo && Platform.OS === 'android');
 
 type NotificationsModule = typeof import('expo-notifications');
 let Notifications: NotificationsModule | null = null;
 
 if (!skipNotifications) {
   Notifications = require('expo-notifications') as NotificationsModule;
+}
+
+export type ReminderKind = "appointment" | "supplement" | "period";
+
+// Canales de Android: la usuaria puede silenciar la frase del día sin perder las citas.
+export const REMINDERS_CHANNEL = "recordatorios";
+export const QUOTES_CHANNEL = "motivacion";
+
+let channelsReady: Promise<void> | null = null;
+
+export function ensureNotificationChannels(): Promise<void> {
+  if (!Notifications || Platform.OS !== "android") return Promise.resolve();
+  const N = Notifications;
+  channelsReady ??= (async () => {
+    await N.setNotificationChannelAsync(REMINDERS_CHANNEL, {
+      name: "Citas y recordatorios",
+      importance: N.AndroidImportance.HIGH,
+      sound: "default",
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#A4195B",
+    });
+    await N.setNotificationChannelAsync(QUOTES_CHANNEL, {
+      name: "Frase del día",
+      importance: N.AndroidImportance.DEFAULT,
+    });
+  })().catch((error) => {
+    channelsReady = null;
+    console.log("Error creating notification channels:", error);
+  });
+  return channelsReady;
+}
+
+/** true si se pueden mostrar notificaciones; si aún no se preguntó, pide el permiso. */
+export async function ensureNotificationPermission(): Promise<boolean> {
+  if (!Notifications) return false;
+  const current = await Notifications.getPermissionsAsync();
+  if (current.granted) return true;
+  if (!current.canAskAgain) return false;
+  return (await Notifications.requestPermissionsAsync()).granted;
 }
 
 const OFFSET_MINUTES: Record<ReminderOffset, number> = {
@@ -37,6 +78,38 @@ export const REMINDER_OPTIONS: { key: ReminderOffset; label: string }[] = [
   { key: "none", label: "Sin recordatorio" },
 ];
 
+const MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+function clock(date: Date): string {
+  const hours = date.getHours();
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  return `${hours % 12 || 12}:${minutes} ${hours < 12 ? "a. m." : "p. m."}`;
+}
+
+/** "hoy a las 9:00 a. m.", "mañana a las …", "el 5 de noviembre a las …" visto desde el momento del aviso. */
+export function whenText(event: Date, from: Date): string {
+  const startOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  const days = Math.round((startOfDay(event) - startOfDay(from)) / 86400000);
+  const day = days === 0 ? "hoy" : days === 1 ? "mañana" : `el ${event.getDate()} de ${MONTHS[event.getMonth()]}`;
+  return `${day} a las ${clock(event)}`;
+}
+
+export function reminderContent(kind: Exclude<ReminderKind, "period">, name: string, event: Date, notifyAt: Date) {
+  const when = whenText(event, notifyAt);
+  return kind === "appointment"
+    ? { title: "Recordatorio de cita médica", body: `Tu cita con ${name.trim() || "tu doctor(a)"} es ${when}.` }
+    : { title: "Recordatorio de suplemento", body: `Toma tu suplemento${name.trim() ? `: ${name.trim()}` : ""}, ${when}.` };
+}
+
+/** Momento del aviso, o null si no hay aviso o ya pasó. */
+export function reminderTriggerDate(eventTimeISO: string | null | undefined, offset: ReminderOffset): Date | null {
+  if (!eventTimeISO || offset === "none") return null;
+  const event = new Date(eventTimeISO);
+  if (Number.isNaN(event.getTime())) return null;
+  const trigger = new Date(event.getTime() - OFFSET_MINUTES[offset] * 60 * 1000);
+  return trigger > new Date() ? trigger : null;
+}
+
 export async function cancelReminder(notificationId?: string) {
   if (!notificationId || !Notifications) return;
   try {
@@ -46,30 +119,24 @@ export async function cancelReminder(notificationId?: string) {
   }
 }
 
+/** Programa el aviso de una cita o suplemento. Devuelve el id, o undefined si no se programó. */
 export async function scheduleReminder(
-  title: string,
-  body: string,
-  eventTimeISO: string,
+  kind: Exclude<ReminderKind, "period">,
+  name: string,
+  eventTimeISO: string | null | undefined,
   offset: ReminderOffset
 ): Promise<string | undefined> {
-  if (offset === "none" || !Notifications) return undefined;
+  const triggerDate = reminderTriggerDate(eventTimeISO, offset);
+  if (!triggerDate || !Notifications) return undefined;
 
-  const eventTime = new Date(eventTimeISO);
-  const minutesBefore = OFFSET_MINUTES[offset];
-  const triggerDate = new Date(eventTime.getTime() - minutesBefore * 60 * 1000);
-
-  if (triggerDate <= new Date()) {
-    // The reminder time has already passed — don't schedule anything
-    return undefined;
-  }
-
-  const notificationId = await Notifications.scheduleNotificationAsync({
-    content: { title, body },
+  await ensureNotificationChannels();
+  const { title, body } = reminderContent(kind, name, new Date(eventTimeISO!), triggerDate);
+  return Notifications.scheduleNotificationAsync({
+    content: { title, body, sound: "default", data: { kind } },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.DATE,
       date: triggerDate,
+      channelId: REMINDERS_CHANNEL,
     },
   });
-
-  return notificationId;
 }

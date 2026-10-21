@@ -518,20 +518,13 @@ function mergeEntities<T extends { serverId?: number }>(
 
 // ---------- Notificaciones de citas y suplementos ----------
 
-function reminderText(r: LocalReminder): [string, string] {
-  return r.kind === "appointment"
-    ? ["Recordatorio de cita médica", `Tienes una cita con ${r.name || "tu doctor(a)"} pronto.`]
-    : ["Recordatorio de suplemento", `Es hora de tomar tu suplemento: ${r.name || ""}.`];
-}
-
 /** Programa las notificaciones de los recordatorios que llegaron de otro teléfono. */
 async function scheduleMissingNotifications(): Promise<void> {
   const reminders = await getReminders();
   let changed = false;
   for (const r of reminders) {
     if (r.notificationId || !r.scheduledAt || r.reminderOffset === "none") continue;
-    const [title, body] = reminderText(r);
-    const id = await scheduleReminder(title, body, r.scheduledAt, r.reminderOffset);
+    const id = await scheduleReminder(r.kind, r.name, r.scheduledAt, r.reminderOffset);
     if (id) {
       r.notificationId = id;
       changed = true;
