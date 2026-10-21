@@ -1,4 +1,5 @@
 import { registerUser } from "@/services/authService";
+import { adoptGuestData } from "@/sync/engine";
 import { setAccountType } from "@/storage/accountTypeStorage";
 import { getProfileInfo, saveProfileInfo } from "@/storage/profilenameStorage";
 import { Ionicons } from "@expo/vector-icons";
@@ -48,8 +49,9 @@ const [birthDate, setBirthDate] = useState(""); // 👈 add this
     setLoading(true);
 
     try {
-await registerUser(email, password, firstName, lastName, birthDate);
-      // Preserve everything already saved locally — just add email to the profile
+      await registerUser(email, password, firstName, lastName, birthDate);
+      // Los datos que guardó como invitada pasan a la cuenta nueva y se suben al servidor.
+      await adoptGuestData();
       const currentInfo = await getProfileInfo();
       await saveProfileInfo({ ...currentInfo, email });
 

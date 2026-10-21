@@ -2,6 +2,7 @@
 
 // utils/exerciseStreak.ts
 
+import { localDateString } from "@/utils/dates";
 import { getMenopauseEntries } from "@/storage/menopauseStorage";
 
 export type DayStatus = "done" | "missed" | "future";
@@ -14,7 +15,7 @@ export type ExerciseStreakData = {
 const DAY_LABELS = ["Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"];
 
 function toDateString(date: Date): string {
-  return date.toISOString().split("T")[0];
+  return localDateString(date);
 }
 
 function startOfWeekMonday(date: Date): Date {

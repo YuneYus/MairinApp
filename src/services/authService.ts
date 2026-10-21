@@ -1,8 +1,11 @@
 // src/services/authService.ts
 
 import { getAccessToken, saveTokens } from "@/storage/authTokenStorage";
-import { saveProfileInfo } from "@/storage/profilenameStorage";
+import { signIn, syncNow } from "@/sync/engine";
+import { updateProfile } from "@/sync/store";
 import { apiRequest } from "./apiClient";
+
+const FIRST_SYNC_TIMEOUT_MS = 15000;
 
 export async function registerUser(
   email: string,
@@ -43,20 +46,20 @@ async function requestTokens(email: string, password: string) {
   });
 
   await saveTokens(data.access, data.refresh);
+  // Activa el espacio de datos de esta cuenta en el teléfono.
+  await signIn(data.access);
   return data;
 }
 
 export async function loginUser(email: string, password: string) {
   const data = await requestTokens(email, password);
 
-  const profile = await getProfile();
-  await saveProfileInfo({
-    firstName: profile.first_name,
-    lastName: profile.last_name,
-    phone: profile.phone ?? "",
-    email: profile.email ?? email,
-    birthDate: profile.birth_date ?? "",
-  });
+  // Descarga los datos de la cuenta antes de entrar (sin bloquear más de 15 s).
+  await Promise.race([
+    syncNow().catch((error) => console.warn("Primera sincronización falló", error)),
+    new Promise((resolve) => setTimeout(resolve, FIRST_SYNC_TIMEOUT_MS)),
+  ]);
+  await updateProfile({ email }, { sync: false });
 
   return data;
 }

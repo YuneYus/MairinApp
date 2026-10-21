@@ -1,26 +1,24 @@
 // storage/pregnancyWeekStorage.ts
 //
-// Stores which week of pregnancy the user is currently on. Mirrors the
-// pattern used by storage/healthStageStorage.ts — I don't have that file's
-// actual contents, so this assumes AsyncStorage. If healthStageStorage.ts
-// uses something else (SecureStore, MMKV, a Zustand store, etc.), swap the
-// implementation below to match it so both stay consistent.
- 
-import AsyncStorage from "@react-native-async-storage/async-storage";
- 
-const PREGNANCY_WEEK_KEY = "pregnancyWeek";
- 
+// Se guarda la fecha de inicio del embarazo (no la semana): así la semana avanza sola
+// con el tiempo y es la misma en todos los teléfonos de la usuaria.
+
+import { getProfile, updateProfile } from "@/sync/store";
+import { addDays, daysBetween, localDateString } from "@/utils/dates";
+
+const MAX_WEEK = 40;
+
 export async function getPregnancyWeek(): Promise<number | null> {
-  const value = await AsyncStorage.getItem(PREGNANCY_WEEK_KEY);
-  if (value === null) return null;
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : null;
+  const start = (await getProfile()).pregnancyStartDate;
+  if (!start) return null;
+  const week = Math.floor(daysBetween(start, localDateString()) / 7);
+  return Math.min(Math.max(week, 1), MAX_WEEK);
 }
- 
+
 export async function setPregnancyWeek(week: number): Promise<void> {
-  await AsyncStorage.setItem(PREGNANCY_WEEK_KEY, String(week));
+  await updateProfile({ pregnancyStartDate: addDays(localDateString(), -week * 7) });
 }
- 
+
 export async function clearPregnancyWeek(): Promise<void> {
-  await AsyncStorage.removeItem(PREGNANCY_WEEK_KEY);
+  await updateProfile({ pregnancyStartDate: null });
 }

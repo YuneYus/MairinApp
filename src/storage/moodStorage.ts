@@ -1,30 +1,28 @@
-
 // storage/moodStorage.ts
+//
+// El ánimo de la tarjeta de inicio es el mismo campo del registro diario que usa el calendario.
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { emojiToMood, moodToEmoji } from "@/sync/codes";
+import { getDailyLog, getDailyLogs, getProfile, updateDailyLog } from "@/sync/store";
+import { localDateString } from "@/utils/dates";
 
 export type MoodEntry = {
   date: string;
   mood: string; // emoji
 };
 
-const KEY = "mood_entries";
-
 export async function getMoodEntries(): Promise<MoodEntry[]> {
-  const data = await AsyncStorage.getItem(KEY);
-  return data ? JSON.parse(data) : [];
+  return Object.values(await getDailyLogs())
+    .filter((log) => log.mood)
+    .map((log) => ({ date: log.date, mood: moodToEmoji(log.mood, "tracker") }));
 }
 
 export async function saveTodaysMood(mood: string): Promise<void> {
-  const today = new Date().toISOString().split("T")[0];
-  const entries = await getMoodEntries();
-  const filtered = entries.filter((e) => e.date !== today);
-  filtered.push({ date: today, mood });
-  await AsyncStorage.setItem(KEY, JSON.stringify(filtered));
+  const { healthStage } = await getProfile();
+  await updateDailyLog(localDateString(), healthStage, { mood: emojiToMood(mood) });
 }
 
 export async function getTodaysMood(): Promise<string | null> {
-  const today = new Date().toISOString().split("T")[0];
-  const entries = await getMoodEntries();
-  return entries.find((e) => e.date === today)?.mood ?? null;
+  const log = await getDailyLog(localDateString());
+  return log?.mood ? moodToEmoji(log.mood, "tracker") : null;
 }

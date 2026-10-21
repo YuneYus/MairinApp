@@ -1,18 +1,7 @@
 // utils/cyclePrediction.ts
 
 import { getMenstruationEntries } from "@/storage/menstruationStorage";
-
-function daysBetween(a: string, b: string) {
-  const d1 = new Date(`${a}T00:00:00`).getTime();
-  const d2 = new Date(`${b}T00:00:00`).getTime();
-  return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
-}
-
-function addDays(date: string, days: number): string {
-  const d = new Date(`${date}T00:00:00`);
-  d.setDate(d.getDate() + days);
-  return d.toISOString().split("T")[0];
-}
+import { addDays, daysBetween } from "@/utils/dates";
 
 export function getPeriodStarts(
   entries: { date: string; period: boolean }[]

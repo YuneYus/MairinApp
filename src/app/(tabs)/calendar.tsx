@@ -1,5 +1,6 @@
 // app/(tabs)/calendar.tsx
 
+import { localDateString } from "@/utils/dates";
 import PinkHeader from "@/components/PinkHeader";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakIfEnabled } from "@/hooks/useSpeak";
@@ -166,7 +167,7 @@ export default function CalendarScreen() {
   LocaleConfig.defaultLocale = language === "mis" ? "mis" : "es";
 
   const today = new Date();
-  const todayString = today.toISOString().split("T")[0];
+  const todayString = localDateString(today);
 
   const [selectedDate, setSelectedDate] = useState(todayString);
   const [healthStage, setHealthStage] = useState<HealthStage>("menstruacion");

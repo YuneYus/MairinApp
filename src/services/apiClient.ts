@@ -1,6 +1,6 @@
 // src/services/apiClient.ts
 
-import { getRefreshToken, saveAccessToken, saveTokens } from "@/storage/authTokenStorage";
+import { getAccessToken, getRefreshToken, saveAccessToken, saveTokens } from "@/storage/authTokenStorage";
 import { Platform } from "react-native";
 
 // En los builds de EAS (APK) la URL viene de EXPO_PUBLIC_API_URL, definida en eas.json.
@@ -21,6 +21,42 @@ function normalizeHeaders(headers: RequestInit["headers"]) {
     return Object.fromEntries(headers);
   }
   return headers ? { ...headers } : {};
+}
+
+/** Error HTTP del servidor. `code` es el código estable de la API (ver docs/api.md del backend). */
+export class ApiError extends Error {
+  status: number;
+  code: string;
+  body: any;
+
+  constructor(status: number, body: any) {
+    super(JSON.stringify(body) || `Request failed: ${status}`);
+    this.name = "ApiError";
+    this.status = status;
+    this.body = body;
+    this.code = typeof body?.error === "string" ? body.error : `http_${status}`;
+  }
+}
+
+/** Sin respuesta del servidor (sin conexión, servidor caído): `fetch` lanza TypeError. */
+export function isNetworkError(error: unknown): boolean {
+  return error instanceof TypeError;
+}
+
+/** Petición autenticada con el token guardado. */
+export async function authedRequest(endpoint: string, options: RequestInit = {}) {
+  const token = (await getAccessToken())?.trim();
+  if (!token) {
+    throw new ApiError(401, { error: "not_authenticated" });
+  }
+  return apiRequest(endpoint, {
+    ...options,
+    headers: {
+      Accept: "application/json",
+      ...normalizeHeaders(options.headers),
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
 
 async function refreshAccessToken() {
@@ -90,7 +126,7 @@ export async function apiRequest(endpoint: string, options: RequestInit = {}) {
 
   if (!response.ok) {
     const errorBody = await response.json().catch(() => ({}));
-    throw new Error(JSON.stringify(errorBody) || `Request failed: ${response.status}`);
+    throw new ApiError(response.status, errorBody);
   }
 
   if (response.status === 204) {

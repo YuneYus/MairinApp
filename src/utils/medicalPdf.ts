@@ -2,6 +2,7 @@
 
 // utils/medicalPdf.ts
 
+import { translations } from "@/translations";
 import { MedicalInfo } from "@/storage/medicalInfoStorage";
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
@@ -25,6 +26,12 @@ function section(title: string, rowsHtml: string) {
     <table>${rowsHtml}</table>
   `;
 }
+
+// El formulario guarda claves de traducción y el dolor como "1".."5"; el PDF va en español.
+const ES = translations.es as Record<string, string>;
+const PAIN_KEYS = ["dolorMuyLeve", "dolorLeve", "dolorModerado", "dolorFuerte", "dolorMuyFuerte"];
+const spanish = (item: string) => ES[item] ?? item;
+const painText = (level: string) => (PAIN_KEYS[Number(level) - 1] ? ES[PAIN_KEYS[Number(level) - 1]] : level);
 
 export function buildMedicalHtml(info: MedicalInfo, upToPart: number): string {
   let body = "";
@@ -77,11 +84,11 @@ export function buildMedicalHtml(info: MedicalInfo, upToPart: number): string {
       row("Edad de primera menstruación", info.firstPeriodAge) +
         row("Duración del ciclo", info.cycleDuration) +
         row("Duración del sangrado", info.bleedingDuration) +
-        row("Nivel de dolor menstrual", info.painLevel) +
-        row("Síntomas menstruales", listOrDash(info.menstrualSymptoms)) +
+        row("Nivel de dolor menstrual", painText(info.painLevel)) +
+        row("Síntomas menstruales", listOrDash(info.menstrualSymptoms.map(spanish))) +
         row("Número de embarazos", info.pregnancyCount) +
-        row("Síntomas de embarazo", listOrDash(info.pregnancySymptoms)) +
-        row("Síntomas de menopausia", listOrDash(info.menopauseSymptoms))
+        row("Síntomas de embarazo", listOrDash(info.pregnancySymptoms.map(spanish))) +
+        row("Síntomas de menopausia", listOrDash(info.menopauseSymptoms.map(spanish)))
     );
   }
 

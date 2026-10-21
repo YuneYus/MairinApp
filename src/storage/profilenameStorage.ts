@@ -1,10 +1,8 @@
+// storage/profilenameStorage.ts
+//
+// Nombre y datos de contacto: parte del perfil (sync/store.ts), se sincroniza.
 
-
-// storage/profileInfoStorage.ts
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const KEY = "profile_info";
+import { getProfile, updateProfile } from "@/sync/store";
 
 export type ProfileInfo = {
   firstName: string;
@@ -14,20 +12,11 @@ export type ProfileInfo = {
   birthDate: string;
 };
 
-const DEFAULT_PROFILE: ProfileInfo = {
-  firstName: "",
-  lastName: "",
-  phone: "",
-  email: "",
-  birthDate: "",
-};
-
 export async function getProfileInfo(): Promise<ProfileInfo> {
-  const data = await AsyncStorage.getItem(KEY);
-  if (!data) return DEFAULT_PROFILE;
-  return { ...DEFAULT_PROFILE, ...JSON.parse(data) };
+  const { firstName, lastName, phone, email, birthDate } = await getProfile();
+  return { firstName, lastName, phone, email, birthDate };
 }
 
 export async function saveProfileInfo(info: ProfileInfo): Promise<void> {
-  await AsyncStorage.setItem(KEY, JSON.stringify(info));
+  await updateProfile(info);
 }

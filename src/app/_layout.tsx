@@ -20,7 +20,9 @@ import {
   scheduleQuoteReminders,
 } from "@/utils/notifications";
 import NetInfo from "@react-native-community/netinfo";
-import { syncPendingDoctorChanges } from "@/services/doctorService";
+import { requestSync, startSync, syncNow } from "@/sync/engine";
+import { migrateLegacyData } from "@/sync/migrate";
+import { isSignedIn } from "@/sync/session";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -29,6 +31,11 @@ export default function RootLayout() {
   });
 
   const [introDone, setIntroDone] = useState(false);
+
+  useEffect(() => {
+    // Primero se pasan los datos antiguos al formato por cuenta; las pantallas esperan a que termine.
+    void startSync(migrateLegacyData);
+  }, []);
 
   useEffect(() => {
     const setupNotifications = async () => {
@@ -47,10 +54,12 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
+    // Al recuperar la conexión se suben los cambios pendientes y se descargan los nuevos.
     return NetInfo.addEventListener((state) => {
       if (state.isConnected && state.isInternetReachable !== false) {
-        void syncPendingDoctorChanges().catch((error) => {
-          console.error("Failed to sync pending doctor changes:", error);
+        void isSignedIn().then((signedIn) => {
+          if (signedIn) void syncNow().catch((error) => console.warn("Sync falló", error));
+          else requestSync();
         });
       }
     });

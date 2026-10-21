@@ -1,14 +1,11 @@
+// storage/onboardingStorage.ts
 
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const KEY = "onboarding_complete";
+import { getProfile, updateProfile } from "@/sync/store";
 
 export async function getOnboardingComplete(): Promise<boolean> {
-  const value = await AsyncStorage.getItem(KEY);
-  return value === "true";
+  return (await getProfile()).onboardingComplete;
 }
 
 export async function setOnboardingComplete(): Promise<void> {
-  await AsyncStorage.setItem(KEY, "true");
+  await updateProfile({ onboardingComplete: true });
 }

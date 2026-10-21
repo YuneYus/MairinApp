@@ -8,6 +8,9 @@
 export const translations = {
   es: {
     tabInicio: "Home",
+    mitosTitulo: "Mitos",
+    mitoVerdadero: "Verdadero",
+    mitoFalso: "Falso",
     tabCalendario: "Calendario",
     tabAyuda: "Ayuda",
     tabApoyanos: "Apóyanos",
@@ -2036,6 +2039,9 @@ semanaNLongitud: "Longitud",      // Longitud / Taura
   
   en: {
     tabInicio: "Home",
+    mitosTitulo: "Myths",
+    mitoVerdadero: "True",
+    mitoFalso: "False",
     tabCalendario: "Calendar",
     tabAyuda: "Help",
     tabApoyanos: "Help wi",

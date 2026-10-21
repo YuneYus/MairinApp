@@ -78,6 +78,12 @@ const PAIN_LEVEL_KEYS: TranslationKey[] = [
 
 const SURGERY_COUNTS = ["1", "2", "3", "4", "5"];
 
+/** "3" -> "3 - Moderado (...)" en el idioma actual. */
+export function painLevelLabel(level: string, t: (key: TranslationKey) => string): string {
+  const key = PAIN_LEVEL_KEYS[Number(level) - 1];
+  return key ? t(key) : "";
+}
+
 const PART_TITLE_KEYS: Record<number, TranslationKey> = {
   1: "miInformacionMedicaParte1",
   2: "miInformacionMedicaParte2",
@@ -369,19 +375,20 @@ function Part3({
       <LabelWithVoice text={t("nivelDolorMenstrual")} language={language} showSpeakerIcons={showSpeakerIcons} />
       <TouchableOpacity style={styles.dropdownField} onPress={() => setShowPainDropdown((p) => !p)}>
         <Text style={info.painLevel ? styles.dropdownValue : styles.dropdownPlaceholder} numberOfLines={1}>
-          {info.painLevel || t("seleccionaNumero")}
+          {painLevelLabel(info.painLevel, t) || t("seleccionaNumero")}
         </Text>
         <Ionicons name={showPainDropdown ? "chevron-up" : "chevron-down"} size={18} color={colors.text} />
       </TouchableOpacity>
 
       {showPainDropdown && (
         <View style={styles.dropdownList}>
-          {PAIN_LEVEL_KEYS.map((key) => (
+          {PAIN_LEVEL_KEYS.map((key, index) => (
             <TouchableOpacity
               key={key}
               style={styles.dropdownOption}
               onPress={() => {
-                update({ painLevel: t(key) });
+                // Se guarda el número (1-5), no el texto traducido.
+                update({ painLevel: String(index + 1) });
                 setShowPainDropdown(false);
               }}
             >
@@ -445,8 +452,8 @@ function Checklist({
 }) {
   const [otherText, setOtherText] = useState("");
 
-  const optionLabels = optionKeys.map((key) => t(key));
-  const customItems = selected.filter((item) => !optionLabels.includes(item));
+  // Se guardan las claves (no el texto traducido) para que no dependan del idioma.
+  const customItems = selected.filter((item) => !optionKeys.includes(item as TranslationKey));
 
   const handleAddOther = () => {
     if (!otherText.trim()) return;
@@ -461,9 +468,9 @@ function Checklist({
       {optionKeys.map((key) => {
         const label = t(key);
         return (
-          <TouchableOpacity key={key} onPress={() => onToggle(label)} style={styles.checkboxRow}>
+          <TouchableOpacity key={key} onPress={() => onToggle(key)} style={styles.checkboxRow}>
             <Ionicons
-              name={selected.includes(label) ? "checkbox" : "square-outline"}
+              name={selected.includes(key) ? "checkbox" : "square-outline"}
               size={18}
               color={colors.text}
             />

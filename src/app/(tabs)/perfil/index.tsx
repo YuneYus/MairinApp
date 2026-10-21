@@ -19,7 +19,7 @@ import {
 import { getAccountType } from "@/storage/accountTypeStorage";
 import { getProfileInfo } from "@/storage/profilenameStorage";
 import { getProfilePhoto } from "@/storage/profileStorage";
-import { clearTokens } from "@/storage/authTokenStorage";
+import { signOut } from "@/sync/engine";
 
 export default function PerfilScreen() {
   const { t, language } = useLanguage();
@@ -59,7 +59,8 @@ const handleLogout = async () => {
   console.log("CERRANDO SESIÓN...");
 
   try {
-    await clearTokens();
+    // Cierra sesión y deja de mostrar los datos de esta cuenta en el teléfono.
+    await signOut();
 
     console.log("TOKENS ELIMINADOS");
 

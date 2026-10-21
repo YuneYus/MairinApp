@@ -1,34 +1,41 @@
 // storage/menstruationStorage.ts
+//
+// Vista de "menstruación" sobre el registro diario (sync/store.ts).
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { emojiToMood, moodToEmoji } from "@/sync/codes";
+import { getDailyLog, getDailyLogs, LocalDailyLog, updateDailyLog } from "@/sync/store";
 
 export type MenstruationEntry = {
   date: string;
   period: boolean;
   exercise: boolean;
-  mood: string;
+  mood: string; // emoji
   notes: string;
 };
 
-const KEY = "menstruation_entries";
+const toEntry = (log: LocalDailyLog): MenstruationEntry => ({
+  date: log.date,
+  period: log.period,
+  exercise: log.exercise,
+  mood: moodToEmoji(log.mood, "calendar"),
+  notes: log.notes,
+});
 
 export async function getMenstruationEntries(): Promise<MenstruationEntry[]> {
-  const data = await AsyncStorage.getItem(KEY);
-  return data ? JSON.parse(data) : [];
+  return Object.values(await getDailyLogs()).map(toEntry);
 }
 
-export async function getMenstruationEntry(
-  date: string
-): Promise<MenstruationEntry | null> {
-  const entries = await getMenstruationEntries();
-  return entries.find((item) => item.date === date) ?? null;
+export async function getMenstruationEntry(date: string): Promise<MenstruationEntry | null> {
+  const log = await getDailyLog(date);
+  return log ? toEntry(log) : null;
 }
 
-export async function saveMenstruationEntry(
-  entry: MenstruationEntry
-): Promise<void> {
-  const entries = await getMenstruationEntries();
-  const filtered = entries.filter((item) => item.date !== entry.date);
-  filtered.push(entry);
-  await AsyncStorage.setItem(KEY, JSON.stringify(filtered));
+export async function saveMenstruationEntry(entry: MenstruationEntry): Promise<void> {
+  await updateDailyLog(entry.date, "menstruacion", {
+    stage: "menstruacion",
+    period: entry.period,
+    exercise: entry.exercise,
+    mood: emojiToMood(entry.mood),
+    notes: entry.notes,
+  });
 }

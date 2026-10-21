@@ -1,10 +1,9 @@
-
-
 // storage/chatSummaryStorage.ts
+//
+// Un resumen por día (antes solo se guardaba el de hoy); se sincroniza.
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const KEY = "chat_summary";
+import { getChatSummaries, saveChatSummary as saveSummaryForDate } from "@/sync/store";
+import { localDateString } from "@/utils/dates";
 
 export type ChatSummary = {
   date: string; // "2026-07-21"
@@ -12,16 +11,11 @@ export type ChatSummary = {
 };
 
 export async function getTodaysChatSummary(): Promise<ChatSummary | null> {
-  const data = await AsyncStorage.getItem(KEY);
-  if (!data) return null;
-
-  const parsed: ChatSummary = JSON.parse(data);
-  const today = new Date().toISOString().split("T")[0];
-
-  return parsed.date === today ? parsed : null;
+  const today = localDateString();
+  const text = (await getChatSummaries())[today];
+  return text !== undefined ? { date: today, text } : null;
 }
 
 export async function saveChatSummary(text: string): Promise<void> {
-  const today = new Date().toISOString().split("T")[0];
-  await AsyncStorage.setItem(KEY, JSON.stringify({ date: today, text }));
+  await saveSummaryForDate(localDateString(), text);
 }

@@ -1,19 +1,17 @@
-
-
 // storage/cycleTrackingStorage.ts
+//
+// Fecha desde la que se cuentan los ciclos; es parte del perfil y se sincroniza.
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const KEY = "cycle_tracking_reset_date";
+import { getProfile, updateProfile } from "@/sync/store";
 
 export async function getCycleResetDate(): Promise<string | null> {
-  return await AsyncStorage.getItem(KEY);
+  return (await getProfile()).cycleTrackingStart;
 }
 
 export async function setCycleResetDate(date: string): Promise<void> {
-  await AsyncStorage.setItem(KEY, date);
+  await updateProfile({ cycleTrackingStart: date });
 }
 
 export async function clearCycleResetDate(): Promise<void> {
-  await AsyncStorage.removeItem(KEY);
+  await updateProfile({ cycleTrackingStart: null });
 }

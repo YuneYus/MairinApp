@@ -1,5 +1,6 @@
 // components/cicloInfo.tsx
 
+import { localDateString } from "@/utils/dates";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   getCycleResetDate,
@@ -36,7 +37,7 @@ function sameMonth(a: string, b: string) {
 function firstOfNextMonth(): string {
   const now = new Date();
   const next = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-  return next.toISOString().split("T")[0];
+  return localDateString(next);
 }
 
 function formatMonthLabel(dateString: string) {
@@ -73,7 +74,7 @@ function analyzeCycle(starts: string[]): CycleStatus {
     return { regular: true };
   }
 
-  const todayString = new Date().toISOString().split("T")[0];
+  const todayString = localDateString();
   const lastStart = starts[starts.length - 1];
 
   // NOTE: this flag ("irregular") is now purely boolean — the actual
@@ -115,7 +116,7 @@ export default function CicloInfoCard() {
     setVisible(true);
 
     const resetDate = await getCycleResetDate();
-    const todayString = new Date().toISOString().split("T")[0];
+    const todayString = localDateString();
     const allEntries = await getMenstruationEntries();
 
     // Only apply the filter once the reset date has actually arrived.

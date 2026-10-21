@@ -1,17 +1,14 @@
+// storage/accountTypeStorage.ts
+//
+// Ya no se guarda: es "registered" si hay una cuenta con sesión iniciada.
 
-
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const KEY = "account_type";
+import { isSignedIn } from "@/sync/session";
 
 export type AccountType = "guest" | "registered";
 
 export async function getAccountType(): Promise<AccountType> {
-  const value = await AsyncStorage.getItem(KEY);
-  return value === "registered" ? "registered" : "guest";
+  return (await isSignedIn()) ? "registered" : "guest";
 }
 
-export async function setAccountType(type: AccountType): Promise<void> {
-  await AsyncStorage.setItem(KEY, type);
-}
+/** Se mantiene por compatibilidad con las pantallas; el tipo se deduce de la sesión. */
+export async function setAccountType(_type: AccountType): Promise<void> {}
