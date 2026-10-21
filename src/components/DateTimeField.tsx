@@ -6,6 +6,7 @@
 // - iOS usa el selector combinado.
 // - Web no tiene selector nativo en la librería: se usa el campo del navegador.
 
+import { colors } from "@/styles/global";
 import DateTimePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { createElement, useState } from "react";
 import { Platform, StyleProp, Text, TextStyle, TouchableOpacity, ViewStyle } from "react-native";
@@ -35,15 +36,21 @@ export default function DateTimeField({ value, onChange, style, textStyle }: Pro
       onChange: (event: { target: { value: string } }) => {
         if (event.target.value) onChange(new Date(event.target.value).toISOString());
       },
+      // Igual que los campos del calendario que lo rodean (styles.fieldInput).
       style: {
-        fontFamily: "inherit",
-        fontSize: 15,
-        padding: 10,
+        boxSizing: "border-box",
+        width: "100%",
+        marginTop: 10,
+        padding: 12,
+        border: "none",
         borderRadius: 10,
-        border: "1px solid #F3C6D3",
-        backgroundColor: "#FFFFFF",
-        color: "#A4195B",
-        marginBottom: 8,
+        outline: "none",
+        backgroundColor: "#FDE8EF",
+        color: colors.text,
+        fontFamily: "LeagueSpartan_400Regular",
+        fontSize: 14,
+        colorScheme: "light",
+        accentColor: colors.text,
       },
     });
   }
