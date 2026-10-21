@@ -1,6 +1,7 @@
 // src/services/apiClient.ts
 
 import { getAccessToken, getRefreshToken, saveAccessToken, saveTokens } from "@/storage/authTokenStorage";
+import { setSessionExpired } from "@/sync/session";
 import { Platform } from "react-native";
 
 // En los builds de EAS (APK) la URL viene de EXPO_PUBLIC_API_URL, definida en eas.json.
@@ -59,7 +60,19 @@ export async function authedRequest(endpoint: string, options: RequestInit = {})
   });
 }
 
-async function refreshAccessToken() {
+let refreshing: Promise<string | null> | null = null;
+
+/** Si varias peticiones necesitan renovar el token a la vez, comparten una sola renovación. */
+function refreshAccessToken(): Promise<string | null> {
+  if (!refreshing) {
+    refreshing = refreshAccessTokenOnce().finally(() => {
+      refreshing = null;
+    });
+  }
+  return refreshing;
+}
+
+async function refreshAccessTokenOnce(): Promise<string | null> {
   const refreshToken = (await getRefreshToken())?.trim();
   if (!refreshToken) {
     return null;
@@ -75,6 +88,8 @@ async function refreshAccessToken() {
   });
 
   if (!response.ok) {
+    // El servidor rechazó la renovación: hay que volver a iniciar sesión.
+    if (response.status === 401) await setSessionExpired(true);
     return null;
   }
 

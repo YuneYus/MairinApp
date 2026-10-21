@@ -50,6 +50,19 @@ export async function isSignedIn(): Promise<boolean> {
   return isAccountScope(await getScope());
 }
 
+// --- Sesión vencida: el servidor rechazó el token de renovación ---
+
+const SESSION_EXPIRED_KEY = "session_expired";
+
+export async function setSessionExpired(expired: boolean): Promise<void> {
+  if (expired) await AsyncStorage.setItem(SESSION_EXPIRED_KEY, "true");
+  else await AsyncStorage.removeItem(SESSION_EXPIRED_KEY);
+}
+
+export async function isSessionExpired(): Promise<boolean> {
+  return (await AsyncStorage.getItem(SESSION_EXPIRED_KEY)) === "true";
+}
+
 export function scopeKey(scope: Scope, key: string): string {
   return `${scope}::${key}`;
 }

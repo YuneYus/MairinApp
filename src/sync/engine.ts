@@ -19,15 +19,18 @@ import { schedulePeriodReminder } from "@/utils/notifications";
 import { cancelReminder, scheduleReminder } from "@/utils/reminderScheduler";
 import { dmyToIso, isoToDmy } from "@/utils/dates";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 import { ApiError, authedRequest, isNetworkError } from "@/services/apiClient";
 import { choicesToMedicalItems, medicalItemsToChoices, SymptomChoice } from "./codes";
 import { enqueue, getQueue, opKey, pendingKeys, removeSent, setOnEnqueue, SyncOp } from "./queue";
 import {
   getScope,
   isAccountScope,
+  isSessionExpired,
   keysOfScope,
   scopeKey,
   setScope,
+  setSessionExpired,
   setStorageReady,
   userIdFromToken,
 } from "./session";
@@ -370,7 +373,11 @@ async function flushOnce(): Promise<boolean> {
         console.warn("Sync: error inesperado", opKey(op), error);
         return false;
       }
-      if (error.status === 401 || error.status >= 500) return false;
+      if (error.status === 401) {
+        if (await isSessionExpired()) warnSessionExpired();
+        return false;
+      }
+      if (error.status >= 500) return false;
       if (error.status === 404 && op.kind !== "profile" && op.kind !== "medical") {
         outcome = "done"; // ya no existe en el servidor
       } else {
@@ -395,10 +402,28 @@ async function pullResource<T>(load: () => Promise<T>): Promise<T | null> {
   }
 }
 
-/** Trae todo del servidor; lo que tiene cambios pendientes en el teléfono no se toca. */
-export async function pull(): Promise<void> {
-  if (!isAccountScope(await getScope())) return;
-  const pending = await pendingKeys();
+const MIN_PULL_INTERVAL_MS = 30000;
+let pulling: Promise<void> | null = null;
+let lastPullAt = 0;
+
+/**
+ * Trae todo del servidor; lo que tiene cambios pendientes en el teléfono no se toca.
+ * Las descargas simultáneas se unen en una y, salvo `force`, hay como mucho una cada 30 s
+ * (los avisos de conexión pueden llegar muchas veces seguidas).
+ */
+export function pull(force = false): Promise<void> {
+  if (pulling) return pulling;
+  if (!force && Date.now() - lastPullAt < MIN_PULL_INTERVAL_MS) return Promise.resolve();
+  pulling = pullOnce().finally(() => {
+    lastPullAt = Date.now();
+    pulling = null;
+  });
+  return pulling;
+}
+
+async function pullOnce(): Promise<void> {
+  const scope = await getScope();
+  if (!isAccountScope(scope)) return;
 
   const [profile, medical, logs, summaries, reminders, doctors] = await Promise.all([
     pullResource(() => authedRequest("/profile/")),
@@ -408,6 +433,11 @@ export async function pull(): Promise<void> {
     pullResource(() => authedRequest("/api/reminders/")),
     pullResource(() => authedRequest("/api/doctors/")),
   ]);
+
+  // Si cerró sesión mientras se descargaba, estos datos no son de la cuenta activa.
+  if ((await getScope()) !== scope) return;
+  // Se calcula después de la descarga: un cambio hecho mientras tanto no se pisa.
+  const pending = await pendingKeys();
 
   if (profile && !pending.has("profile")) {
     await updateProfile(profileFromApi(profile, await getProfile()), { sync: false });
@@ -536,9 +566,9 @@ export function requestSync(delayMs = 1500): void {
 }
 
 /** Sube lo pendiente y después descarga lo del servidor. */
-export async function syncNow(): Promise<void> {
+export async function syncNow(force = false): Promise<void> {
   await flush();
-  await pull();
+  await pull(force);
 }
 
 async function switchScope(next: "guest" | `user:${string}`): Promise<void> {
@@ -553,7 +583,20 @@ async function switchScope(next: "guest" | `user:${string}`): Promise<void> {
 export async function signIn(accessToken: string): Promise<void> {
   const userId = userIdFromToken(accessToken);
   if (!userId) return;
+  await setSessionExpired(false);
   await switchScope(`user:${userId}`);
+}
+
+let warnedExpired = false;
+
+/** Una vez por apertura de la app: la sesión venció y hay cambios esperando para subir. */
+function warnSessionExpired(): void {
+  if (warnedExpired) return;
+  warnedExpired = true;
+  Alert.alert(
+    "Tu sesión expiró",
+    "Vuelve a iniciar sesión para seguir guardando tus datos en tu cuenta. Lo que registres mientras tanto se queda en este teléfono y se subirá después."
+  );
 }
 
 export async function signOut(): Promise<void> {
@@ -578,6 +621,8 @@ export async function adoptGuestData(): Promise<void> {
   }
   await AsyncStorage.multiRemove(keys.map((key) => scopeKey("guest", key)));
   await enqueueEverything();
+  // Las notificaciones de invitada se cancelaron al cambiar de cuenta: se vuelven a programar.
+  await scheduleMissingNotifications();
 }
 
 /** Marca todos los datos locales como pendientes (primera subida de una cuenta). */

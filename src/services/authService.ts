@@ -56,7 +56,7 @@ export async function loginUser(email: string, password: string) {
 
   // Descarga los datos de la cuenta antes de entrar (sin bloquear más de 15 s).
   await Promise.race([
-    syncNow().catch((error) => console.warn("Primera sincronización falló", error)),
+    syncNow(true).catch((error) => console.warn("Primera sincronización falló", error)),
     new Promise((resolve) => setTimeout(resolve, FIRST_SYNC_TIMEOUT_MS)),
   ]);
   await updateProfile({ email }, { sync: false });

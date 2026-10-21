@@ -12,7 +12,7 @@ export default function Index() {
 
 
 import { getOnboardingComplete } from "@/storage/onboardingStorage";
-import { isSignedIn } from "@/sync/session";
+import { isSessionExpired, isSignedIn } from "@/sync/session";
 import { Redirect } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
@@ -23,8 +23,9 @@ export default function Index() {
 
   useEffect(() => {
     const check = async () => {
-      // Con sesión iniciada se entra directo; si no, solo quien ya completó el registro inicial.
-      const complete = (await isSignedIn()) || (await getOnboardingComplete());
+      // Con sesión iniciada (y vigente) se entra directo; si no, solo quien ya completó el registro inicial.
+      const signedIn = await isSignedIn();
+      const complete = signedIn ? !(await isSessionExpired()) : await getOnboardingComplete();
       setOnboarded(complete);
       setChecking(false);
     };
